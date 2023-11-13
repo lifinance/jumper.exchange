@@ -6,6 +6,7 @@ import { useMultisig } from '../../hooks/useMultisig';
 import { useWallet } from '../../providers/WalletProvider';
 import { useMenuStore, useSettingsStore } from '../../stores';
 import { MenuListItem } from '../../types';
+import { useIsCyberConnectEnvironment } from '../../hooks/useCyberConnectWallet';
 
 export const useWalletSelectContent = () => {
   const isDesktopView = useMediaQuery((theme: Theme) =>
@@ -26,6 +27,7 @@ export const useWalletSelectContent = () => {
   const [availableWallets, setAvailableWallets] = useState<Wallet[]>([]);
 
   const { checkMultisigEnvironment } = useMultisig();
+  const isCyberConnectEnvironment = useIsCyberConnectEnvironment();
 
   const initializeWalletSelect = async () => {
     const isMultisig = await checkMultisigEnvironment();
@@ -49,7 +51,6 @@ export const useWalletSelectContent = () => {
     );
 
     const allowedWallets = [...installedWallets];
-
     if (isDesktopView) {
       allowedWallets.push(...notInstalledWallets);
     }
@@ -96,9 +97,14 @@ export const useWalletSelectContent = () => {
 
   const walletMenuItems = useMemo<MenuListItem[]>(() => {
     const walletsOptions: Wallet[] = availableWallets.filter((wallet) => {
-      if (!isCurrentMultisigEnvironment) {
-        return wallet.name !== 'Safe';
+      if (wallet.name === 'CyberConnect') {
+        return isCyberConnectEnvironment;
       }
+
+      if (wallet.name === 'Safe') {
+        return isCurrentMultisigEnvironment;
+      }
+
       return true;
     });
 
@@ -144,6 +150,7 @@ export const useWalletSelectContent = () => {
     onCloseAllNavbarMenus,
     onOpenSnackbar,
     onWelcomeScreenClosed,
+    isCyberConnectEnvironment,
     t,
   ]);
 
