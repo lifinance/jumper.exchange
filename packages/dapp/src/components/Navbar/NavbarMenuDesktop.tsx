@@ -1,7 +1,6 @@
-import { Typography } from '@mui/material';
+import { Fade, Typography } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import { useTheme } from '@mui/material/styles';
+import { CSSObject } from '@mui/material/styles';
 import { KeyboardEvent } from 'react';
 import { MenuKeys, MenuMain } from '../../const/';
 import { useMenuStore } from '../../stores/menu';
@@ -18,6 +17,8 @@ interface NavbarMenuProps {
   label?: string;
   handleClose: (event: MouseEvent | TouchEvent) => void;
   transformOrigin?: string;
+  cardsLayout?: boolean;
+  styles?: CSSObject;
   setOpen: (open: boolean, anchorRef: any) => void;
   open: boolean;
   children: any;
@@ -27,13 +28,13 @@ const NavbarMenuDesktop = ({
   isOpenSubMenu,
   setOpen,
   handleClose,
+  styles,
   transformOrigin,
+  cardsLayout,
   label,
   open,
   children,
 }: NavbarMenuProps) => {
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
   const [
     openNavbarSubMenu,
     onCloseAllNavbarMenus,
@@ -63,22 +64,18 @@ const NavbarMenuDesktop = ({
           open={open}
           anchorEl={anchorRef}
           role={undefined}
-          // placement="bottom"
           popperOptions={{ strategy: 'fixed' }}
           transition
           disablePortal
         >
           {({ TransitionProps }) => (
-            <Grow
+            <Fade
               {...TransitionProps}
               style={{
                 transformOrigin: transformOrigin || 'top',
               }}
             >
-              <NavbarPaper
-                isDarkMode={isDarkMode}
-                isWide={openNavbarWalletMenu}
-              >
+              <NavbarPaper isWide={openNavbarWalletMenu}>
                 <ClickAwayListener
                   onClickAway={(event) => {
                     handleClose(event);
@@ -92,6 +89,8 @@ const NavbarMenuDesktop = ({
                     isOpenSubMenu={openNavbarSubMenu !== MenuKeys.None}
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
+                    sx={styles}
+                    cardsLayout={cardsLayout}
                     hasLabel={!!label}
                     component={
                       isOpenSubMenu &&
@@ -119,7 +118,7 @@ const NavbarMenuDesktop = ({
                   </NavbarMenuList>
                 </ClickAwayListener>
               </NavbarPaper>
-            </Grow>
+            </Fade>
           )}
         </NavbarPopper>
       </>

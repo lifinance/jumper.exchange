@@ -10,4 +10,5 @@ export const FeatureCardsContainer = styled(Box)<BoxProps>(({ theme }) => ({
   width: '408px',
   padding: '12px',
   bottom: '0',
+  zIndex: 2,
 }));

@@ -19,8 +19,10 @@
     "connectWallet": "Під'єднати гаманець",
     "chooseWallet": "Оберіть гаманець",
     "navbarMenu": {
+      "brandAssets": "Бренд ресурси",
       "theme": "Тема",
       "developers": "Розробникам",
+      "lifiExplorer": "LI.FI Explorer",
       "aboutLIFI": "Про LI.FI",
       "support": "Підтримка"
     },
@@ -30,7 +32,8 @@
       "switchChain": "Перемикнути чейн",
       "copy": "Скопіювати",
       "explore": "Переглянути",
-      "copiedMsg": "Адреса гаманця скопійована"
+      "copiedMsg": "Адреса гаманця скопійована",
+      "walletNotInstalled": "{{wallet}} не встановлено"
     },
     "themes": {
       "switchToLight": "Увімкнути світлу тему",

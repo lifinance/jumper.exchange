@@ -1,6 +1,6 @@
 import { Modal, Typography } from '@mui/material';
-import { ButtonPrimary } from '@transferto/shared/src';
 import { useTranslation } from 'react-i18next';
+import { Button } from '../Button';
 import {
   MultisigConnectedAlertContainer,
   MultisigConnectedAlertIcon,
@@ -32,14 +32,15 @@ export const MultisigConnectedAlert: React.FC<{
         <Typography fontSize={'1.125 rem'} marginY={4}>
           {t('multisig.connected.description')}
         </Typography>
-        <ButtonPrimary
+        <Button
+          variant="primary"
           onClick={onClose}
-          style={{
+          styles={{
             width: '100%',
           }}
         >
           {t('button.okay')}
-        </ButtonPrimary>
+        </Button>
       </MultisigConnectedAlertContainer>
     </Modal>
   );

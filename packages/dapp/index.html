@@ -49,23 +49,6 @@
     gtag('js', new Date());
     gtag('config', '%VITE_GOOGLE_ANALYTICS_TRACKING_ID%');
   </script>
-  <script>
-    var script = document.createElement("script")
-    script.onload = function () {
-      let paramData = {
-        orgId: 46,
-        applicationId: '%MODE%', //Utilize this to manage event scope (examples v1, v2, or dev, prod, etc)
-        pageLocation: 'landing-page', //Default event sent when someone visits the page
-        enableActionPrompts: true, //Will enable/disable action prompts
-        enableQuests: false, //Will enable/disable quests
-        //Optional, used to inject UI into a sepcific dom element
-        //questDomId: chatPopupDivRefs.chatPopupDiv1.current?.id,
-      };
-      setupRaleonParametersV2(paramData);
-    };
-    script.src = 'https://dqpqjbq51w8fz.cloudfront.net/raleon_snippet.min.js';
-    document.getElementsByTagName("head")[0].appendChild(script);
-  </script>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <script type="module" src="/src/index.tsx"></script>

@@ -9,8 +9,9 @@ export interface SettingsProps {
   themeMode: ThemeModesSupported;
   languageMode: LanguageKey;
   activeWalletName: WalletConnected;
+  clientWallets: string[];
   disabledFeatureCards: string[];
-  welcomeScreenEntered: boolean;
+  welcomeScreenClosed: boolean;
   [key: string]: any;
 }
 export interface SettingsState extends SettingsProps {
@@ -27,6 +28,9 @@ export interface SettingsState extends SettingsProps {
   // Language
   onChangeLanguage: (language: LanguageKey) => void;
 
+  // Installed Wallets
+  onClientWallets: (wallet: string) => void;
+
   // Disable Feature Cards
   onDisableFeatureCard: (id: string) => void;
 
@@ -34,5 +38,5 @@ export interface SettingsState extends SettingsProps {
   onResetSetting: VoidFunction;
 
   // Welcome Screen
-  onWelcomeScreenEntered: (shown: boolean) => void;
+  onWelcomeScreenClosed: (shown: boolean) => void;
 }

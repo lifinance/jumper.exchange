@@ -1,4 +1,4 @@
-import { MenuState } from '@transferto/shared/src/types';
+import { MenuState, SnackbarProps } from '@transferto/shared/src/types';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { MenuKeys } from '../../const';
@@ -10,6 +10,7 @@ interface DefaultMenuType {
   openNavbarWalletSelectMenu: boolean;
   openNavbarSubMenu: keyof typeof MenuKeys;
   openSupportModal: boolean;
+  openSnackbar: SnackbarProps;
   anchorRef: null | JSX.Element;
 }
 
@@ -20,6 +21,7 @@ export const defaultMenu: DefaultMenuType = {
   openNavbarWalletSelectMenu: false,
   openNavbarSubMenu: 'None',
   openSupportModal: false,
+  openSnackbar: { open: false, label: undefined, severity: undefined },
   anchorRef: null,
 };
 
@@ -95,6 +97,18 @@ export const useMenuStore = createWithEqualityFn<MenuState>(
       set({
         openNavbarSubMenu: subMenu,
       });
+    },
+
+    // Open Snackbar and set label
+    onOpenSnackbar: (open, label, severity) => {
+      set((state) => ({
+        ...state,
+        openSnackbar: {
+          open: open,
+          label: label || state.openSnackbar.label,
+          severity: severity || state.openSnackbar.severity,
+        },
+      }));
     },
 
     // Toggle support modal

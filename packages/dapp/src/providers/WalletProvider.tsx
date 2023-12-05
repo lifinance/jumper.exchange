@@ -20,10 +20,14 @@ import {
   WalletAccount,
   WalletContextProps,
 } from '@transferto/shared/src/types/wallet';
-import { TrackingAction, TrackingEventParameter } from '../const';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from '../const';
 import { useUserTracking } from '../hooks';
 import { useMultisig } from '../hooks/useMultisig';
-import { EventTrackingTool } from '../types';
+import { EventTrackingTool, WalletActions } from '../types';
 
 const liFiWalletManagement = new LiFiWalletManagement();
 
@@ -50,7 +54,12 @@ export const WalletProvider: React.FC<PropsWithChildren<{}>> = ({
 }) => {
   const [account, setAccount] = useState<WalletAccount>({});
   const [currentWallet, setCurrentWallet] = useState<Wallet | undefined>();
-  const { trackEvent, trackDisconnectWallet } = useUserTracking();
+  const {
+    trackEvent,
+    trackDisconnectWallet,
+    trackChainSwitch,
+    trackConnectWallet,
+  } = useUserTracking();
   const { checkMultisigEnvironment } = useMultisig();
 
   const connectMultisigWallet = async () => {
@@ -90,103 +99,133 @@ export const WalletProvider: React.FC<PropsWithChildren<{}>> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleWalletUpdate = async (wallet?: Wallet) => {
-    setCurrentWallet(wallet);
-    const account = await extractAccountFromSigner(wallet?.account?.signer);
-    setAccount(account);
-  };
+  const handleWalletUpdate = useCallback(
+    async (
+      wallet?: Wallet,
+      walletAction?: WalletActions,
+      token?: Token,
+      chainId?: number,
+    ) => {
+      setCurrentWallet(wallet);
+      const account = await extractAccountFromSigner(wallet?.account?.signer);
+      if (walletAction) {
+        switch (walletAction) {
+          case WalletActions.Connect:
+            trackConnectWallet({ account, wallet });
+            break;
+          case WalletActions.SwitchChain:
+            trackChainSwitch({
+              account,
+              action: TrackingAction.SwitchChain,
+              label: 'switch-chain',
+              category: TrackingCategory.Wallet,
+              data: {
+                [TrackingEventParameter.SwitchedChain]: chainId,
+              },
+              disableTrackingTool: [
+                EventTrackingTool.ARCx,
+                EventTrackingTool.Cookie3,
+                EventTrackingTool.Hotjar,
+              ],
+            });
+            break;
+          case WalletActions.AddChain:
+            trackEvent({
+              action: TrackingAction.AddChain,
+              category: TrackingCategory.Wallet,
+              label: 'add-chain',
+              data: {
+                [TrackingEventParameter.ChainIdAdded]: chainId,
+              },
+            });
+            break;
+          case WalletActions.AddToken:
+            trackEvent({
+              action: TrackingAction.AddToken,
+              label: 'add-token',
+              category: TrackingCategory.Wallet,
+              data: {
+                [TrackingEventParameter.AddedTokenAddress]: token?.address,
+                [TrackingEventParameter.AddedTokenName]: token?.name,
+              },
+            });
+            break;
+          default:
+            console.warn('No wallet action detected');
+            break;
+        }
+      }
+      setAccount(account);
+    },
+    [trackChainSwitch, trackConnectWallet, trackEvent],
+  );
 
   const connect = useCallback(
     async (wallet: Wallet) => {
       await liFiWalletManagement.connect(wallet);
-      trackEvent({
-        action: TrackingAction.ConnectWallet,
-        data: {
-          [TrackingEventParameter.Wallet]: wallet.name,
-        },
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Hotjar,
-          EventTrackingTool.Raleon,
-        ],
-      });
       wallet.on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(wallet);
+      handleWalletUpdate(wallet, WalletActions.Connect);
     },
-    [trackEvent],
+    [handleWalletUpdate],
   );
 
   const disconnect = useCallback(async () => {
     if (currentWallet) {
       await liFiWalletManagement.disconnect(currentWallet);
       currentWallet.removeAllListeners();
-      handleWalletUpdate(undefined);
+      // Disconnect action tracked over here since wallet gets updated to undefined value after disconection occures
       trackDisconnectWallet({
+        account,
         data: { [TrackingEventParameter.Wallet]: currentWallet.name },
+        disableTrackingTool: [EventTrackingTool.GA],
       });
+      handleWalletUpdate(undefined);
     }
-  }, [currentWallet, trackDisconnectWallet]);
+  }, [account, currentWallet, handleWalletUpdate, trackDisconnectWallet]);
 
   const switchChain = useCallback(
     async (chainId: number) => {
       try {
         await currentWallet?.switchChain(chainId);
-        trackEvent({
-          action: TrackingAction.SwitchChain,
-          data: {
-            [TrackingEventParameter.SwitchedChain]: chainId,
-          },
-          disableTrackingTool: [
-            EventTrackingTool.ARCx,
-            EventTrackingTool.Hotjar,
-            EventTrackingTool.Raleon,
-          ],
-        });
-        handleWalletUpdate(currentWallet);
+        handleWalletUpdate(
+          currentWallet,
+          WalletActions.SwitchChain,
+          undefined,
+          chainId,
+        );
         return true;
       } catch {
         return false;
       }
     },
-    [currentWallet, trackEvent],
+    [currentWallet, handleWalletUpdate],
   );
 
   const addChain = useCallback(
     async (chainId: number) => {
       try {
         await currentWallet?.addChain(chainId);
-        trackEvent({
-          action: TrackingAction.AddChain,
-          data: {
-            [TrackingEventParameter.ChainIdAdded]: chainId,
-          },
-        });
-
-        handleWalletUpdate(currentWallet);
+        handleWalletUpdate(
+          currentWallet,
+          WalletActions.AddChain,
+          undefined,
+          chainId,
+        );
         return true;
       } catch {
         return false;
       }
     },
-    [currentWallet, trackEvent],
+    [currentWallet, handleWalletUpdate],
   );
 
   const addToken = useCallback(
     async (chainId: number, token: Token) => {
       await currentWallet?.addToken(chainId, token);
-      trackEvent({
-        action: TrackingAction.AddToken,
-        data: {
-          [TrackingEventParameter.AddedTokenAddress]: token.address,
-          [TrackingEventParameter.AddedTokenName]: token.name,
-        },
-      });
-
-      handleWalletUpdate(currentWallet);
-
+      handleWalletUpdate(currentWallet, WalletActions.AddChain, token, chainId);
       return;
     },
-    [currentWallet, trackEvent],
+    [currentWallet, handleWalletUpdate],
   );
 
   const value = useMemo(

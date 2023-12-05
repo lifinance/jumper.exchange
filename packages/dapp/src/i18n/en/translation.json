@@ -5,6 +5,7 @@
       "subtitle": "<0>4x audited</0> multi-chain liquidity aggregator powered by <1>LI.FI</1>",
       "cta": "Get started"
     },
+    "poweredByLifi": "<0>Powered by </0><1>LI.FI</1>",
     "links": {
       "exchange": "Exchange",
       "dashboard": "Dashboard",
@@ -16,11 +17,17 @@
       "bridges": "Bridges",
       "chains": "Chains"
     },
-    "connectWallet": "Connect Wallet",
-    "chooseWallet": "Choose Wallet",
+    "connect": "Connect",
+    "walletSelectMenu": {
+      "connectWallet": "Connect a wallet",
+      "wallets": "Wallets"
+    },
+    "seeAllWallets": "See all wallets",
     "navbarMenu": {
+      "brandAssets": "Brand Assets",
       "theme": "Theme",
       "developers": "Developers",
+      "lifiExplorer": "LI.FI Explorer",
       "aboutLIFI": "About LI.FI",
       "support": "Support"
     },
@@ -30,14 +37,13 @@
       "switchChain": "Switch Chain",
       "copy": "Copy",
       "explore": "Explore",
-      "copiedMsg": "Wallet address copied"
+      "copiedMsg": "Wallet address copied",
+      "walletNotInstalled": "{{wallet}} is not installed"
     },
     "themes": {
       "switchToLight": "Switch to Light Theme",
       "switchToDark": "Switch to Dark Theme",
-      "light": "Light",
-      "dark": "Dark",
-      "auto": "Auto"
+      "switchToSystem": "Switch to System"
     },
     "developers": {
       "github": "GitHub",

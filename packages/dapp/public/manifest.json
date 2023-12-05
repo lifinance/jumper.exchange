@@ -4,9 +4,53 @@
   "description": "Multi-Chain Bridging & Swapping (powered by LI.FI)",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "logo-16x16.svg",
+      "sizes": "16x16",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo-24x24.svg",
+      "sizes": "24x24",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo-32x32.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo-64x64.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo-144x144.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Swap/Bridge",
+      "short_name": "swap/bridge",
+      "description": "Swap/bridge via Jumper",
+      "url": "/?source=pwa",
+      "icons": [{ "src": "/shortcut-icon.png", "sizes": "97x96" }]
+    },
+    {
+      "name": "Gas",
+      "short_name": "Gas",
+      "description": "Gas via Jumper",
+      "url": "/gas?source=pwa",
+      "icons": [{ "src": "/shortcut-icon.png", "sizes": "97x96" }]
+    },
+    {
+      "name": "Buy",
+      "short_name": "Buy",
+      "description": "Buy on Jumper",
+      "url": "/buy?source=pwa",
+      "icons": [{ "src": "/shortcut-icon.png", "sizes": "97x96" }]
     }
   ],
   "start_url": ".",

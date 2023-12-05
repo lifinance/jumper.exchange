@@ -2,10 +2,11 @@ import {
   AppBar,
   AppBarProps,
   ButtonProps,
+  CSSObject,
   Link,
   LinkProps,
   ListItem,
-  ListItemProps,
+  ListItemProps as MUIListItemProps,
   MenuItem as MUIMenuItem,
   MenuItemProps as MUIMenuItemProps,
   MenuList,
@@ -14,18 +15,13 @@ import {
   PaperProps,
   Popper,
   PopperProps,
-  Tab,
-  TabProps,
-  Tabs,
-  TabsProps,
   Typography,
 } from '@mui/material';
-
-import { ButtonSecondary } from '@transferto/shared/src/atoms/index';
 
 import { Breakpoint, alpha, styled } from '@mui/material/styles';
 import { getContrastAlphaColor } from '@transferto/shared/src/utils';
 import { ElementType } from 'react';
+import { ButtonSecondary } from '../Button';
 
 const MenuLabelHeight = '64px';
 
@@ -48,7 +44,7 @@ export const NavbarExternalBackground = styled('div')(({ theme }) => ({
   left: 0,
   right: 0,
   bottom: 0,
-  zIndex: 1400,
+  zIndex: 1600,
   backgroundColor: '#000000',
   opacity: theme.palette.mode === 'dark' ? 0.75 : 0.25,
   [theme.breakpoints.up('sm' as Breakpoint)]: {
@@ -135,16 +131,24 @@ export const NavbarPopper = styled(Popper)<PopperProps>(({ theme }) => ({
 export interface NavbarMenuListProps extends Omit<MenuListProps, 'component'> {
   component?: string;
   isOpenSubMenu?: boolean;
+  styles?: CSSObject;
+  cardsLayout?: boolean;
   hasLabel?: boolean;
 }
 
 export const NavbarMenuList = styled(MenuList, {
-  shouldForwardProp: (prop) => prop !== 'isOpenSubMenu' && prop !== 'hasLabel',
-})<NavbarMenuListProps>(({ theme, isOpenSubMenu, hasLabel }) => ({
+  shouldForwardProp: (prop) =>
+    prop !== 'isOpenSubMenu' && prop !== 'hasLabel' && prop !== 'cardsLayout',
+})<NavbarMenuListProps>(({ theme, isOpenSubMenu, hasLabel, cardsLayout }) => ({
   marginTop: 0,
-  padding: 0,
+  display: cardsLayout ? 'flex' : 'block',
+  justifyContent: cardsLayout ? 'center' : 'unset',
+  flexWrap: cardsLayout ? 'wrap' : 'inherit',
+  padding: cardsLayout ? '0 24px' : 0,
+  gap: cardsLayout ? '12px' : 'inherit',
   '& > :first-of-type': {
-    marginTop: isOpenSubMenu || hasLabel ? 'inherit' : theme.spacing(1.5),
+    marginTop:
+      isOpenSubMenu || hasLabel || cardsLayout ? 'inherit' : theme.spacing(1.5),
     paddingTop: isOpenSubMenu ? theme.spacing(1.5) : 'inherit',
   },
   '& > :last-child': {
@@ -152,14 +156,6 @@ export const NavbarMenuList = styled(MenuList, {
     paddingBottom: isOpenSubMenu ? theme.spacing(1.5) : 'inherit',
     paddingTop: hasLabel ? 0 : 'inherit',
   },
-}));
-
-export const MenuHeader = styled('div')(() => ({
-  padding: '0',
-  textAlign: 'center',
-  display: 'flex',
-  alignItems: 'center',
-  margin: '0 auto',
 }));
 
 export const MenuHeaderLabel = styled(Typography)(({ theme }) => ({
@@ -178,112 +174,34 @@ export const MenuHeaderLabel = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const NavbarTabs = styled(Tabs, {
-  shouldForwardProp: (prop) => prop !== 'isDarkMode',
-})<TabsProps & { isDarkMode: boolean }>(({ theme }) => ({
-  display: 'none',
-  minWidth: 392,
-  [theme.breakpoints.up('md' as Breakpoint)]: {
-    position: 'absolute',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? theme.palette.alphaLight100.main
-        : '#0000000A',
-    margin: 'auto',
-    borderRadius: 28,
-    padding: 1,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  div: {
-    height: '56px',
-  },
-  '.MuiTabs-flexContainer': {
-    alignItems: 'center',
-  },
-  '.MuiTabs-indicator': {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%) scaleY(0.98)',
-    height: '48px',
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? theme.palette.alphaLight300.main
-        : theme.palette.white.main,
-    zIndex: '-1',
-    borderRadius: '24px',
-  },
-  '> .MuiTabs-root': {
-    minHeight: 'unset !important',
-  },
-  '.MuiTabs-root': {
-    minHeight: 'unset !important',
-  },
-}));
-
-export const NavbarTab = styled(Tab, {
-  shouldForwardProp: (prop) => prop !== 'isDarkMode',
-})<TabProps>(({ theme }) => ({
-  textTransform: 'initial',
-  borderRadius: 24,
-  letterSpacing: 0,
-  display: 'flex',
-  flexGrow: 1,
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontStyle: 'normal',
-  fontWeight: '700',
-  fontSize: '16px',
-  lineHeight: '20px',
-  margin: '6px 4px',
-  height: '48px',
-  width: '142px',
-  minHeight: 'unset',
-  color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.white.main
-      : theme.palette.black.main,
-  textDecoration: 'none',
-  '&.Mui-selected': {
-    color:
-      theme.palette.mode === 'dark'
-        ? theme.palette.white.main
-        : theme.palette.black.main,
-    backgroundColor: 'transparent',
-  },
-
-  ':hover': {
-    backgroundColor: getContrastAlphaColor(theme, '4%'),
-  },
-}));
-
-export const MenuHeaderText = styled('span')(({ theme }) => ({}));
-
 export interface MenuItemProps extends Omit<MUIMenuItemProps, 'showButton'> {
   showButton?: boolean;
+  styles?: CSSObject;
   component?: ElementType<any>;
 }
 
 export const MenuItem = styled(MUIMenuItem, {
-  shouldForwardProp: (prop) => prop !== 'showButton' && prop !== 'component',
+  shouldForwardProp: (prop) =>
+    prop !== 'showButton' && prop !== 'component' && prop !== 'styles',
 })<MenuItemProps>(({ theme, showButton }) => ({
   display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'inherit',
   padding: showButton ? theme.spacing(0, 1.5, 1.5) : theme.spacing(0, 1.5),
   backgroundColor: 'inherit',
   justifyContent: 'space-between',
   margin: theme.spacing(0, 1.5),
+  height: showButton ? 'auto' : '48px',
   marginTop: showButton ? theme.spacing(1) : 0,
   borderRadius: '12px',
+  width: 'auto',
+  placeContent: 'space-between',
 
   '&:hover': {
     backgroundColor: showButton
       ? 'transparent'
       : getContrastAlphaColor(theme, '4%'),
   },
-
   [theme.breakpoints.up('sm' as Breakpoint)]: {
     height: showButton ? 'auto' : '48px',
   },
@@ -291,7 +209,7 @@ export const MenuItem = styled(MUIMenuItem, {
 
 export interface NavbarPaperProps
   extends Omit<PaperProps, 'isDarkMode' | 'isWide' | 'component'> {
-  isDarkMode?: boolean;
+  isMobile?: boolean;
   isWide?: boolean;
   component?: ElementType<any>;
 }
@@ -299,13 +217,18 @@ export interface NavbarPaperProps
 export const NavbarPaper = styled(Paper, {
   shouldForwardProp: (prop) =>
     prop !== 'isDarkMode' && prop !== 'isWide' && prop !== 'isSubMenu',
-})<NavbarPaperProps>(({ theme, isDarkMode, isWide }) => ({
+})<NavbarPaperProps>(({ theme, isMobile, isWide }) => ({
   background: theme.palette.surface1.main,
   padding: 0,
   marginTop: 0,
-  boxShadow: !isDarkMode
-    ? '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.08)'
-    : '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.16)',
+  boxShadow:
+    theme.palette.mode === 'light'
+      ? `0px ${isMobile ? '-' : ''}2px 4px rgba(0, 0, 0, 0.08), 0px ${
+          isMobile ? '-' : ''
+        }8px 16px rgba(0, 0, 0, 0.08)`
+      : `0px ${isMobile ? '-' : ''}2px 4px rgba(0, 0, 0, 0.08), 0px ${
+          isMobile ? '-' : ''
+        }8px 16px rgba(0, 0, 0, 0.16)`,
   borderRadius: '12px 12px 0 0',
   marginBottom: 0,
   maxHeight: `calc( 100vh - ${MenuLabelHeight} - 12px )`, // viewHeight - navbarHeight - offset
@@ -315,6 +238,11 @@ export const NavbarPaper = styled(Paper, {
   transformOrigin: 'bottom',
   transition:
     'opacity 307ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 204ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+
+  '.submenu .wallet-select-avatar': {
+    width: '32px ',
+    height: '32px',
+  },
 
   [theme.breakpoints.up('sm' as Breakpoint)]: {
     transformOrigin: 'inherit',
@@ -344,7 +272,7 @@ export const MenuLinkItem = styled(Link, {
   color: 'inherit',
 }));
 
-export interface MenuItemLabelProps extends Omit<ListItemProps, 'variant'> {
+export interface MenuItemLabelProps extends Omit<MUIListItemProps, 'variant'> {
   variant?: 'xs' | 'md' | 'lg';
 }
 
@@ -361,7 +289,7 @@ export const MenuItemLabel = styled('div', {
 
 export const MenuItemText = styled('span')({});
 
-export const MenuHeaderAppWrapper = styled(ListItem)<ListItemProps>(
+export const MenuHeaderAppWrapper = styled(ListItem)<MUIListItemProps>(
   ({ theme }) => ({
     position: 'sticky',
     top: 0,
@@ -370,13 +298,13 @@ export const MenuHeaderAppWrapper = styled(ListItem)<ListItemProps>(
     backdropFilter: 'blur(12px)',
     zIndex: 1400,
     overflow: 'hidden',
-    // margin: theme.spacing(0),
     margin: theme.spacing(0),
+    marginBottom: 'inherit',
     marginTop: '0px',
     height: MenuLabelHeight,
     padding: '0px',
-    borderTopLeftRadius: '24px',
-    borderTopRightRadius: '24px',
+    borderTopLeftRadius: '12px',
+    borderTopRightRadius: '12px',
     [theme.breakpoints.up('sm' as Breakpoint)]: {
       paddingLeft: '0px',
     },

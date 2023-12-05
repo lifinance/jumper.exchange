@@ -2,102 +2,114 @@ import { Box, BoxProps, styled } from '@mui/material';
 
 export interface WidgetContainerProps extends Omit<BoxProps, 'component'> {
   isActive?: boolean;
-  showWelcome?: boolean;
+  welcomeScreenClosed: boolean;
 }
 
 export const WidgetContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'isActive' && prop !== 'showWelcome',
-})<WidgetContainerProps>(({ theme, isActive, showWelcome }) => ({
-  display: isActive ? 'inherit' : 'none',
-  placeContent: 'center',
-  width: showWelcome ? '392px' : 'auto',
-  position: showWelcome ? 'relative' : 'inherit',
-  zIndex: showWelcome ? 1400 : 'inherit',
-  overflow: 'visible',
-  margin: '0 auto 24px auto',
-  maxHeight: showWelcome ? '50%' : 'auto',
-  minHeight: isActive && showWelcome ? '50%' : 'inherit',
+  shouldForwardProp: (prop) =>
+    prop !== 'isActive' && prop !== 'welcomeScreenClosed',
+})<WidgetContainerProps>(({ theme, isActive, welcomeScreenClosed }) => ({
+  display: isActive ? 'flex' : 'none',
+  margin: '0 auto 24px',
+  overflow: !welcomeScreenClosed ? 'hidden' : 'inherit',
+  width: 'auto',
+  minHeight: '50vh',
+  transitionProperty: 'max-height',
+  transitionDuration: '.3s',
+  transitionTimingFunction: 'ease-in-out',
+  maxHeight: !welcomeScreenClosed ? '50vh' : 'inherit',
 
-  '& .widget-wrapper > div, & > .onramper-wrapper .onramper-container': {
-    alignSelf: 'flex-end',
-    height: '100%',
-    maxHeight: showWelcome ? '250px' : '100%',
-    display: 'flex',
-    overflow: showWelcome ? 'hidden' : 'visible',
+  [`@media screen and (min-height: 700px)`]: {
+    gridTemplateRows: !welcomeScreenClosed ? '1fr 1fr 350px' : '28px 0fr 1fr',
+    height: 'inherit',
   },
 
-  '& > .onramper-container': {
-    overflow: showWelcome ? 'hidden' : 'visible',
+  [`@media screen and (min-height: 900px)`]: {
+    gridTemplateRows: !welcomeScreenClosed ? '1fr 1fr 350px' : '28px 0r 1fr',
+    maxHeight: 'inherit',
   },
 
-  '& .widget-wrapper > div:before, & > .onramper-wrapper:after': {
-    content: showWelcome && '" "',
-    position: 'absolute',
-    left: 0,
-    zIndex: 900,
-    cursor: 'pointer',
-    right: 0,
-    bottom: 0,
-    top: '48px',
-    height: '100%',
-    background:
-      theme.palette.mode === 'dark'
-        ? 'linear-gradient(180deg, transparent 0%, #000000 50%, #000000 100%)'
-        : 'linear-gradient(180deg, transparent 0%, #ffffff 50%, #ffffff 100%)',
-
-    opacity: 0.5,
-    margin: 'auto',
-    transitionProperty: showWelcome && 'opacity, top, padding-top',
-    transitionDuration: showWelcome && '.3s',
-    transitionTimingFunction: showWelcome && 'ease-in-out',
-    borderTopRightRadius: '12px',
-    borderTopLeftRadius: '12px',
-  },
-
-  '& .widget-wrapper > div:hover:before, & > .onramper-wrapper .onramper-container:hover:before':
-    {
-      opacity: 0,
-    },
-
-  '& > .widget-wrapper > div, & > .onramper-wrapper': {
-    overflow: 'hidden',
-    paddingTop: showWelcome ? theme.spacing(3) : theme.spacing(3.5),
-    transitionProperty: showWelcome && 'padding-top',
-    transitionDuration: showWelcome && '.3s',
-    transitionTimingFunction: showWelcome && 'ease-in-out',
-    [`@media screen and (min-height: 600px)`]: {
-      overflow: 'visible',
-    },
-  },
-
-  '& > .widget-wrapper, & > .onramper-wrapper': {
-    overflow: showWelcome && 'visible',
-    width: showWelcome && '100%',
-    height: showWelcome && '100%',
-    maxHeight: showWelcome && '250px',
-    transitionProperty: 'margin-top, padding-top, transform',
+  // setting hover animations on widget wrappers
+  '& > .widget-wrapper > div': {
+    transitionProperty: 'margin-top',
     transitionDuration: '.3s',
     transitionTimingFunction: 'ease-in-out',
-    marginTop: showWelcome ? '24px' : '0',
+    marginTop: !welcomeScreenClosed ? '24px' : theme.spacing(3.5),
+    cursor: 'pointer',
+    [`@media screen and (min-height: 700px)`]: {
+      marginTop: !welcomeScreenClosed
+        ? 'calc( 50vh - 680px / 2.75 - 40px)'
+        : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - header height )
+    },
+
+    [`@media screen and (min-height: 900px)`]: {
+      marginTop: !welcomeScreenClosed
+        ? 'calc( 50vh - 680px / 2.75 - 128px)'
+        : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - ( header height + additional spacing) )
+    },
+  },
+
+  // widget wrappers -> animations
+  '& > .widget-wrapper > div:hover': !welcomeScreenClosed && {
+    marginTop: !welcomeScreenClosed ? 0 : theme.spacing(3.5),
 
     [`@media screen and (min-height: 700px)`]: {
-      marginTop: showWelcome ? 'calc( 50vh - 680px / 2.75 - 80px)' : '0', // (mid viewheight - half-two/thirds widget height - header height )
+      marginTop: !welcomeScreenClosed
+        ? 'calc( 50vh - 680px / 2.75 - 40px - 24px )'
+        : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - header height )
     },
 
     [`@media screen and (min-height: 900px)`]: {
-      marginTop: showWelcome ? 'calc( 50vh - 680px / 2.75 - 128px)' : '0', // (mid viewheight - half-two/thirds widget height - ( header height + additional spacing) )
+      marginTop: !welcomeScreenClosed
+        ? 'calc( 50vh - 680px / 2.75 - 128px - 24px)'
+        : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - ( header height + additional spacing) )
     },
   },
 
-  '& > .onramper-wrapper': {
-    overflow: showWelcome ? 'hidden' : 'visible',
+  // widget overlay when welcome screen opened
+  '& .widget-wrapper > div:before': {
+    content: '" "',
+    visibility: !welcomeScreenClosed ? 'visible' : 'hidden',
+    position: 'absolute',
+    width: 'inherit',
+    zIndex: 900,
+    left: 0,
+    right: 0,
+    bottom: !welcomeScreenClosed ? 0 : 'calc( 680px - 486px )',
+    background:
+      theme.palette.mode === 'dark'
+        ? 'linear-gradient(180deg, transparent 15%,  #000 40%)'
+        : 'linear-gradient(180deg, transparent 15%, #fff 40%)',
+    opacity: 0.5,
+    margin: 'auto',
+    transitionProperty: 'opacity, bottom',
+    transitionDuration: '0.3s',
+    transitionTimingFunction: 'ease-in-out',
+    transitionDelay: !welcomeScreenClosed ? '0s' : '0.3s',
+    borderTopRightRadius: '12px',
+    borderTopLeftRadius: '12px',
+    top: '24px',
+
+    [`@media screen and (min-height: 700px)`]: {
+      top: 'calc( 50vh - 680px / 2.75 - 40px)', // (mid viewheight - half-two/thirds widget height - header height )
+    },
+
     [`@media screen and (min-height: 900px)`]: {
-      overflow: 'visible',
+      top: 'calc( 50vh - 680px / 2.75 - 128px)', // (mid viewheight - half-two/thirds widget height - ( header height + additional spacing) )
+      bottom: !welcomeScreenClosed
+        ? 'calc( 680px - 300px)'
+        : 'calc( 680px - 486px )',
     },
   },
 
-  '& > .widget-wrapper:before, & > .onramper-wrapper:before': {
-    content: showWelcome && '" "',
+  // dark widget overlay when welcome screen opened -> hover animation
+  '& .widget-wrapper > div:hover:before': {
+    opacity: 0.25,
+  },
+
+  // radial shadow glow
+  '&:before': {
+    content: '" "',
     transitionProperty: 'top, opacity',
     transitionDuration: '.4s',
     transitionTimingFunction: 'ease-in-out',
@@ -107,7 +119,6 @@ export const WidgetContainer = styled(Box, {
         : 'radial-gradient(50% 50% at 50% 50%, #8700B8 0%, rgba(255, 255, 255, 0) 100%);',
     position: 'absolute',
     zIndex: -1,
-    opacity: theme.palette.mode === 'dark' ? 0.24 : 0.12,
     pointerEvents: 'none',
     width: '1080px',
     height: '1080px',
@@ -116,17 +127,19 @@ export const WidgetContainer = styled(Box, {
     transform: 'translate(-50%, -50%)',
     left: '50%',
     top: '50%',
+    opacity:
+      !welcomeScreenClosed && theme.palette.mode === 'dark'
+        ? 0.24
+        : !welcomeScreenClosed && theme.palette.mode === 'light'
+        ? 0.12
+        : 0,
   },
 
-  '& > .widget-wrapper:hover:before, & > .onramper-wrapper:hover:before': {
-    opacity: theme.palette.mode === 'dark' ? 0.48 : 0.34,
-  },
-
-  '& .widget-wrapper:hover > div:before, & > .onramper-wrapper:hover:after': {
-    top: 0,
-  },
-
-  '& > div > div:hover, & > .onramper-wrapper:hover': {
-    paddingTop: showWelcome && theme.spacing(0),
+  // radial shadow glow -> animation
+  '&:hover:before': {
+    ...(!welcomeScreenClosed && {
+      opacity: theme.palette.mode === 'dark' ? 0.48 : 0.34,
+      top: '45%',
+    }),
   },
 }));

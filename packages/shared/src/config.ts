@@ -8,6 +8,7 @@ export const localStorageKey = {
   activeTab: 'activeTab',
   activeWalletName: 'activeWalletName',
   themeMode: 'themeMode',
+  clientWallets: 'clientWallets',
   languageMode: 'languageMode',
   disabledFeatureCards: 'disabledFeatureCards',
 };
@@ -30,8 +31,9 @@ interface DefaultSettingsType {
   themeMode: ThemeModesSupported;
   languageMode: LanguageKey;
   activeWalletName: string;
+  clientWallets: string[];
   disabledFeatureCards: string[];
-  welcomeScreenEntered: boolean;
+  welcomeScreenClosed: boolean;
 }
 
 export const defaultSettings: DefaultSettingsType = {
@@ -39,8 +41,9 @@ export const defaultSettings: DefaultSettingsType = {
     (localStorage.getItem(localStorageKey.themeMode) as ThemeModesSupported) ||
     'auto',
   languageMode: setLanguage() as LanguageKey,
+  clientWallets: [],
   activeWalletName:
     (localStorage.getItem(localStorageKey.activeWalletName) as string) || '',
   disabledFeatureCards: [],
-  welcomeScreenEntered: false,
+  welcomeScreenClosed: false,
 };

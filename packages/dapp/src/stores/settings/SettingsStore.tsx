@@ -65,6 +65,15 @@ export const useSettingsStore = createWithEqualityFn(
         });
       },
 
+      // Installed Wallets
+      onClientWallets: (wallet: string) => {
+        const clientWallets = (get() as SettingsProps)?.clientWallets;
+        !clientWallets.includes(wallet) &&
+          set({
+            clientWallets: [...clientWallets, wallet],
+          });
+      },
+
       // Disable Feature Card
       onDisableFeatureCard: (id: string) => {
         const disabledFeatureCards = (get() as SettingsProps)
@@ -77,9 +86,9 @@ export const useSettingsStore = createWithEqualityFn(
       },
 
       // Welcome Screen
-      onWelcomeScreenEntered: (shown: boolean) => {
+      onWelcomeScreenClosed: (shown: boolean) => {
         set({
-          welcomeScreenEntered: shown,
+          welcomeScreenClosed: shown,
         });
       },
 

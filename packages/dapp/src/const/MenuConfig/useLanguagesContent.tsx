@@ -24,7 +24,7 @@ export const useLanguagesContent = () => {
       action: TrackingAction.SwitchLanguage,
       label: `language_${newLanguage}`,
       data: { [TrackingEventParameter.SwitchedLanguage]: newLanguage },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Raleon],
+      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

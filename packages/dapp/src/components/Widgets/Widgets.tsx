@@ -1,31 +1,22 @@
 import { WidgetSubvariant } from '@lifi/widget';
 import { Grid, useTheme } from '@mui/material';
 import { TestnetAlert } from '@transferto/shared/src';
-import {
-  MouseEventHandler,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { TrackingAction, TrackingCategory } from '../../const';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { LinkMap } from '../../const';
 import { TabsMap } from '../../const/tabsMap';
-import { useUserTracking } from '../../hooks';
 import { useActiveTabStore, useSettingsStore } from '../../stores';
-import { EventTrackingTool, LinkMap, StarterVariantType } from '../../types';
+import { StarterVariantType } from '../../types';
 import { OnRamper } from '../OnRamper';
-import { WelcomeWrapper } from '../WelcomeWrapper';
 import { Widget } from '../Widget';
 import { WidgetEvents } from './WidgetEvents';
 import { WidgetContainer } from './Widgets.style';
 
 export function Widgets() {
   const { activeTab, setActiveTab } = useActiveTabStore();
-  const [welcomeScreenEntered, onWelcomeScreenEntered] = useSettingsStore(
-    (state) => [state.welcomeScreenEntered, state.onWelcomeScreenEntered],
+  const [welcomeScreenClosed, onWelcomeScreenClosed] = useSettingsStore(
+    (state) => [state.welcomeScreenClosed, state.onWelcomeScreenClosed],
   );
   const theme = useTheme();
-  const { trackEvent } = useUserTracking();
   const [starterVariantUsed, setStarterVariantUsed] = useState(false);
   const [_starterVariant, setStarterVariant] = useState<
     WidgetSubvariant | 'buy'
@@ -83,23 +74,8 @@ export function Widgets() {
     }
   }, [activeTab, setActiveTab, starterVariant, starterVariantUsed]);
 
-  const handleGetStarted: MouseEventHandler<HTMLDivElement> = (event) => {
-    const classList = (event.target as HTMLElement).classList;
-    if (
-      classList.contains?.('stats-card') ||
-      classList.contains?.('link-lifi')
-    ) {
-      return;
-    } else {
-      event.stopPropagation();
-      onWelcomeScreenEntered(true);
-      trackEvent({
-        category: TrackingCategory.WelcomeScreen,
-        action: TrackingAction.CloseWelcomeScreen,
-        label: 'enter_welcome_screen',
-        disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Raleon],
-      });
-    }
+  const handleCloseWelcomeScreen = () => {
+    onWelcomeScreenClosed(true);
   };
 
   useLayoutEffect(() => {
@@ -107,42 +83,36 @@ export function Widgets() {
   }, [getActiveWidget, starterVariant, activeTab]);
 
   return (
-    <WelcomeWrapper
-      showWelcome={!welcomeScreenEntered}
-      handleGetStarted={handleGetStarted}
-    >
+    <>
       {import.meta.env.MODE === 'testnet' && (
         <Grid item xs={12} mt={theme.spacing(3)}>
           <TestnetAlert />
         </Grid>
       )}
       <WidgetContainer
-        onClick={handleGetStarted}
-        showWelcome={!welcomeScreenEntered}
+        onClick={handleCloseWelcomeScreen}
         isActive={_starterVariant === TabsMap.Exchange.variant}
+        welcomeScreenClosed={welcomeScreenClosed}
       >
         <Widget starterVariant={TabsMap.Exchange.variant as WidgetSubvariant} />
       </WidgetContainer>
       <WidgetContainer
-        onClick={handleGetStarted}
-        showWelcome={!welcomeScreenEntered}
+        onClick={handleCloseWelcomeScreen}
         isActive={_starterVariant === TabsMap.Refuel.variant}
+        welcomeScreenClosed={welcomeScreenClosed}
       >
         <Widget starterVariant={TabsMap.Refuel.variant as WidgetSubvariant} />
       </WidgetContainer>
       {import.meta.env.VITE_ONRAMPER_ENABLED ? (
         <WidgetContainer
-          onClick={handleGetStarted}
-          showWelcome={!welcomeScreenEntered}
+          onClick={handleCloseWelcomeScreen}
           isActive={_starterVariant === TabsMap.Buy.variant}
-          sx={{ width: '392px' }}
+          welcomeScreenClosed={welcomeScreenClosed}
         >
-          <div className="onramper-wrapper">
-            <OnRamper />
-          </div>
+          <OnRamper handleCloseWelcomeScreen={handleCloseWelcomeScreen} />
         </WidgetContainer>
       ) : null}
       <WidgetEvents />
-    </WelcomeWrapper>
+    </>
   );
 }

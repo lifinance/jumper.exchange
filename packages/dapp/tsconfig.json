@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@transferto/shared": ["../shared/src"],
+      "@transferto/shared": ["../shared/src/"],
       "@transferto/shared/*": ["../shared/src/*"]
     },
     "resolveJsonModule": true,

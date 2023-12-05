@@ -10,9 +10,10 @@ const CONTENTFUL_CONTENT_TYPE = 'featureCard';
 
 // Query Content-Type "featureCards" from Contentful
 export const useFeatureCards = (): UseFeatureCardsProps => {
-  const { data, isSuccess } = useQuery(
-    ['featureCard'],
-    async () => {
+  const { data, isSuccess } = useQuery({
+    queryKey: ['featureCard'],
+
+    queryFn: async () => {
       const apiUrl =
         import.meta.env.MODE === 'production'
           ? import.meta.env.VITE_CONTENTFUL_API_URL
@@ -28,11 +29,9 @@ export const useFeatureCards = (): UseFeatureCardsProps => {
       const result = await response.json();
       return result;
     },
-    {
-      enabled: true,
-      refetchInterval: 1000 * 60 * 60,
-    },
-  );
+    enabled: true,
+    refetchInterval: 1000 * 60 * 60,
+  });
   return {
     featureCards: data ?? undefined,
     isSuccess,

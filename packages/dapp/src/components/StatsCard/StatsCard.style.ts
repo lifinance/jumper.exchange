@@ -7,7 +7,6 @@ export const Container = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   gap: theme.spacing(2),
-  [theme.breakpoints.up('sm' as Breakpoint)]: {},
 }));
 
 export const Card = styled('div')(({ theme }) => ({

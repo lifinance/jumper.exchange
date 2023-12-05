@@ -12,8 +12,8 @@ export const SpotButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<SpotButtonProps>(({ theme, variant }) => ({
   color: theme.palette.text.primary,
-  width: '64px',
-  height: '64px',
+  width: '72px',
+  height: '72px',
   margin: 'auto',
   backgroundColor:
     variant === 'primary' && theme.palette.mode === 'dark'

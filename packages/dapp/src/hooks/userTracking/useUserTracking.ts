@@ -1,37 +1,48 @@
 import { useArcxAnalytics } from '@arcxmoney/analytics';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { hotjar } from 'react-hotjar';
 import { TrackingAction, TrackingEventParameter } from '../../const';
 import { useWallet } from '../../providers/WalletProvider';
 import {
   EventTrackingTool,
   TrackAttributeProps,
+  TrackChainSwitchProps,
+  TrackConnectWalletProps,
   TrackDisconnectWalletProps,
   TrackEventProps,
   TrackTransactionProps,
   trackPageloadProps,
 } from '../../types';
+import { useCookie3 } from '../useCookie3';
 
 export function useUserTracking() {
   const arcx = useArcxAnalytics();
-  const { account, usedWallet } = useWallet();
+  const cookie3 = useCookie3();
+  const { account } = useWallet();
 
-  /* 
-  use useEffect depended on account to track wallet connects with account depended tracking software
-  */
-  useEffect(() => {
-    if (account?.address && account?.chainId && usedWallet) {
-      arcx?.connectWallet({
-        account: `${account.address}`,
-        chain: `${account.chainId}`,
-      });
-      window.raleon.walletConnected(account.address);
-      hotjar.identify(account.address, {
-        [TrackingEventParameter.Wallet]: usedWallet.name,
-      });
-      hotjar.initialized() && hotjar.event(TrackingAction.ConnectWallet);
-    }
-  }, [account, account.address, account.chainId, arcx, usedWallet]);
+  const trackConnectWallet = useCallback(
+    /**
+     * Track Wallet Connect with HJ and ARCx
+     *
+     */
+    ({ disableTrackingTool, account, wallet }: TrackConnectWalletProps) => {
+      if (account?.address && account?.chainId && wallet) {
+        if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
+          arcx?.wallet({
+            account: `${account.address}`,
+            chainId: `${account.chainId}`,
+          });
+        }
+        if (!disableTrackingTool?.includes(EventTrackingTool.Hotjar)) {
+          hotjar.identify(account.address, {
+            [TrackingEventParameter.Wallet]: wallet.name,
+          });
+          hotjar.initialized() && hotjar.event(TrackingAction.ConnectWallet);
+        }
+      }
+    },
+    [arcx],
+  );
 
   const trackAttribute = useCallback(
     /**
@@ -52,21 +63,14 @@ export function useUserTracking() {
       if (data && !disableTrackingTool?.includes(EventTrackingTool.GA)) {
         data && window.gtag('set', 'user_properties', data);
       }
-      if (data && !disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
-        await arcx?.attribute({
-          ...data,
-          //   source, // optional(string) - the origin of the web traffic (eg. discord, twitter etc)
-          //   campaignId, // optional(string) - a specific identifier of the campaign (eg. bankless-5)
-        });
-      }
     },
-    [account?.address, arcx],
+    [account.address],
   );
 
   const trackDisconnectWallet = useCallback(
-    ({ data, disableTrackingTool }: TrackDisconnectWalletProps) => {
+    ({ account, data, disableTrackingTool }: TrackDisconnectWalletProps) => {
       if (
-        account.address &&
+        account?.address &&
         !disableTrackingTool?.includes(EventTrackingTool.Hotjar)
       ) {
         hotjar.identify(account.address, {
@@ -74,19 +78,19 @@ export function useUserTracking() {
         });
         hotjar.initialized() && hotjar.event(TrackingAction.DisconnectWallet);
       }
-      if (
-        account.address &&
-        !disableTrackingTool?.includes(EventTrackingTool.Raleon)
-      ) {
-        window.raleon.walletDisconnected();
-      }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
         window.gtag('event', TrackingAction.DisconnectWallet, {
           ...data,
         });
       }
+      if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
+        arcx?.disconnection({
+          account: `${account?.address}`, // optional(string) - The account that got disconnected
+          chainId: `${account?.chainId}`, // optional(string | number) - The chain ID from which the wallet disconnected
+        });
+      }
     },
-    [account.address],
+    [arcx],
   );
 
   const trackEvent = useCallback(
@@ -94,6 +98,7 @@ export function useUserTracking() {
       action,
       category,
       label,
+      value,
       data,
       disableTrackingTool,
     }: TrackEventProps) => {
@@ -113,15 +118,16 @@ export function useUserTracking() {
           ...data,
         });
       }
-      if (
-        !disableTrackingTool?.includes(EventTrackingTool.Raleon) &&
-        account.isActive &&
-        account.address
-      ) {
-        window.raleon.registerEvent(action, account.address, category);
+      if (!disableTrackingTool?.includes(EventTrackingTool.Cookie3)) {
+        cookie3?.trackEvent({
+          category,
+          action,
+          name: label,
+          value,
+        });
       }
     },
-    [account.address, account.isActive, arcx],
+    [arcx, cookie3],
   );
 
   const trackPageload = useCallback(
@@ -151,29 +157,8 @@ export function useUserTracking() {
           ...data,
         });
       }
-      if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
-        pageload &&
-          arcx?.event(`pageload`, {
-            url,
-            source,
-            destination,
-            pageload: pageload ? 'external' : 'internal',
-            ...data,
-          });
-      }
-      if (
-        !disableTrackingTool?.includes(EventTrackingTool.Raleon) &&
-        account.isActive &&
-        !!account.address
-      ) {
-        window.raleon.registerEvent(
-          `pageload-${pageload ? 'external' : 'internal'}`,
-          account.address,
-          destination,
-        );
-      }
     },
-    [account.address, account.isActive, arcx],
+    [],
   );
 
   const trackTransaction = useCallback(
@@ -185,6 +170,7 @@ export function useUserTracking() {
       action,
       category,
       chain,
+      value,
       data,
       disableTrackingTool,
       txhash,
@@ -194,33 +180,60 @@ export function useUserTracking() {
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
         window.gtag('event', action, {
-          category: category,
+          category,
           ...data,
         });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
         arcx?.transaction({
-          chain,
+          chainId: chain,
           transactionHash: txhash,
           metadata: { ...data, category, action }, // optional(object) - additional information about the transaction
         });
       }
-      if (
-        !disableTrackingTool?.includes(EventTrackingTool.Raleon) &&
-        account.isActive &&
-        !!account.address
-      ) {
-        window.raleon.registerEvent(action, account.address, category);
+      if (!disableTrackingTool?.includes(EventTrackingTool.Cookie3)) {
+        cookie3?.trackEvent({
+          category,
+          action,
+          name: 'transaction',
+          value: value,
+        });
       }
     },
-    [account.address, account.isActive, arcx],
+    [arcx, cookie3],
+  );
+
+  const trackChainSwitch = useCallback(
+    async ({
+      account,
+      disableTrackingTool,
+      action,
+      category,
+      data,
+    }: TrackChainSwitchProps) => {
+      if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
+        arcx?.chain({
+          account: `${account?.address}`,
+          chainId: `${account?.chainId}`,
+        });
+      }
+      if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
+        window.gtag('event', action, {
+          category: category,
+          ...data,
+        });
+      }
+    },
+    [arcx],
   );
 
   return {
     trackAttribute,
     trackDisconnectWallet,
+    trackConnectWallet,
     trackEvent,
     trackPageload,
     trackTransaction,
+    trackChainSwitch,
   };
 }

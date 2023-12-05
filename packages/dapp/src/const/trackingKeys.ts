@@ -1,6 +1,6 @@
 /*
   Name of an action that a user makes on the site. 
-  GA: in GA this is the name of the even that is fired
+  GA: in GA this is the name of the event that is fired
 */
 export enum TrackingAction {
   // Widget
@@ -39,6 +39,9 @@ export enum TrackingAction {
   SwitchLanguage = 'action_switch_language',
   SwitchTab = 'action_switch_tab',
   SwitchTheme = 'action_switch_theme',
+  DownloadBrandAssets = 'action_dl_brand_assets',
+
+  PoweredBy = 'action_click_powered_by',
 }
 
 export enum TrackingCategory {
@@ -49,14 +52,14 @@ export enum TrackingCategory {
   Navigation = 'cat_navigation',
   LanguageMenu = 'cat_language_menu',
   SubMenu = 'cat_submenu',
-  ThemeMenu = 'cat_theme_menu',
-  ThemeSwitch = 'cat_theme_switch',
+  ThemeSection = 'cat_theme_section',
   Wallet = 'cat_wallet',
   WalletMenu = 'cat_wallet_menu',
   WalletSelectMenu = 'cat_wallet_select_menu',
   WelcomeScreen = 'cat_welcome_screen',
   Widget = 'cat_widget',
   WidgetEvent = 'cat_widget_event',
+  PoweredBy = 'cat_powered_by',
 }
 
 // can be used as custom dimensions / metrics
@@ -74,18 +77,16 @@ export enum TrackingEventParameter {
   SwitchedChain = 'param_switched_chain',
   SwitchedTheme = 'param_switched_theme',
   SwitchedLanguage = 'param_switched_language',
-  AddedTokenAddress = 'param_token_added',
-  AddedTokenName = 'param_token_added_chain_id',
+  AddedTokenAddress = 'param_added_token_address',
+  AddedTokenName = 'param_added_token_name',
   Wallet = 'param_wallet',
 
   // Transaction:
   RouteId = 'param_route_id',
-  Steps = 'param_steps',
   FromToken = 'param_from_token',
   FromChainId = 'param_from_chain_id',
   ToToken = 'param_to_token',
   Timestamp = 'param_timestamp',
-  SubStatus = 'param_substatus',
   Status = 'param_status',
   Error = 'param_error',
   Message = 'param_message',

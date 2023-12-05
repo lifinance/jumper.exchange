@@ -1,19 +1,16 @@
-type Color = string;
-type Style = React.CSSProperties;
-
 interface LifiSmallLogoProps {
-  color?: Color;
-  style?: Style;
+  color?: string;
+  styles?: React.CSSProperties;
 }
 
-export function LifiSmallLogo({ color, style }: LifiSmallLogoProps) {
+export function LifiSmallLogo({ color, styles }: LifiSmallLogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
       fill="none"
-      style={{ ...style }}
+      style={{ ...styles }}
       viewBox="0 0 24 24"
     >
       <path

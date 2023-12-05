@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Breakpoint, useTheme } from '@mui/material/styles';
 import { ButtonBackArrow } from '@transferto/shared/src/atoms/ButtonArrowBack';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect, useRef } from 'react';
 import {
   MenuKeys,
   TrackingAction,
@@ -45,8 +45,8 @@ const SubMenuComponent = ({
   subMenuList,
 }: NavbarSubMenuProps) => {
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
   const { trackEvent } = useUserTracking();
+  const menuListRef = useRef(null);
   const [openNavbarSubMenu, onOpenNavbarSubMenu] = useMenuStore((state) => [
     state.openNavbarSubMenu,
     state.onOpenNavbarSubMenu,
@@ -69,7 +69,10 @@ const SubMenuComponent = ({
           [TrackingEventParameter.Menu]: el.triggerSubMenu,
           [TrackingEventParameter.PrevMenu]: prevMenu,
         },
-        disableTrackingTool: [EventTrackingTool.Raleon, EventTrackingTool.ARCx],
+        disableTrackingTool: [
+          EventTrackingTool.ARCx,
+          EventTrackingTool.Cookie3,
+        ],
       });
     } else {
       typeof el.onClick === 'function' && el.onClick();
@@ -80,17 +83,25 @@ const SubMenuComponent = ({
     onOpenNavbarSubMenu(prevMenu);
   };
 
+  useEffect(() => {
+    if (menuListRef.current && open && openNavbarSubMenu === triggerSubMenu) {
+      const menuList: HTMLUListElement = menuListRef.current;
+      menuList.scrollTop = 0;
+    }
+  }, [open, openNavbarSubMenu, triggerSubMenu]);
+
   return open && openNavbarSubMenu === triggerSubMenu ? (
     <NavbarPaper
+      className="submenu"
       onKeyDown={handleBackSpace}
       autoFocus={open}
       component={'ul'}
-      isDarkMode={isDarkMode}
+      ref={menuListRef}
     >
       <MenuHeaderAppWrapper>
         <MenuHeaderAppBar component="div" elevation={0}>
           <ButtonBackArrow
-            style={{ marginLeft: '0px' }}
+            styles={{ marginLeft: '0px' }}
             onClick={handleBackNavigation}
           />
           <MenuHeaderLabel>{label}</MenuHeaderLabel>

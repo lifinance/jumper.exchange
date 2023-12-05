@@ -1,7 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import { Typography } from '@mui/material';
 import { WalletManagementButtons } from '@transferto/shared/src';
-import { ChainSwitch } from '@transferto/shared/src/atoms/ChainSwitch';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +13,6 @@ import { useChains } from '../../hooks/useChains';
 import { useWallet } from '../../providers/WalletProvider';
 import { useMenuStore, useSettingsStore } from '../../stores';
 import { EventTrackingTool } from '../../types';
-import { ThemeSwitch } from '../ThemeSwitch';
 import {
   NavbarDropdownButton,
   NavbarManagement as NavbarManagementContainer,
@@ -57,7 +55,7 @@ const NavbarManagement = () => {
       action: TrackingAction.OpenMenu,
       label: 'open_main_menu',
       data: { [TrackingEventParameter.Menu]: 'main_menu' },
-      disableTrackingTool: [EventTrackingTool.Raleon, EventTrackingTool.ARCx],
+      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 
@@ -76,13 +74,11 @@ const NavbarManagement = () => {
               WebkitBoxOrient: 'vertical',
             }}
           >
-            {t('navbar.connectWallet')}
+            {t('navbar.connect')}
           </Typography>
         }
         isSuccess={isSuccess}
       />
-      {account.isActive ? <ChainSwitch /> : null}
-      <ThemeSwitch />
       <NavbarDropdownButton
         ref={mainMenuAnchor}
         id="composition-button"

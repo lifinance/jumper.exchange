@@ -1,5 +1,4 @@
 import bn from './bn/language.json';
-import de from './de/language.json';
 import en from './en/language.json';
 import es from './es/language.json';
 import fr from './fr/language.json';
@@ -13,4 +12,4 @@ import uk from './uk/language.json';
 import vi from './vi/language.json';
 import zh from './zh/language.json';
 
-export { bn, de, en, es, fr, id, it, ko, pt, th, tr, uk, vi, zh };
+export { bn, en, es, fr, id, it, ko, pt, th, tr, uk, vi, zh };

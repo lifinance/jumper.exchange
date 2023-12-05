@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TrackingAction, TrackingCategory } from '../../const';
@@ -100,6 +100,10 @@ interface StatsCardsProps {
   setOpenDexsPopper: Dispatch<SetStateAction<boolean>>;
 }
 
+const CHAINS_INDEX = 0;
+const BRIDGES_INDEX = 1;
+const DEXS_INDEX = 2;
+
 export const StatsCards = ({
   openChainsPopper,
   setOpenChainsPopper,
@@ -128,7 +132,7 @@ export const StatsCards = ({
           data: { [TrackingEventParameter.StatsModal]: 'chains_stats' },
           disableTrackingTool: [
             EventTrackingTool.ARCx,
-            EventTrackingTool.Raleon,
+            EventTrackingTool.Cookie3,
           ],
         });
         setOpenChainsPopper(!openChainsPopper);
@@ -148,7 +152,7 @@ export const StatsCards = ({
           data: { [TrackingEventParameter.StatsModal]: 'bridges_stats' },
           disableTrackingTool: [
             EventTrackingTool.ARCx,
-            EventTrackingTool.Raleon,
+            EventTrackingTool.Cookie3,
           ],
         });
         setOpenBridgesPopper(!openBridgesPopper);
@@ -168,7 +172,7 @@ export const StatsCards = ({
           data: { [TrackingEventParameter.StatsModal]: 'dexes_stats' },
           disableTrackingTool: [
             EventTrackingTool.ARCx,
-            EventTrackingTool.Raleon,
+            EventTrackingTool.Cookie3,
           ],
         });
         setOpenDexsPopper(!openDexsPopper);
@@ -178,23 +182,42 @@ export const StatsCards = ({
 
   return (
     <Container>
-      {statsData.map((el, index) => {
-        return (
-          <Box key={`stats-box-${el.title}-${index}`}>
-            <StatsCard
-              title={el.title}
-              number={el.number}
-              handleClick={el.handleOnClick}
-            />
-            <StatsModal
-              title={el.title}
-              open={el.open}
-              setOpen={el.setOpen}
-              data={el.data}
-            />
-          </Box>
-        );
-      })}
+      {/* Chains */}
+      <StatsCard
+        title={statsData[CHAINS_INDEX].title}
+        number={statsData[CHAINS_INDEX].number}
+        handleClick={statsData[CHAINS_INDEX].handleOnClick}
+      />
+      <StatsModal
+        title={statsData[CHAINS_INDEX].title}
+        open={statsData[CHAINS_INDEX].open}
+        setOpen={statsData[CHAINS_INDEX].setOpen}
+        data={statsData[CHAINS_INDEX].data}
+      />
+      {/* Bridges */}
+      <StatsCard
+        title={statsData[BRIDGES_INDEX].title}
+        number={statsData[BRIDGES_INDEX].number}
+        handleClick={statsData[BRIDGES_INDEX].handleOnClick}
+      />
+      <StatsModal
+        title={statsData[BRIDGES_INDEX].title}
+        open={statsData[BRIDGES_INDEX].open}
+        setOpen={statsData[BRIDGES_INDEX].setOpen}
+        data={statsData[BRIDGES_INDEX].data}
+      />
+      {/* DEXs */}
+      <StatsCard
+        title={statsData[DEXS_INDEX].title}
+        number={statsData[DEXS_INDEX].number}
+        handleClick={statsData[DEXS_INDEX].handleOnClick}
+      />
+      <StatsModal
+        title={statsData[DEXS_INDEX].title}
+        open={statsData[DEXS_INDEX].open}
+        setOpen={statsData[DEXS_INDEX].setOpen}
+        data={statsData[DEXS_INDEX].data}
+      />
     </Container>
   );
 };

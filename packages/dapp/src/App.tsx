@@ -1,24 +1,29 @@
+import { PoweredBy } from '@transferto/shared/src/atoms';
 import { useEffect } from 'react';
 import { AppProvider } from './AppProvider';
-import { FeatureCards } from './components';
+import { FeatureCards, WelcomeScreen } from './components';
 import { Navbar } from './components/Navbar';
 import { Menus } from './components/Navbar/Menu/Menus';
 import { Widgets } from './components/Widgets';
-import { useInitUserTracking } from './hooks';
-
-// dummy commit to check testing deployments. TO BE REMOVED
+import { useCookie3, useInitUserTracking } from './hooks';
 
 export default function App() {
   const { initTracking } = useInitUserTracking();
+  const cookie3 = useCookie3();
+
   useEffect(() => {
-    initTracking({ disableTrackingTool: [] });
-  }, [initTracking]);
+    initTracking({});
+    cookie3?.trackPageView();
+  }, [cookie3, initTracking]);
 
   return (
     <AppProvider>
       <Navbar />
       <Menus />
       <Widgets />
+      <WelcomeScreen />
+      <PoweredBy />
+
       <FeatureCards />
     </AppProvider>
   );

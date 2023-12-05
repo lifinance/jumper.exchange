@@ -21,6 +21,7 @@
     "navbarMenu": {
       "theme": "主题",
       "developers": "开发者",
+      "lifiExplorer": "LI.FI 浏览器",
       "aboutLIFI": "关于 LI.FI",
       "support": "技术支持"
     },
@@ -32,10 +33,6 @@
       "explore": "浏览区块浏览器",
       "copiedMsg": "钱包地址已复制"
     },
-    "language": {
-      "key": "语言",
-      "value": "中文"
-    },
     "themes": {
       "switchToLight": "切换到浅色主题",
       "switchToDark": "切换到深色主题",
@@ -45,18 +42,32 @@
     },
     "developers": {
       "github": "GitHub",
-      "documentation": "文档",
-      "showcases": "案例"
-    },
-    "showcases": {
-      "ukraineDonation": "支持乌克兰🇺🇦",
-      "klimaStaking": "跨链质押Klima",
-      "carbonOffset": "跨链碳补偿"
+      "documentation": "文档"
     }
   },
   "alert": {
     "info": "您正在使用测试网",
     "testnet": "在测试网上进行的任何交易或操作将不会在主网上显示。",
     "switchToMainnet": "切换到主网"
+  },
+  "featureCard": {
+    "learnMore": "了解更多"
+  },
+  "button": {
+    "okay": "确认"
+  },
+  "multisig": {
+    "connected": {
+      "title": "已连接多签钱包",
+      "description": "请通知钱包的其他控制人签署该交易。"
+    },
+    "transactionInitiated": {
+      "title": "需要多个签名",
+      "description": "请在交易过期之前通知钱包其他的控制人签署该交易。"
+    },
+    "alert": {
+      "title": "已连接多签钱包",
+      "description": "需要目标钱包地址来完成交换。"
+    }
   }
 }

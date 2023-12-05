@@ -12,15 +12,17 @@
       "buy": "Satın al"
     },
     "statsCards": {
-      "dexs": "Merkeziyetsiz Borsalar",
+      "dexs": "DEXs",
       "bridges": "Köprüler",
       "chains": "Ağlar"
     },
     "connectWallet": "Cüzdanı Bağla",
     "chooseWallet": "Cüzdan Seçin",
     "navbarMenu": {
+      "brandAssets": "Varlıklar",
       "theme": "Tema",
       "developers": "Geliştiriciler",
+      "lifiExplorer": "LI.FI Explorer",
       "aboutLIFI": "LI.FI Hakkında",
       "support": "Destek"
     },
@@ -30,7 +32,8 @@
       "switchChain": "Ağ değiştir",
       "copy": "Kopyala",
       "explore": "Keşfet",
-      "copiedMsg": "Cüzdan Adresi kopyalandı"
+      "copiedMsg": "Cüzdan Adresi kopyalandı",
+      "walletNotInstalled": "{{wallet}} kurulu değil"
     },
     "themes": {
       "switchToLight": "Açık temaya geç",

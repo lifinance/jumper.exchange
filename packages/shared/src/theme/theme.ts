@@ -1,4 +1,4 @@
-import type { Theme } from '@mui/material/styles';
+import type { Breakpoint, Theme } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 import type React from 'react';
@@ -217,7 +217,10 @@ const shape = {
   borderRadiusSecondary: 8,
 };
 
-const themeBase: Theme = createTheme({
+const themeBase: Theme = createTheme();
+
+// in a seperate 'createTheme' to allow listening to breakpoints set above
+const themeCustomized: Theme = createTheme({
   shape: {
     ...shape,
   },
@@ -232,6 +235,16 @@ const themeBase: Theme = createTheme({
               'Inter var, Inter fallback, Arial, Noto Sans, BlinkMacSystemFont, Segoe UI, Helvetica Neue, sans-serif',
           },
         },
+      },
+    },
+    MuiSnackbar: {
+      styleOverrides: {
+        root: () => ({
+          top: '80px',
+          [themeBase.breakpoints.up('sm' as Breakpoint)]: {
+            top: '80px',
+          },
+        }),
       },
     },
     MuiTooltip: {
@@ -379,11 +392,6 @@ const themeBase: Theme = createTheme({
       main: 'rgba(255, 255, 255, 0.64)',
     },
   },
-});
-
-// in a seperate 'createTheme' to allow listening to breakpoints set above
-const themeTypographyPreset: Theme = createTheme({
-  ...themeBase,
   typography: {
     fontFamily: [
       'Inter var',
@@ -797,9 +805,7 @@ const themeTypographyPreset: Theme = createTheme({
   },
 });
 
-const themePreset: Theme = createTheme(
-  deepmerge(themeBase, themeTypographyPreset),
-);
+const themePreset: Theme = createTheme(deepmerge(themeBase, themeCustomized));
 
 export const lightTheme: Theme = createTheme(
   deepmerge(themePreset, {

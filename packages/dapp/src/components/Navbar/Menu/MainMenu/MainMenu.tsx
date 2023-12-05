@@ -3,10 +3,10 @@ import {
   useDevelopersContent,
   useLanguagesContent,
   useMainMenuContent,
-  useThemeContent,
 } from '@transferto/dapp/src/const';
 import { useMenuStore } from '@transferto/dapp/src/stores';
 import { useTranslation } from 'react-i18next';
+import { JsxElement } from 'typescript';
 import { MenuItemComponent, NavbarMenu, SubMenuComponent } from '../../index';
 interface MainMenuProps {
   handleClose: (event: MouseEvent | TouchEvent) => void;
@@ -15,9 +15,8 @@ interface MainMenuProps {
 export const MainMenu = ({ handleClose }: MainMenuProps) => {
   const { t } = useTranslation();
   const mainMenuItems = useMainMenuContent();
-  const mainSubMenuTheme = useThemeContent();
-  const mainSubMenuDevelopers = useDevelopersContent();
-  const mainSubMenuLanguage = useLanguagesContent();
+  const subMenuDevelopers = useDevelopersContent();
+  const subMenuLanguage = useLanguagesContent();
   const [openMainNavbarMenu, onOpenNavbarMainMenu, openNavbarSubMenu] =
     useMenuStore((state) => [
       state.openMainNavbarMenu,
@@ -40,28 +39,24 @@ export const MainMenu = ({ handleClose }: MainMenuProps) => {
             autoFocus={index > 0 ? true : false}
             label={el.label}
             prefixIcon={el.prefixIcon}
+            styles={el.styles}
+            children={el.children as unknown as JsxElement}
             triggerSubMenu={el.triggerSubMenu}
-            showButton={el.showButton ?? false}
+            showButton={el.showButton}
+            disableRipple={el.disableRipple}
             showMoreIcon={el.showMoreIcon}
             suffixIcon={el.suffixIcon}
             onClick={el.onClick}
             open
           />
         ))}
-      <SubMenuComponent
-        label={t('navbar.navbarMenu.theme')}
-        triggerSubMenu={MenuKeys.Themes}
-        open={openNavbarSubMenu === MenuKeys.Themes}
-        prevMenu={MenuKeys.None}
-        subMenuList={mainSubMenuTheme}
-      />
 
       <SubMenuComponent
         label={t('language.key', { ns: 'language' })}
         triggerSubMenu={MenuKeys.Language}
         open={openNavbarSubMenu === MenuKeys.Language}
         prevMenu={MenuKeys.None}
-        subMenuList={mainSubMenuLanguage}
+        subMenuList={subMenuLanguage}
       />
 
       <SubMenuComponent
@@ -69,7 +64,7 @@ export const MainMenu = ({ handleClose }: MainMenuProps) => {
         triggerSubMenu={MenuKeys.Devs}
         open={openNavbarSubMenu === MenuKeys.Devs}
         prevMenu={MenuKeys.None}
-        subMenuList={mainSubMenuDevelopers}
+        subMenuList={subMenuDevelopers}
       />
     </NavbarMenu>
   ) : null;

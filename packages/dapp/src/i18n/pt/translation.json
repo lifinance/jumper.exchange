@@ -19,8 +19,10 @@
     "connectWallet": "Conectar Carteira",
     "chooseWallet": "Escolha uma Carteira",
     "navbarMenu": {
+      "brandAssets": "Ativos de marca",
       "theme": "Tema",
       "developers": "Desenvolvedores",
+      "lifiExplorer": "Explorador LI.FI",
       "aboutLIFI": "Sobre a LI.FI",
       "support": "Suporte"
     },
@@ -30,7 +32,8 @@
       "switchChain": "Trocar Cadeia",
       "copy": "Copiar",
       "explore": "Explorar",
-      "copiedMsg": "Endereço da carteira copiado"
+      "copiedMsg": "Endereço da carteira copiado",
+      "walletNotInstalled": "{{wallet}} não está instalada"
     },
     "themes": {
       "switchToLight": "Mudar para o Modo Claro",

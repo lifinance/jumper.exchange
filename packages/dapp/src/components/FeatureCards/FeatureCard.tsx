@@ -17,8 +17,8 @@ import { EventTrackingTool } from '../../types';
 import {
   FeatureCardAsset,
   FeatureCardType,
-} from '../../types/featureCardsRequest';
-import { Card, CardImage } from './FeatureCard.style';
+} from '../../types/featureCardsRequest.types';
+import { Card } from './FeatureCard.style';
 
 interface FeatureCardProps {
   data: FeatureCardType;
@@ -40,6 +40,27 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
       onDisableFeatureCard(data?.fields?.displayConditions?.id);
   }, [data?.fields?.displayConditions, onDisableFeatureCard]);
 
+  const typographyColor = useMemo(() => {
+    if (data.fields.displayConditions.mode) {
+      if (data.fields.displayConditions.mode === 'dark') {
+        return theme.palette.white.main;
+      } else if (data.fields.displayConditions.mode === 'light') {
+        return theme.palette.black.main;
+      }
+    } else {
+      if (theme.palette.mode === 'dark') {
+        return theme.palette.white.main;
+      } else {
+        return theme.palette.black.main;
+      }
+    }
+  }, [
+    data.fields.displayConditions.mode,
+    theme.palette.black.main,
+    theme.palette.mode,
+    theme.palette.white.main,
+  ]);
+
   useEffect(() => {
     if (open) {
       trackEvent({
@@ -52,7 +73,10 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
             data.fields.displayConditions.id,
           url: data.fields.url,
         },
-        disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Raleon],
+        disableTrackingTool: [
+          EventTrackingTool.ARCx,
+          EventTrackingTool.Cookie3,
+        ],
       });
     }
   }, [
@@ -66,14 +90,14 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
   const imageUrl = useMemo(() => {
     return assets.filter((el: FeatureCardAsset) => {
       return theme.palette.mode === 'dark'
-        ? el?.sys?.id === data?.fields?.imageDarkMode?.sys?.id
-        : el?.sys?.id === data?.fields?.imageLightMode?.sys?.id;
+        ? el?.sys?.id === data?.fields?.backgroundImageDark?.sys?.id
+        : el?.sys?.id === data?.fields?.backgroundImageLight?.sys?.id;
     })[0]?.fields?.file?.url;
   }, [
     theme.palette.mode,
     assets,
-    data?.fields?.imageDarkMode?.sys?.id,
-    data?.fields?.imageLightMode?.sys?.id,
+    data?.fields?.backgroundImageDark?.sys?.id,
+    data?.fields?.backgroundImageLight?.sys?.id,
   ]);
 
   const handleClose = () => {
@@ -90,7 +114,7 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
         [TrackingEventParameter.FeatureCardId]:
           data?.fields?.displayConditions?.id,
       },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Raleon],
+      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 
@@ -105,7 +129,7 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
           data.fields.displayConditions.id,
         url: data.fields.url,
       },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Raleon],
+      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 
@@ -118,7 +142,7 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
       timeout={150}
       easing={'cubic-bezier(0.32, 0, 0.67, 0)'}
     >
-      <Card gradient={data?.fields.gradientColor || undefined}>
+      <Card backgroundImageUrl={imageUrl}>
         <CardContent
           sx={{
             padding: theme.spacing(3),
@@ -138,10 +162,7 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
               sx={{
                 width: '24px',
                 height: '24px',
-                color:
-                  theme.palette.mode === 'dark'
-                    ? theme.palette.white.main
-                    : theme.palette.black.main,
+                color: typographyColor,
               }}
             />
           </IconButton>
@@ -149,8 +170,10 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
             <Typography
               variant={'lifiHeaderSmall'}
               sx={{
+                color: data.fields.titleColor ?? typographyColor,
                 fontSize: '24px',
                 lineHeight: '32px',
+                userSelect: 'none',
                 maxHeight: '32px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -164,8 +187,10 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
             <Typography
               variant={'lifiBodySmall'}
               sx={{
+                color: typographyColor,
                 lineHeight: '24px',
                 width: '224px',
+                userSelect: 'none',
                 height: '48px',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -178,13 +203,14 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
             <Link
               target="_blank"
               rel="noopener"
-              href={data?.fields?.url || 'https://li.fi'}
+              href={data?.fields?.url}
               onClick={handleCTA}
               sx={{
                 textDecoration: 'none',
                 color:
+                  data.fields.displayConditions.mode === 'dark' ||
                   theme.palette.mode === 'dark'
-                    ? theme.palette.accent1Alt.main
+                    ? theme.palette.accent1Alt?.main
                     : theme.palette.primary.main,
               }}
             >
@@ -195,19 +221,13 @@ export const FeatureCard = ({ data, isSuccess, assets }: FeatureCardProps) => {
                   maxHeight: '20px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
+                  color: data.fields.ctaColor ?? 'inherit',
                 }}
               >
-                {t('featureCard.learnMore')}
+                {data.fields.ctaCall ?? t('featureCard.learnMore')}
               </Typography>
             </Link>
           </CardActions>
-          {imageUrl && (
-            <CardImage
-              component="img"
-              src={imageUrl}
-              alt="Feature Card Image"
-            />
-          )}
         </CardContent>
       </Card>
     </Slide>

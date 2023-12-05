@@ -1,18 +1,17 @@
 import { ChainId, Token } from '@lifi/sdk';
 import { HiddenUI, LiFiWidget, WidgetConfig } from '@lifi/widget';
-import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { MenuState } from '@transferto/shared/src/types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { TabsMap } from '../../const/tabsMap';
-import { useUserTracking } from '../../hooks';
 import { useMultisig } from '../../hooks/useMultisig';
 import { useWallet } from '../../providers/WalletProvider';
-import { useMenuStore } from '../../stores';
+import { useMenuStore, useSettingsStore } from '../../stores';
 import { LanguageKey, StarterVariantType } from '../../types';
 import { MultisigWalletHeaderAlert } from '../MultisigWalletHeaderAlert';
+import { WidgetWrapper } from './Widget.style';
 
 const refuelAllowChains: ChainId[] = [
   ChainId.ETH,
@@ -35,8 +34,9 @@ export function Widget({ starterVariant }: WidgetProps) {
   const theme = useTheme();
   const { disconnect, account, switchChain, addChain, addToken } = useWallet();
   const { i18n } = useTranslation();
-  const isDarkMode = theme.palette.mode === 'dark';
-  const { trackEvent } = useUserTracking();
+  const welcomeScreenClosed = useSettingsStore(
+    (state) => state.welcomeScreenClosed,
+  );
   const onOpenNavbarWalletSelectMenu = useMenuStore(
     (state: MenuState) => state.onOpenNavbarWalletSelectMenu,
   );
@@ -91,15 +91,17 @@ export function Widget({ starterVariant }: WidgetProps) {
       },
       containerStyle: {
         borderRadius: '12px',
-        boxShadow: !isDarkMode
-          ? '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.08)'
-          : '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.16)',
+        minWidth: '392px',
+        boxShadow:
+          theme.palette.mode === 'light'
+            ? '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.08)'
+            : '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.16)',
       },
       languages: {
-        default: i18n.language as LanguageKey,
+        default: i18n.resolvedLanguage as LanguageKey,
         allow: i18n.languages as LanguageKey[],
       },
-      appearance: isDarkMode ? 'dark' : 'light',
+      appearance: theme.palette.mode === 'light' ? 'light' : 'dark',
       hiddenUI: [HiddenUI.Appearance, HiddenUI.Language, HiddenUI.PoweredBy],
       theme: {
         shape: {
@@ -139,13 +141,13 @@ export function Widget({ starterVariant }: WidgetProps) {
     getMultisigWidgetConfig,
     starterVariant,
     account.signer,
-    isDarkMode,
-    i18n.language,
-    i18n.languages,
+    theme.palette.mode,
     theme.palette.surface2.main,
     theme.palette.surface1.main,
     theme.palette.accent1.main,
     theme.palette.grey,
+    i18n.resolvedLanguage,
+    i18n.languages,
     isMultisigSigner,
     onOpenNavbarWalletSelectMenu,
     disconnect,
@@ -155,12 +157,15 @@ export function Widget({ starterVariant }: WidgetProps) {
   ]);
 
   return (
-    <Box className="widget-wrapper">
+    <WidgetWrapper
+      className="widget-wrapper"
+      welcomeScreenClosed={welcomeScreenClosed}
+    >
       {isMultisigSigner && <MultisigWalletHeaderAlert />}
       <LiFiWidget
         integrator={import.meta.env.VITE_WIDGET_INTEGRATOR as string}
         config={widgetConfig}
       />
-    </Box>
+    </WidgetWrapper>
   );
 }
