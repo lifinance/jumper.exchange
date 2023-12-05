@@ -15,6 +15,8 @@ export default function App() {
     initTracking({});
     cookie3?.trackPageView();
   }, [cookie3, initTracking]);
+  console.log(`mode: ${import.meta.env.MODE}`);
+  console.log(`url: ${import.meta.env.VITE_LIFI_API_URL}`);
 
   return (
     <AppProvider>
