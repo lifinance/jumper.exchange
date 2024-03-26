@@ -71,7 +71,6 @@ export const CustomRichBlocks = ({
 
           return <InstructionsAccordion data={new_array} />;
         } catch (error) {
-          // console.log(error);
           return;
         }
       } else {

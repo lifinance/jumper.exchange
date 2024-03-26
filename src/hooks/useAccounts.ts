@@ -145,7 +145,7 @@ export const useAccountConnect = () => {
         walletName: combinedWallet.evm.name,
         chainType: ChainType.EVM,
         chainId: await combinedWallet.evm.getChainId(),
-        address: `${await combinedWallet.evm.getAccounts()}`,
+        address: `${(await combinedWallet.evm.getAccounts())[0]}`,
       });
     } else if (combinedWallet.svm) {
       if (connected) {

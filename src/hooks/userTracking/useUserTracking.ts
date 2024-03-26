@@ -43,7 +43,6 @@ export function useUserTracking() {
      * Track Wallet Connect with HJ, GA and ARCx
      *
      */
-
     ({ walletName, chainType, chainId, address }: TrackConnectWalletProps) => {
       if (chainType === ChainType.EVM) {
         arcx?.wallet({

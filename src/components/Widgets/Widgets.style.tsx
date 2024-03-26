@@ -26,7 +26,6 @@ export const WidgetContainer = styled(Box, {
     transitionDuration: '.3s',
     transitionTimingFunction: 'ease-in-out',
     marginTop: !welcomeScreenClosed ? '24px' : theme.spacing(3.5),
-    cursor: 'pointer',
     [`@media screen and (min-height: 700px)`]: {
       marginTop: !welcomeScreenClosed
         ? 'calc( 50vh - 680px / 2.75 - 40px)'

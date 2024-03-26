@@ -12,8 +12,8 @@ import { darkTheme } from 'src/theme';
 import type { LanguageKey, MenuState, StarterVariantType } from 'src/types';
 import { useConfig } from 'wagmi';
 import { widgetConfig } from '../../config';
-import { MultisigWalletHeaderAlert } from '../MultisigWalletHeaderAlert';
 import { WidgetWrapper } from './Widget.style';
+import { MultisigWalletHeaderAlert } from '../MultisigWalletHeaderAlert';
 
 const refuelAllowChains: ChainId[] = [
   ChainId.ETH,

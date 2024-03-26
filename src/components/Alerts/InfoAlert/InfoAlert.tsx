@@ -3,6 +3,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Slide, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
+  Button,
   InfoAlertContainer,
   InfoMessageCard,
   InfoMessageCardTitle,
@@ -14,9 +15,17 @@ export interface InfoAlertProps {
   title: string;
   subtitle: string;
   active: boolean;
+  buttonContent?: string;
+  handleClick?: () => void;
 }
 
-export const InfoAlert = ({ title, subtitle, active }: InfoAlertProps) => {
+export const InfoAlert = ({
+  title,
+  subtitle,
+  active,
+  buttonContent,
+  handleClick,
+}: InfoAlertProps) => {
   const [closed, setClosed] = useState(false);
   const theme = useTheme();
   const handleClose = (
@@ -75,6 +84,15 @@ export const InfoAlert = ({ title, subtitle, active }: InfoAlertProps) => {
           <Typography variant={'lifiBodySmall'} pt={theme.spacing(1.5)}>
             {subtitle}
           </Typography>
+          {buttonContent ? (
+            <Button
+              variant="transparent"
+              onClick={handleClick}
+              styles={{ marginTop: theme.spacing(1.5), width: '100%' }}
+            >
+              {buttonContent}
+            </Button>
+          ) : null}
         </InfoMessageCard>
       </InfoAlertContainer>
     </Slide>
