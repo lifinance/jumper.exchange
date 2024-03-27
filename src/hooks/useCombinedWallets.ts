@@ -60,7 +60,8 @@ export const useCombinedWallets = () => {
       (connector) =>
         isWalletInstalled(connector.id) &&
         // We should not show already connected connectors
-        account.connector?.id !== connector.id,
+        account.connector?.id !== connector.id &&
+        connector.id !== 'safe',
     );
     const svmInstalled = solanaWallets?.filter(
       (connector) =>
