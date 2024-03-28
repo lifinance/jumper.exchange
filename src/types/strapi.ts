@@ -84,6 +84,8 @@ interface FeatureCardAttributes {
   createdAt: string;
   updatedAt: string;
   PersonalizedFeatureCard?: boolean;
+  campaignStart?: string;
+  campaignEnd?: string;
   publishedAt: string | null;
   locale: string;
   uid: string;

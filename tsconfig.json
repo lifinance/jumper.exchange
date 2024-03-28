@@ -8,11 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -21,36 +17,18 @@
     "strict": true,
     "target": "ES2020",
     "paths": {
-      "src/*": [
-        "./*"
-      ],
+      "src/*": ["./*"]
     }
   },
-  "plugins": [
-    "import"
-  ],
+  "plugins": ["import"],
   "rules": {
     "import/no-unresolved": "error"
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     }
   },
-  "exclude": [
-    "**/.*/",
-    "**/build",
-    "**/dist",
-    "node_modules",
-    ".yarn"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "env.d.ts",
-    "./src/**/*",
-    "./src/**/*.json",
-  ]
+  "exclude": ["**/.*/", "**/build", "**/dist", "node_modules", ".yarn"],
+  "include": ["next-env.d.ts", "env.d.ts", "./src/**/*", "./src/**/*.json"]
 }

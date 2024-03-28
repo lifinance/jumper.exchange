@@ -139,10 +139,15 @@ export const useStrapi = <T>({
 
   // feature cards -->
   if (contentType === STRAPI_FEATURE_CARDS) {
+    const isoDate = new Date().toISOString().split('T')[0];
     // populate images on feature card query
     apiUrl.searchParams.set('populate[0]', 'BackgroundImageLight');
     apiUrl.searchParams.set('populate[1]', 'BackgroundImageDark');
     apiUrl.searchParams.set('filters[PersonalizedFeatureCard][$nei]', 'true');
+    apiUrl.searchParams.set('filters[$or][0][campaignEnd][$null]', 'true');
+    apiUrl.searchParams.set('[$or][1][campaignStart][$null]', 'true');
+    apiUrl.searchParams.set('filters[$or][2][campaignEnd][$gte]', isoDate);
+    apiUrl.searchParams.set('[$or][3][campaignStart][$lte]', isoDate);
   }
 
   // jumper users -->
