@@ -1,14 +1,24 @@
+'use client';
+import { SolanaAlert } from '@/components/Alerts';
+import { OnRamper } from '@/components/OnRamper';
+import { TestnetAlert } from '@/components/TestnetAlert';
+import { LinkMap } from '@/const/linkMap';
+import { TabsMap } from '@/const/tabsMap';
+import { useActiveTabStore } from '@/stores/activeTab';
+import { useSettingsStore } from '@/stores/settings';
+import type { StarterVariantType } from '@/types/internal';
 import type { WidgetSubvariant } from '@lifi/widget';
 import { Grid, useTheme } from '@mui/material';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { OnRamper, SolanaAlert, TestnetAlert, Widget } from 'src/components';
-import { LinkMap, TabsMap } from 'src/const';
-import { useActiveTabStore, useSettingsStore } from 'src/stores';
-import type { StarterVariantType } from 'src/types';
+import { Widget } from '.';
 import { WidgetEvents } from './WidgetEvents';
 import { WidgetContainer } from './Widgets.style';
 
-export function Widgets() {
+interface WidgetsProps {
+  widgetVariant: StarterVariantType;
+}
+
+export function Widgets({ widgetVariant }: WidgetsProps) {
   const { activeTab, setActiveTab } = useActiveTabStore();
   const [welcomeScreenClosed, setWelcomeScreenClosed] = useSettingsStore(
     (state) => [state.welcomeScreenClosed, state.setWelcomeScreenClosed],
@@ -20,22 +30,26 @@ export function Widgets() {
   >(TabsMap.Exchange.variant);
 
   const starterVariant: StarterVariantType = useMemo(() => {
-    let url = window.location.pathname.slice(1);
-    if (Object.values(LinkMap).includes(url as LinkMap)) {
-      if (!!TabsMap.Buy.destination.filter((el) => el === url).length) {
-        return TabsMap.Buy.variant;
-      } else if (
-        !!TabsMap.Refuel.destination.filter((el) => el === url).length
-      ) {
-        return TabsMap.Refuel.variant;
+    if (widgetVariant) {
+      return widgetVariant;
+    } else {
+      let url = window?.location.pathname.slice(1);
+      if (Object.values(LinkMap).includes(url as LinkMap)) {
+        if (!!TabsMap.Buy.destination.filter((el) => el === url).length) {
+          return TabsMap.Buy.variant;
+        } else if (
+          !!TabsMap.Refuel.destination.filter((el) => el === url).length
+        ) {
+          return TabsMap.Refuel.variant;
+        } else {
+          return TabsMap.Exchange.variant;
+        }
       } else {
+        // default and fallback: Exchange-Tab
         return TabsMap.Exchange.variant;
       }
-    } else {
-      // default and fallback: Exchange-Tab
-      return TabsMap.Exchange.variant;
     }
-  }, []);
+  }, [widgetVariant]);
 
   const getActiveWidget = useCallback(() => {
     if (!starterVariantUsed) {
@@ -81,7 +95,7 @@ export function Widgets() {
 
   return (
     <>
-      {import.meta.env.MODE === 'testnet' && (
+      {process.env.NEXT_PUBLIC_ENVIRONMENT === 'testnet' && (
         <Grid item xs={12} mt={theme.spacing(3)}>
           <TestnetAlert />
         </Grid>
@@ -101,7 +115,7 @@ export function Widgets() {
         <Widget starterVariant={TabsMap.Refuel.variant as WidgetSubvariant} />
       </WidgetContainer>
       <SolanaAlert />
-      {import.meta.env.VITE_ONRAMPER_ENABLED ? (
+      {process.env.NEXT_PUBLIC_ONRAMPER_ENABLED ? (
         <WidgetContainer
           onClick={handleCloseWelcomeScreen}
           isActive={_starterVariant === TabsMap.Buy.variant}

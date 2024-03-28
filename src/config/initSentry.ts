@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/react';
 
 export const initSentry = () => {
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
+    dsn: process.env.SENTRY_DSN,
     integrations: [
       new CaptureConsole({
         levels: ['error'],
@@ -27,8 +27,8 @@ export const initSentry = () => {
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 0.25,
     release: version,
-    environment: import.meta.env.MODE,
-    enabled: import.meta.env.PROD,
+    // ...(process.env.MODE && { environment: process.env.MODE }), // todo: add
+    // ...(process.env.PROD && { enabled: process.env.PROD }),
     ignoreErrors: [
       "MetaMask: 'eth_accounts' unexpectedly updated accounts.",
       'user rejected transaction',

@@ -1,3 +1,6 @@
+import type { TabProps } from '@/components/Tabs';
+import { urbanist } from '@/fonts/fonts';
+import type { BlogArticleData, TagAttributes } from '@/types/strapi';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import type { Breakpoint, Theme } from '@mui/material';
 import {
@@ -9,21 +12,21 @@ import {
 } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { STRAPI_BLOG_ARTICLES, STRAPI_TAGS, TrackingCategory } from 'src/const';
-import { useStrapi } from 'src/hooks';
-import { type BlogArticleData, type TagAttributes } from 'src/types';
-import type { TabProps } from '../../Tabs';
-import { BlogArticleCard } from '../BlogArticleCard';
-import { BlogArticleCardSkeleton } from '../BlogArticleCard/BlogArticleCardSkeleton';
-import {
-  ArticlesGrid,
-  BlogArticlesBoardContainer,
-} from './BlogArticlesBoard.style';
+import { BlogArticlesBoardContainer } from './BlogArticlesBoard.style';
 import { BlogArticlesBoardTabs } from './BlogArticlesBoardTabs';
-import { BlogArticlesBoardPagination as Pagination } from './Pagination';
+
+interface BlogArticlesBoardProps {
+  data: BlogArticleData[];
+  tags: TagAttributes[];
+  url: string;
+}
 
 const pageSize = 6;
-export const BlogArticlesBoard = () => {
+export const BlogArticlesBoard = ({
+  data,
+  url,
+  tags,
+}: BlogArticlesBoardProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
@@ -33,29 +36,6 @@ export const BlogArticlesBoard = () => {
   );
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
   const [page, setPage] = useState<number>(1);
-  const {
-    data: blogArticles,
-    url,
-    meta,
-    isSuccess: articlesIsSuccess,
-    isFetching,
-    isRefetching,
-  } = useStrapi<BlogArticleData>({
-    contentType: STRAPI_BLOG_ARTICLES,
-    filterTag: categoryId ? [categoryId] : null,
-    pagination: { page: page, pageSize: pageSize },
-    sort: 'desc',
-    queryKey:
-      categoryId === 0
-        ? ['blog-articles-board', page]
-        : ['blog-articles-board', page, categoryId],
-  });
-
-  const { data: tags, isSuccess } = useStrapi<TagAttributes>({
-    contentType: STRAPI_TAGS,
-    queryKey: ['tags'],
-  });
-
   const handleTagsClick = useCallback(
     (id: number, label?: string) => () => {
       if (!isDesktop && !openDropdown) {
@@ -90,7 +70,7 @@ export const BlogArticlesBoard = () => {
       disabled: false,
     };
     // tags
-    const output = tags?.map((el, index) => {
+    const output = tags?.map((el, index: number) => {
       return {
         label: el.attributes.Title || undefined, //el.attributes.Title,
         value: el.id,
@@ -108,7 +88,7 @@ export const BlogArticlesBoard = () => {
       <Typography
         variant="lifiHeaderMedium"
         sx={{
-          fontFamily: 'Urbanist, Inter',
+          fontFamily: urbanist.style.fontFamily,
           textAlign: 'center',
           margin: theme.spacing(10, 'auto', 0),
         }}
@@ -124,16 +104,18 @@ export const BlogArticlesBoard = () => {
       ) : (
         <Skeleton sx={{ width: '100%', height: 68 }} />
       )}
-      <Fade in={!isFetching || !isRefetching} timeout={600}>
-        <ArticlesGrid container>
-          {!articlesIsSuccess ? (
+      <Fade in={!!data} timeout={600}>
+        <></>
+        {/* todo: enable */}
+        {/* <ArticlesGrid container>
+          {!!data ? (
             Array.from({ length: pageSize }).map((_, index) => (
               <BlogArticleCardSkeleton
                 key={`blog-article-card-skeleton-${categoryId}-${index}`}
               />
             ))
-          ) : articlesIsSuccess && blogArticles?.length > 0 ? (
-            blogArticles?.map((article, index) => (
+          ) : data?.length > 0 ? (
+            data?.map((article: BlogArticleData, index: number) => (
               <BlogArticleCard
                 baseUrl={url}
                 id={article.id}
@@ -149,11 +131,12 @@ export const BlogArticlesBoard = () => {
               />
             ))
           ) : (
-            <p>No Content</p> //todo: find
+            <p>No Content</p> //todo: find better option
           )}
-        </ArticlesGrid>
+        </ArticlesGrid> */}
       </Fade>
-      {meta?.pagination.pageCount > 1 ? (
+      {/* todo: enable pagination*/}
+      {/* {meta?.pagination.pageCount > 1 ? (
         <Pagination
           isSuccess={(!isFetching || !isRefetching) && isSuccess}
           isEmpty={meta?.pagination.pageCount < 1}
@@ -162,7 +145,7 @@ export const BlogArticlesBoard = () => {
           meta={meta}
           categoryId={categoryId}
         />
-      ) : null}
+      ) : null} */}
     </BlogArticlesBoardContainer>
   );
 };

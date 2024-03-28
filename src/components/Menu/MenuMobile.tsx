@@ -1,3 +1,5 @@
+import { MenuKeysEnum } from '@/const/menuKeys';
+import { useMenuStore } from '@/stores/menu';
 import type { SxProps, Theme } from '@mui/material';
 import { Typography } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -7,9 +9,7 @@ import {
   MenuList,
   MenuPaper,
   MobileDrawer,
-} from 'src/components';
-import { MenuKeys } from 'src/const';
-import { useMenuStore } from 'src/stores';
+} from '.';
 
 const paperProps = {
   sx: (theme: Theme) => ({
@@ -53,13 +53,13 @@ export const MenuMobile = ({
             autoFocusItem={open}
             id="main-burger-menu"
             autoFocus={open}
-            isOpenSubMenu={openSubMenu !== MenuKeys.None}
+            isOpenSubMenu={openSubMenu !== MenuKeysEnum.None}
             aria-labelledby="main-burger-menu"
             cardsLayout={cardsLayout}
             hasLabel={!!label}
             sx={styles}
             component={
-              isOpenSubMenu && openSubMenu !== MenuKeys.WalletSelect
+              isOpenSubMenu && openSubMenu !== MenuKeysEnum.WalletSelect
                 ? 'div'
                 : 'ul'
             }

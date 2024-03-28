@@ -1,14 +1,17 @@
-import type { Dispatch, SetStateAction } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ToolModal } from 'src/components';
+import { ToolModal } from '@/components/WelcomeScreen';
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useChains, useDexsAndBridges, useUserTracking } from 'src/hooks';
-import { EventTrackingTool, type DataItem } from 'src/types';
-import { sortByName } from 'src/utils';
+} from '@/const/trackingKeys';
+import { useChains } from '@/hooks/useChains';
+import { useDexsAndBridges } from '@/hooks/useDexsAndBridges';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import type { DataItem } from '@/types/internal';
+import { EventTrackingTool } from '@/types/userTracking';
+import { sortByName } from '@/utils/sortByName';
+import type { Dispatch, SetStateAction } from 'react';
 import { ToolCardsContainer as Container, ToolCard } from '.';
 interface StatsDataProps {
   title: string;
@@ -42,7 +45,7 @@ export const ToolCards = ({
 }: ToolCardsProps) => {
   const { exchanges, bridges } = useDexsAndBridges();
   const { chains } = useChains();
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const { trackEvent } = useUserTracking();
 
   const statsData: StatsDataProps[] = [

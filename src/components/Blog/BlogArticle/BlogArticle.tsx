@@ -1,9 +1,5 @@
 import { useTheme } from '@mui/material';
-import type { RootNode } from '@strapi/blocks-react-renderer/dist/BlocksRenderer';
 import { useTranslation } from 'react-i18next';
-import { ArticleJsonSchema, ShareArticleIcons, Tag } from 'src/components';
-import { type AuthorData, type StrapiImageData, type TagData } from 'src/types';
-import { formatDate, readingTime } from 'src/utils';
 import {
   BlogArticlAuthorName,
   BlogArticlAuthorNameSkeleton,
@@ -17,7 +13,6 @@ import {
   BlogArticleHeaderTagSkeleton,
   BlogArticleImage,
   BlogArticleImageContainer,
-  BlogArticleImageSkeleton,
   BlogArticleMetaSkeleton,
   BlogArticleSubtitle,
   BlogArticleSubtitleSkeleton,
@@ -33,8 +28,13 @@ import {
   Divider,
 } from './BlogArticle.style';
 
-import { useState } from 'react';
-import { CustomRichBlocks } from '..';
+import { ArticleJsonSchema } from '@/components/JsonSchema/JsonSchemaArticle';
+import { Tag } from '@/components/Tag.style';
+import type { AuthorData, StrapiImageData, TagData } from '@/types/strapi';
+import { formatDate } from '@/utils/formatDate';
+import { readingTime } from '@/utils/readingTime';
+import type { RootNode } from 'node_modules/@strapi/blocks-react-renderer/dist/BlocksRenderer';
+import { CustomRichBlocks, ShareArticleIcons } from '..';
 
 interface BlogArticleProps {
   title: string | undefined;
@@ -68,10 +68,7 @@ export const BlogArticle = ({
   const theme = useTheme();
   const minRead = readingTime(content);
   const { t } = useTranslation();
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const handleImageLoaded = () => {
-    setImgLoaded(true);
-  };
+
   return (
     <>
       <BlogArticleContainer>
@@ -133,13 +130,10 @@ export const BlogArticle = ({
       <BlogArticleImageContainer>
         {image?.data && (
           <BlogArticleImage
-            onLoad={handleImageLoaded}
-            sx={{ ...(!imgLoaded && { display: 'none' }) }}
             src={`${baseUrl}${image.data.attributes?.url}`}
             alt={image?.data.attributes?.alternativeText}
           />
         )}
-        {!imgLoaded && <BlogArticleImageSkeleton />}
       </BlogArticleImageContainer>
       <BlogArticleContainer>
         <BlogArticleContentContainer>

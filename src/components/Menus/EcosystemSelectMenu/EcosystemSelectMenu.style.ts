@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge, Button, Container, darken, styled } from '@mui/material';
 
 export const ConnectButton = styled(Button)(({ theme }) => ({

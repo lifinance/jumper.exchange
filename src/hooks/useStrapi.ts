@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
 import {
   STRAPI_BLOG_ARTICLES,
   STRAPI_FAQ_ITEMS,
   STRAPI_FEATURE_CARDS,
-} from 'src/const';
-import type { StrapiMeta, StrapiResponseData } from 'src/types';
+} from '@/const/strapiContentKeys';
+import type { StrapiMeta, StrapiResponseData } from '@/types/strapi';
+import { useQuery } from '@tanstack/react-query';
 import type { Account } from './useAccounts';
 
 export interface UseStrapiProps<T> {
@@ -58,17 +58,17 @@ export const useStrapi = <T>({
 }: ContentTypeProps): UseStrapiProps<T> => {
   // account needed to filter personalized feature cards
 
-  const hasQueryKey = queryKey !== undefined;
+  const hasQueryKey = !!queryKey;
   const enableQuery =
-    filterPersonalFeatureCards?.enabled && hasQueryKey
-      ? filterPersonalFeatureCards.account?.isConnected
-      : hasQueryKey;
+    filterPersonalFeatureCards?.enabled &&
+    hasQueryKey &&
+    filterPersonalFeatureCards.account?.isConnected;
 
   // create url
   const apiBaseUrl =
-    import.meta.env.VITE_STRAPI_DEVELOP === 'true'
-      ? import.meta.env.VITE_LOCAL_STRAPI_URL
-      : import.meta.env.VITE_STRAPI_URL;
+    process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
+      ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_URL
+      : process.env.NEXT_PUBLIC_STRAPI_URL;
   const apiUrl = new URL(`${apiBaseUrl}/${contentType}`);
 
   // pagination by page + pagesize + return meta object
@@ -171,14 +171,14 @@ export const useStrapi = <T>({
   }
 
   // show drafts ONLY on development env
-  import.meta.env.MODE === 'development' &&
+  process.env.NEXT_PUBLIC_ENVIRONMENT === 'development' &&
     apiUrl.searchParams.set('publicationState', 'preview');
 
   // use local strapi on develop || prod strapi
   const apiAccesToken =
-    import.meta.env.VITE_STRAPI_DEVELOP === 'true'
-      ? import.meta.env.VITE_LOCAL_STRAPI_API_TOKEN
-      : import.meta.env.VITE_STRAPI_API_TOKEN;
+    process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
+      ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_API_TOKEN
+      : process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 
   const { data, isSuccess, isLoading, isRefetching, isFetching } = useQuery({
     queryKey: [queryKey, filterPersonalFeatureCards?.account?.isConnected],

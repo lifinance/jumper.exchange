@@ -1,11 +1,9 @@
-import i18next from 'i18next';
-import { defaultLang, defaultSettings } from 'src/config';
+import { defaultSettings } from '@/config/config';
 import type {
-  LanguageKey,
   SettingsProps,
   SettingsState,
   ThemeModesSupported,
-} from 'src/types';
+} from '@/types/settings';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
@@ -40,14 +38,6 @@ export const useSettingsStore = createWithEqualityFn(
           themeMode: mode,
         });
       },
-
-      // Language
-      setLanguageMode: (language: LanguageKey) => {
-        set({
-          languageMode: language,
-        });
-      },
-
       // Installed Wallets
       setClientWallets: (wallet: string) => {
         const clientWallets = (get() as SettingsProps)?.clientWallets;
@@ -80,10 +70,6 @@ export const useSettingsStore = createWithEqualityFn(
         set({
           themeMode:
             defaultSettings.themeMode || ('auto' as ThemeModesSupported),
-          languageMode:
-            defaultSettings.languageMode ||
-            (i18next.language as LanguageKey) ||
-            defaultLang,
           disabledFeatureCards: defaultSettings.disabledFeatureCards || [],
         });
       },

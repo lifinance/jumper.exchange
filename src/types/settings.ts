@@ -1,13 +1,10 @@
 // ----------------------------------------------------------------------
 
-import type { LanguageKey } from 'src/types';
-
 export type ThemeModesSupported = 'light' | 'dark' | 'auto';
 export type WalletConnected = string;
 
 export interface SettingsProps {
   themeMode: ThemeModesSupported;
-  languageMode: LanguageKey;
   clientWallets: string[];
   disabledFeatureCards: string[];
   welcomeScreenClosed: boolean;
@@ -19,9 +16,6 @@ export interface SettingsState extends SettingsProps {
 
   // Mode
   setThemeMode: (mode: ThemeModesSupported) => void;
-
-  // Language
-  setLanguageMode: (language: LanguageKey) => void;
 
   // Installed Wallets
   setClientWallets: (wallet: string) => void;

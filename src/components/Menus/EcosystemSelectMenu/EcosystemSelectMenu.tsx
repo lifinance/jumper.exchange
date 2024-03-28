@@ -1,9 +1,13 @@
+import { useMenuStore } from '@/stores/menu';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
-import { Menu, MenuHeaderAppBar, MenuHeaderAppWrapper } from 'src/components';
-import { useMenuStore } from 'src/stores';
 
+import { Menu } from '@/components/Menu/Menu';
+import {
+  MenuHeaderAppBar,
+  MenuHeaderAppWrapper,
+} from '@/components/Menu/Menu.style';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
 import { getConnectorIcon } from '@lifi/wallet-management';
 import { EVMConnectButton } from './EVMConnectButton';
 import { ConnectButtonContainer } from './EcosystemSelectMenu.style';
@@ -14,7 +18,7 @@ interface MenuProps {
 }
 
 export const EcosystemSelectMenu = ({ anchorEl }: MenuProps) => {
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const theme = useTheme();
   const { openEcosystemSelect, setEcosystemSelectMenuState } = useMenuStore(
     (state) => state,

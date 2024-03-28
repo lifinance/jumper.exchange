@@ -1,7 +1,7 @@
 import { Modal, Typography } from '@mui/material';
 
-import { useTranslation } from 'react-i18next';
-import { Button } from 'src/components';
+import { Button } from '@/components/Button';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
 import {
   MultisigConfirmationModalContainer,
   MultisigConfirmationModalIcon,
@@ -12,7 +12,7 @@ export const MultisigConfirmationModal: React.FC<{
   open: boolean;
   onClose: () => void;
 }> = ({ open, onClose }) => {
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
 
   return (
     <Modal open={open} onClose={onClose}>

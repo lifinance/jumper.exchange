@@ -1,16 +1,16 @@
-import type { InstructionItemProps } from 'src/components';
-
+import { BlogCTA } from '@/components/Blog/CTAs/BlogCTA/BlogCTA';
+import {
+  InstructionsAccordion,
+  type InstructionItemProps,
+} from '@/components/Blog/CTAs/InstructionsAccordion/InstructionsAccordion';
+import { Lightbox } from '@/components/Lightbox/Lightbox';
+import { Link } from '@/components/Link.style';
+import { Widget } from '@/components/Widgets/Widget';
+import { inter, urbanist } from '@/fonts/fonts';
+import type { MediaAttributes } from '@/types/strapi';
 import { Typography, alpha, useTheme } from '@mui/material';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
-import type { RootNode } from '@strapi/blocks-react-renderer/dist/BlocksRenderer';
-import {
-  BlogCTA,
-  InstructionsAccordion,
-  Lightbox,
-  Link,
-  Widget,
-} from 'src/components';
-import type { MediaAttributes } from 'src/types';
+import type { RootNode } from 'node_modules/@strapi/blocks-react-renderer/dist/BlocksRenderer';
 
 interface CustomRichBlocksProps {
   baseUrl?: string;
@@ -85,7 +85,7 @@ export const CustomRichBlocks = ({
                 0.75,
               ),
               margin: theme.spacing(2, 0),
-              fontFamily: 'Inter',
+              fontFamily: inter.style.fontFamily,
               fontSize: '18px',
               lineHeight: '32px',
               fontWeight: 400,
@@ -105,7 +105,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(12),
                 marginBottom: theme.spacing(6),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '64px',
                 lineHeight: '64px',
                 fontWeight: 700,
@@ -121,7 +121,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(8),
                 marginBottom: theme.spacing(3),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '36px',
                 lineHeight: '48px',
                 fontWeight: 700,
@@ -137,7 +137,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(6),
                 marginBottom: theme.spacing(2),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '28px',
                 lineHeight: '36px',
                 fontWeight: 700,
@@ -153,7 +153,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(4),
                 marginBottom: theme.spacing(1.5),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '22px',
                 lineHeight: '28px',
                 fontWeight: 700,
@@ -169,7 +169,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(3),
                 marginBottom: theme.spacing(1),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '18px',
                 lineHeight: '24px',
                 fontWeight: 700,
@@ -185,7 +185,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(2),
                 marginBottom: theme.spacing(0.5),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '12px',
                 lineHeight: '18px',
                 fontWeight: 700,
@@ -201,7 +201,7 @@ export const CustomRichBlocks = ({
               sx={{
                 marginTop: theme.spacing(12),
                 marginBottom: theme.spacing(6),
-                fontFamily: 'Urbanist, Inter',
+                fontFamily: urbanist.style.fontFamily,
                 fontSize: '64px',
                 lineHeight: '64px',
                 fontWeight: 700,

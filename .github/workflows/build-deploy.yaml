@@ -8,44 +8,92 @@ on:
       - staging
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 env:
+  REGISTRY: 403372804574.dkr.ecr.us-east-2.amazonaws.com/lifi-docker-repo
+  IMAGE_NAME: 'jumper-exchange'
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    outputs:
+      docker-tag: ${{ steps.out.outputs.docker-tag }}
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
 
-      - name: Configure AWS Credentials
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set current date as env variable
+        run: echo "UNIQ_ID=$(date +'%y%m%d')-${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           role-to-assume: arn:aws:iam::403372804574:role/github-actions
           role-session-name: github-actions-role-session
           aws-region: us-east-2
 
-      - name: Install dependencies
-        uses: ./.github/actions/yarn-install
+      - name: Amazon ECR login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build App
-        run: yarn build:${{env.BRANCH_NAME == 'main' && 'production' || env.BRANCH_NAME }}
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=branch,prefix=${{ env.UNIQ_ID }}-
 
-      - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./dist/ ${{ env.BRANCH_NAME == 'main' && 's3://' || format('s3://{0}.',env.BRANCH_NAME) }}jumper.exchange --delete
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            ENV_FILE=${{ env.BRANCH_NAME == 'main' && '.env' || format('.env.{0}', env.BRANCH_NAME) }}
+      
+      - id: out
+        run: echo "docker-tag=${{ env.UNIQ_ID }}-${{ env.BRANCH_NAME }}" >> $GITHUB_OUTPUT
 
-      - name: Purge Cache
+  publish-tags:
+    needs: build
+    concurrency: charts/jumper-exchange/values.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout helm charts
+        uses: actions/checkout@v3
+        with:
+          repository: lifinance/lifi-deployment
+          ssh-key: ${{ secrets.DEPLOY_SSH }}
+          ref: ${{ env.BRANCH_NAME == 'testnet' && 'staging' || env.BRANCH_NAME }}
+
+      - name: update image ID
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: |
+            find charts/jumper-exchange/values-${{ env.BRANCH_NAME }}*.yaml -exec yq -i e '.image.tag |= "${{needs.build.outputs.docker-tag}}"' {} \;
+
+      - name: push image ID
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          curl --request POST \
-            --url https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE }}/purge_cache \
-            --header 'Content-Type: application/json' \
-            --header 'Authorization: Bearer ${{ secrets.CF_TOKEN }}' \
-            --data '{
-            "files": [
-              "${{ env.BRANCH_NAME == 'main' && 'https://' || format('https://{0}.',env.BRANCH_NAME) }}jumper.exchange",
-              "${{ env.BRANCH_NAME == 'main' && 'https://www.' || format('https://www.{0}.',env.BRANCH_NAME) }}jumper.exchange"
-            ]
-          }'
+          git config --global user.name "lifi-bot-action[bot]"
+          git config --global user.email "160733936+lifi-bot-action[bot]@users.noreply.github.com"
+          git add charts/jumper-exchange/values-${{ env.BRANCH_NAME }}*.yaml
+          git commit -m "[bot][jumper] auto build version:${{needs.build.outputs.docker-tag}}"
+          git push

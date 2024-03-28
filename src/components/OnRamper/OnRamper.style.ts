@@ -1,3 +1,5 @@
+'use client';
+
 import { styled } from '@mui/material';
 
 export const OnRamperIFrame = styled('iframe')(({ theme }) => ({

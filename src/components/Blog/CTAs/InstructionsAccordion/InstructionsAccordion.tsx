@@ -8,6 +8,7 @@ export interface InstructionItemProps {
   title: string;
   step?: string;
   link?: InstructionsItemLink;
+  url?: string;
 }
 
 interface InstructionsAccordionProps {

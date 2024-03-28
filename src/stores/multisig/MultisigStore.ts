@@ -1,5 +1,5 @@
+import type { MultisigState } from '@/types/multisig';
 import type { ChainId } from '@lifi/types';
-import type { MultisigState } from 'src/types';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 

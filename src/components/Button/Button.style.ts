@@ -1,7 +1,8 @@
+'use client';
+import { getContrastAlphaColor } from '@/utils/colors';
 import type { ButtonProps as MuiButtonProps } from '@mui/material';
 import { Button as MuiButton, alpha, darken } from '@mui/material'; //ButtonProps
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from 'src/utils';
 
 const ButtonBase = styled(MuiButton)<MuiButtonProps>(({ theme }) => ({
   borderRadius: '24px',

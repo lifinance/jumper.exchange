@@ -1,16 +1,17 @@
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import { useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { EventTrackingTool } from 'src/types';
+} from '@/const/trackingKeys';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { EventTrackingTool } from '@/types/userTracking';
+import { replacePathInUrl } from '@/utils/replacePathInUr';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { useTheme } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface useNavbarTabsProps {
   navbarPageReload?: boolean;
@@ -18,15 +19,17 @@ interface useNavbarTabsProps {
 
 export const useNavbarTabs = ({ navbarPageReload }: useNavbarTabsProps) => {
   const { trackEvent } = useUserTracking();
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleClickTab =
     (tab: string) => (event: React.MouseEvent<HTMLDivElement>) => {
       window.history.replaceState(null, document.title, `/${tab}`);
+      replacePathInUrl(pathname, tab);
       if (navbarPageReload) {
-        navigate(`/${tab}`);
+        router.push(`/${tab}`);
       }
       trackEvent({
         category: TrackingCategory.Navigation,
@@ -91,7 +94,7 @@ export const useNavbarTabs = ({ navbarPageReload }: useNavbarTabsProps) => {
           }}
         />
       ),
-      disabled: import.meta.env.VITE_ONRAMPER_ENABLED !== 'true',
+      disabled: process.env.NEXT_PUBLIC_ONRAMPER_ENABLED !== 'true',
     },
   ];
 

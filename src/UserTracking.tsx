@@ -1,5 +1,6 @@
+import { useCookie3 } from '@/hooks/userTracking/useCookie3';
+import { useInitUserTracking } from '@/hooks/userTracking/useInitUserTracking';
 import { useEffect } from 'react';
-import { useInitUserTracking, useCookie3 } from './hooks';
 
 export function UserTracking() {
   const { initTracking } = useInitUserTracking();

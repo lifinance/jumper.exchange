@@ -1,3 +1,5 @@
+import Script from 'next/script';
+
 interface ArticleJsonSchemaProps {
   title: string;
   images: string[];
@@ -30,5 +32,5 @@ export const ArticleJsonSchema = ({
       ],
     }),
   };
-  return <script type="application/ld+json">{JSON.stringify(schema)}</script>;
+  return <Script type="application/ld+json">{JSON.stringify(schema)}</Script>;
 };

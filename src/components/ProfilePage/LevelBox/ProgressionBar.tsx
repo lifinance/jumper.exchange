@@ -1,7 +1,7 @@
+import type { LevelData } from '@/types/loyaltyPass';
 import { Box, useTheme } from '@mui/material';
-import { CenteredBox, ProfilePageTypography } from '../ProfilePage.style';
-import type { LevelData } from 'src/types';
 import { XPIcon } from '../../illustrations/XPIcon';
+import { CenteredBox, ProfilePageTypography } from '../ProfilePage.style';
 
 interface ProgressionBarProps {
   points?: number | null;

@@ -1,17 +1,19 @@
-import MenuIcon from '@mui/icons-material/Menu';
-import { Typography } from '@mui/material';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+'use client';
+import { MainMenu } from '@/components/Menus/MainMenu';
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useChains, useUserTracking } from 'src/hooks';
-import { useMenuStore } from 'src/stores';
-import { EventTrackingTool } from 'src/types';
-import { NavbarButtonsContainer, WalletManagementButtons } from '.';
-import { MainMenu, MenuToggle } from '../..';
+} from '@/const/trackingKeys';
+import { useChains } from '@/hooks/useChains';
+import { useUserTracking } from '@/hooks/userTracking';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useMenuStore } from '@/stores/menu';
+import { EventTrackingTool } from '@/types/userTracking';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Typography } from '@mui/material';
+import { useEffect, useRef } from 'react';
+import { MenuToggle, NavbarButtonsContainer, WalletManagementButtons } from '.';
 
 interface NavbarButtonsProps {
   redirectToLearn?: boolean;
@@ -25,7 +27,7 @@ export const NavbarButtons = ({ redirectToLearn }: NavbarButtonsProps) => {
     state.openMainMenu,
     state.setMainMenuState,
   ]);
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
 
   // return focus to the button when we transitioned from !open -> open
   const prevMainMenu = useRef(openMainMenu);

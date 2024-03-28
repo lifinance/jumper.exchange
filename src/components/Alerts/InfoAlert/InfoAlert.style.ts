@@ -2,7 +2,7 @@ import type { BoxProps, Breakpoint } from '@mui/material';
 import { Box } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
-import { InfoMessageCard } from 'src/components/MessageCard';
+import { InfoMessageCard } from '../../MessageCard/';
 
 export const InfoAlertContainer = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',

@@ -1,10 +1,11 @@
+import { Menu } from '@/components/Menu/Menu';
+import { MenuKeysEnum } from '@/const/menuKeys';
+import { useAccounts } from '@/hooks/useAccounts';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useMenuStore } from '@/stores/menu';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Menu, WalletButton } from 'src/components';
-import { MenuKeys } from 'src/const';
-import { useAccounts } from 'src/hooks';
-import { useMenuStore } from 'src/stores';
+import { WalletButton } from '.';
 import { WalletCard } from './WalletCard';
 
 interface WalletMenuProps {
@@ -12,7 +13,7 @@ interface WalletMenuProps {
 }
 
 export const WalletMenu = ({ anchorEl }: WalletMenuProps) => {
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
 
@@ -44,7 +45,7 @@ export const WalletMenu = ({ anchorEl }: WalletMenuProps) => {
     <Menu
       open={openWalletMenu}
       setOpen={setWalletMenuState}
-      isOpenSubMenu={openSubMenu !== MenuKeys.None}
+      isOpenSubMenu={openSubMenu !== MenuKeysEnum.None}
       width={'auto'}
       styles={{
         background: theme.palette.surface1.main,

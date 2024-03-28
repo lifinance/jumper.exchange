@@ -1,11 +1,10 @@
-import { ProgressionBar } from './ProgressionBar';
-import { TierBadgeBox, TierInfoBox, TierMainBox } from './TierBox.style';
-import { PointsBox } from './PointsBox';
-import { ProfilePageTypography } from '../ProfilePage.style';
+import type { LevelData } from '@/types/loyaltyPass';
 import { Box } from '@mui/material';
-import { levelsData } from './levelsData';
-import type { LevelData } from 'src/types';
 import { LevelBox } from './LevelBox';
+import { PointsBox } from './PointsBox';
+import { ProgressionBar } from './ProgressionBar';
+import { TierInfoBox, TierMainBox } from './TierBox.style';
+import { levelsData } from './levelsData';
 
 function getLevelBasedOnPoints(points: number | undefined): LevelData {
   if (points) {

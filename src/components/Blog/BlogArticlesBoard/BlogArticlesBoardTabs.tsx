@@ -1,8 +1,9 @@
-import type { Breakpoint, Theme } from '@mui/material';
+import type { TabProps } from '@/components/Tabs';
+import { Tabs } from '@/components/Tabs';
+import { urbanist } from '@/fonts/fonts';
+import { getContrastAlphaColor } from '@/utils/colors';
+import type { Theme } from '@mui/material';
 import { Skeleton, useMediaQuery, useTheme } from '@mui/material';
-import { getContrastAlphaColor } from 'src/utils';
-import type { TabProps } from '../../Tabs';
-import { Tabs } from '../../Tabs';
 
 interface BlogArticlesBoardTabsProps {
   openDropdown: boolean;
@@ -90,7 +91,7 @@ export const BlogArticlesBoardTabs = ({
     borderRadius: '6px',
     width: '100%',
     maxWidth: '320px',
-    fontFamily: 'Urbanist, Inter',
+    fontFamily: urbanist.style.fontFamily,
     [theme.breakpoints.up('lg')]: {
       width: 142,
       borderRadius: '24px',

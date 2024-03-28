@@ -1,14 +1,14 @@
+import { IconButtonAlpha } from '@/components/IconButton';
+import {
+  InfoMessageCard,
+  InfoMessageCardTitle,
+} from '@/components/MessageCard';
+import { getContrastAlphaColor } from '@/utils/colors';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
 import { Slide, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import {
-  InfoAlertContainer,
-  InfoMessageCard,
-  InfoMessageCardTitle,
-} from 'src/components';
-import { getContrastAlphaColor } from 'src/utils';
-import { IconButtonAlpha } from '../../IconButton';
+import { InfoAlertContainer } from '.';
 
 export interface InfoAlertProps {
   title: string;

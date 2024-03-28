@@ -1,50 +1,50 @@
+'use client';
+import { BackgroundGradient } from '@/components/BackgroundGradient';
+import { Navbar } from '@/components/Navbar/Navbar';
+import { PoweredBy } from '@/components/PoweredBy/PoweredBy';
+import { cookie3Config } from '@/const/cookie3';
+import { Cookie3Provider } from '@/providers/Cookie3Provider';
+import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
+import { ThemeProvider } from '@/providers/ThemeProvider';
+import { WalletProvider } from '@/providers/WalletProvider';
 import { ArcxAnalyticsProvider } from '@arcxmoney/analytics';
 import { cookie3Analytics } from '@cookie3/analytics';
-import { CssBaseline } from '@mui/material';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { useEffect, type PropsWithChildren } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { useEffect, useState, type PropsWithChildren } from 'react';
+import { UserTracking } from 'src/UserTracking';
 
-import { FallbackError } from 'src/components';
-import { queryClient } from 'src/config';
-import { cookie3Config } from 'src/const/cookie3';
-import { useCookie3, useInitUserTracking } from 'src/hooks';
-import {
-  Cookie3Provider,
-  I18NProvider,
-  ThemeProvider,
-  WalletProvider,
-} from '.';
+interface AppProviderProps {
+  children: React.ReactNode | JSX.Element;
+  fixedPoweredBy?: boolean;
+}
 
-const analytics = cookie3Analytics(cookie3Config);
-
-export const AppProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  const { initTracking } = useInitUserTracking();
-  const cookie3 = useCookie3();
+export const AppProvider: React.FC<PropsWithChildren<AppProviderProps>> = ({
+  children,
+  fixedPoweredBy,
+}) => {
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    initTracking({});
-    cookie3?.trackPageView();
-  }, [cookie3, initTracking]);
+    setIsClient(true);
+  }, []);
+  const analytics = cookie3Analytics(cookie3Config);
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <I18NProvider>
-        <Cookie3Provider value={analytics}>
-          <ArcxAnalyticsProvider
-            apiKey={`${import.meta.env.VITE_ARCX_API_KEY}`}
-          >
-            <ThemeProvider>
-              <WalletProvider>
-                <CssBaseline />
-                <ErrorBoundary fallback={<FallbackError />}>
-                  {children}
-                </ErrorBoundary>
-              </WalletProvider>
-            </ThemeProvider>
-          </ArcxAnalyticsProvider>
-        </Cookie3Provider>
-      </I18NProvider>
-    </QueryClientProvider>
-  );
+  return isClient ? (
+    <ReactQueryProvider>
+      <ThemeProvider>
+        <ArcxAnalyticsProvider
+          apiKey={`${process.env.NEXT_PUBLIC_ARCX_API_KEY}`}
+        >
+          <WalletProvider>
+            <UserTracking />
+            <Cookie3Provider value={analytics}>
+              <BackgroundGradient />
+              <Navbar />
+              {children}
+              <PoweredBy fixedPosition={fixedPoweredBy} />
+            </Cookie3Provider>
+          </WalletProvider>
+        </ArcxAnalyticsProvider>
+      </ThemeProvider>
+    </ReactQueryProvider>
+  ) : null;
 };

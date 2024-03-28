@@ -1,7 +1,11 @@
-import { useTheme } from '@mui/material';
-import { Button } from '../../Button';
-import DoneIcon from '@mui/icons-material/Done';
 import DateRangeRoundedIcon from '@mui/icons-material/DateRangeRounded';
+import DoneIcon from '@mui/icons-material/Done';
+import { useTheme } from '@mui/material';
+import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
+import { Button } from '../../Button';
+import { XPIcon } from '../../illustrations/XPIcon';
+import { CenteredBox, ProfilePageTypography } from '../ProfilePage.style';
 import {
   CompletedBox,
   QuestCardBottomBox,
@@ -12,9 +16,6 @@ import {
   QuestPlatformMainBox,
   XPDisplayBox,
 } from './QuestCard.style';
-import { CenteredBox, ProfilePageTypography } from '../ProfilePage.style';
-import { useTranslation } from 'react-i18next';
-import { XPIcon } from '../../illustrations/XPIcon';
 
 interface QuestCardProps {
   active?: boolean;
@@ -52,15 +53,18 @@ export const QuestCard = ({
 
   return (
     <QuestCardMainBox>
-      <img
-        src={image}
-        width={'240px'}
-        height={'240px'}
-        style={{
-          borderRadius: '24px',
-          marginTop: 16,
-        }}
-      />
+      {image && (
+        <Image
+          src={image}
+          alt="Quest Card Image"
+          width={240}
+          height={240}
+          style={{
+            borderRadius: '24px',
+            marginTop: 16,
+          }}
+        />
+      )}
       <QuestCardBottomBox>
         {active ? (
           <QuestPlatformMainBox
@@ -76,14 +80,17 @@ export const QuestCard = ({
                     marginRight: '4px',
                   }}
                 >
-                  <img
-                    src={platformImage}
-                    width={'24px'}
-                    height={'24px'}
-                    style={{
-                      borderRadius: '100%',
-                    }}
-                  />
+                  {platformImage && (
+                    <Image
+                      src={platformImage}
+                      alt="Platform Image"
+                      width={24}
+                      height={24}
+                      style={{
+                        borderRadius: '100%',
+                      }}
+                    />
+                  )}
                 </CenteredBox>
                 <ProfilePageTypography fontSize={'12px'} lineHeight={'16px'}>
                   {platformName}

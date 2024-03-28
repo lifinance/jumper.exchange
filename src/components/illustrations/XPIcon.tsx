@@ -1,4 +1,5 @@
-import { Box, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
+import React from 'react';
 
 // XPIcon
 interface XPIconProps {

@@ -1,7 +1,7 @@
+import { WidgetWrapper } from '@/components/Widgets';
+import { useSettingsStore } from '@/stores/settings';
+import { removeHash } from '@/utils/removeHash';
 import { useTheme } from '@mui/material';
-import { WidgetWrapper } from 'src/components';
-import { useSettingsStore } from 'src/stores';
-import { removeHash } from 'src/utils';
 import { OnRamperIFrame } from './index';
 
 export const OnRamper = () => {
@@ -10,7 +10,7 @@ export const OnRamper = () => {
     (state) => state.welcomeScreenClosed,
   );
   const onRamperConfig = {
-    apiKey: import.meta.env.VITE_ONRAMPER_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_ONRAMPER_API_KEY,
     defaultCrypto: 'ETH',
     themeName: theme.palette.mode === 'light' ? 'light' : 'dark',
     containerColor: removeHash(theme.palette.surface1.main),

@@ -1,9 +1,11 @@
+'use client';
+
 import { AppBar } from '@mui/material';
 
+import { HeaderHeight } from '@/const/headerHeight';
 import { Link } from '@mui/material';
 import type { Breakpoint } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
-import { HeaderHeight } from 'src/const';
 
 export const NavbarContainer = styled(AppBar)<{ sticky?: boolean }>(
   ({ theme }) => ({

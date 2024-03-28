@@ -1,18 +1,19 @@
-import { Box, Typography, alpha, useTheme } from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { useMenuStore } from '@/stores/menu';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { useMenuStore } from 'src/stores';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Box } from '@mui/material';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import type { Address } from 'viem';
+import { useEnsName } from 'wagmi';
+import { mainnet } from 'wagmi/chains';
+import { ProfilePageTypography } from '../ProfilePage.style';
 import {
   AddressDisplayBox,
   BackgroundBox,
   PassImageBox,
   ProfileIconButton,
 } from './AddressBox.style';
-import { ProfilePageTypography } from '../ProfilePage.style';
-import { useEnsName } from 'wagmi';
-import { mainnet } from 'wagmi/chains';
-import type { Address } from 'viem';
 
 interface AddressBoxProps {
   address?: string;
@@ -67,14 +68,15 @@ export const AddressBox = ({ address, isEVM }: AddressBoxProps) => {
         </a>
       </AddressDisplayBox>
       <PassImageBox>
-        <img
+        <Image
+          alt="Effigy Wallet Icon"
           src={
             address && isEVM
               ? `https://effigy.im/a/${address}.png`
               : `https://effigy.im/a/${'jumper.eth'}.png`
           }
-          width={'128px'}
-          height={'128px'}
+          width={128}
+          height={128}
           style={{
             borderRadius: '100%',
             borderStyle: 'solid',

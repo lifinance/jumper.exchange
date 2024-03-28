@@ -1,3 +1,4 @@
+'use client';
 import type { Breakpoint } from '@mui/material';
 import { styled, type BoxProps } from '@mui/material';
 

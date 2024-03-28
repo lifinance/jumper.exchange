@@ -1,9 +1,11 @@
+'use client';
+
+import { ButtonPrimary, ButtonTransparent } from '@/components/Button';
+import { avatarMask12 } from '@/components/Mask.style';
+import { getContrastAlphaColor } from '@/utils/colors';
 import { Avatar, Badge } from '@mui/material';
 import type { Breakpoint } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
-import { avatarMask12 } from 'src/components';
-import { ButtonPrimary, ButtonTransparent } from 'src/components/Button';
-import { getContrastAlphaColor } from 'src/utils';
 
 export const WalletMgmtAvatarContainer = styled('div')(({ theme }) => ({
   position: 'relative',

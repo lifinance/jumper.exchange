@@ -1,9 +1,13 @@
+'use client';
+import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
+import { JUMPER_LEARN_PATH } from '@/const/urls';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import type { BlogArticleData, StrapiResponseData } from '@/types/strapi';
+import { EventTrackingTool } from '@/types/userTracking';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { BlogArticleCard, CarouselContainer } from 'src/components';
-import { JUMPER_LEARN_PATH, TrackingAction, TrackingCategory } from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { EventTrackingTool, type BlogArticleData } from 'src/types';
+import { CarouselContainer } from '.';
+import { BlogArticleCard } from '../BlogArticleCard/BlogArticleCard';
 import { BlogArticleCardSkeleton } from '../BlogArticleCard/BlogArticleCardSkeleton';
 import {
   BlogCarouselContainer,
@@ -13,9 +17,9 @@ import {
 
 interface BlogCarouselProps {
   showAllButton?: boolean;
-  url: URL;
+  url: string;
   title?: string;
-  data: BlogArticleData[];
+  data: StrapiResponseData<BlogArticleData> | undefined;
 }
 
 export const BlogCarousel = ({
@@ -25,7 +29,7 @@ export const BlogCarousel = ({
   showAllButton,
 }: BlogCarouselProps) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { trackEvent } = useUserTracking();
 
   const handleShowAll = () => {
@@ -35,8 +39,8 @@ export const BlogCarousel = ({
       label: 'click-see-all-posts',
       disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
-    navigate(JUMPER_LEARN_PATH);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    router.push(JUMPER_LEARN_PATH);
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

@@ -1,3 +1,5 @@
+'use client';
+
 import { InfoRounded } from '@mui/icons-material';
 import type { Breakpoint } from '@mui/material';
 import { Box, Button, alpha } from '@mui/material';

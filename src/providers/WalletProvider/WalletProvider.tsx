@@ -1,3 +1,4 @@
+'use client';
 import { type FC, type PropsWithChildren } from 'react';
 import { EVMProvider } from './EVMProvider';
 import { SolanaProvider } from './SolanaProvider';

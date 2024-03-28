@@ -1,13 +1,14 @@
+'use client';
 import type {
   ListItemProps,
   MenuItemProps as MUIMenuItemProps,
 } from '@mui/material';
 import { MenuItem as MUIMenuItem } from '@mui/material';
 
+import { getContrastAlphaColor } from '@/utils/colors';
 import type { Breakpoint } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import type { ElementType } from 'react';
-import { getContrastAlphaColor } from 'src/utils';
 
 export interface MenuItemProps extends Omit<MUIMenuItemProps, 'showButton'> {
   showButton?: boolean;

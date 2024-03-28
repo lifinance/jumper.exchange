@@ -1,28 +1,31 @@
-import type { Chain } from '@lifi/types';
-import { getConnectorIcon } from '@lifi/wallet-management';
-import { Typography } from '@mui/material';
-import type { ReactElement } from 'react';
-import React, { useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  ConnectButton,
-  WalletMenu,
-  WalletMenuButton,
-  WalletMgmtBadge,
-  WalletMgmtChainAvatar,
-  WalletMgmtWalletAvatar,
-  WalletSelectMenu,
-} from 'src/components';
-import { EcosystemSelectMenu } from 'src/components/Menus/EcosystemSelectMenu';
+'use client';
+import { EcosystemSelectMenu } from '@/components/Menus/EcosystemSelectMenu';
+import { WalletMenu } from '@/components/Menus/WalletMenu';
+import { WalletSelectMenu } from '@/components/Menus/WalletSelectMenu';
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useAccounts, useChains, useUserTracking } from 'src/hooks';
-import { useMenuStore } from 'src/stores';
-import { EventTrackingTool } from 'src/types';
-import { walletDigest } from 'src/utils';
+} from '@/const/trackingKeys';
+import { useAccounts } from '@/hooks/useAccounts';
+import { useChains } from '@/hooks/useChains';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useMenuStore } from '@/stores/menu';
+import { EventTrackingTool } from '@/types/userTracking';
+import { walletDigest } from '@/utils/walletDigest';
+import type { Chain } from '@lifi/types';
+import { getConnectorIcon } from '@lifi/wallet-management';
+import { Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import type { ReactElement } from 'react';
+import React, { useMemo, useRef } from 'react';
+import {
+  ConnectButton,
+  WalletMenuButton,
+  WalletMgmtBadge,
+  WalletMgmtChainAvatar,
+  WalletMgmtWalletAvatar,
+} from '.';
 
 interface WalletManagementButtonsProps {
   children?: React.ReactNode;
@@ -39,7 +42,7 @@ export const WalletManagementButtons: React.FC<
 > = ({ connectButtonLabel, redirectToLearn, isSuccess }) => {
   const { chains } = useChains();
   const { trackEvent } = useUserTracking();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { account } = useAccounts();
   const walletManagementButtonsRef = useRef<any>();
 
@@ -61,7 +64,7 @@ export const WalletManagementButtons: React.FC<
 
   const handleWalletSelectClick = () => {
     if (redirectToLearn) {
-      navigate('/');
+      router.push('/');
       trackEvent({
         category: TrackingCategory.WalletSelectMenu,
         action: TrackingAction.ClickConnectToWidget,

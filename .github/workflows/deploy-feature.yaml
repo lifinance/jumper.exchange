@@ -1,0 +1,116 @@
+name: Deploy feature
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - opened
+      - reopened
+      - synchronize
+
+env:
+  REGISTRY: 403372804574.dkr.ecr.us-east-2.amazonaws.com/lifi-docker-repo
+  IMAGE_NAME: 'jumper-exchange'
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  deploy-feature:
+    if: contains(github.event.label.name, 'newtesting') || contains(github.event.pull_request.labels.*.name, 'newtesting')
+    name: Check flags
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout jumper-exchange
+        uses: actions/checkout@v4
+
+      - name: Set app name
+        run: |
+          NAME=$(echo "${{ env.BRANCH_NAME }}" | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
+          echo "APP_NAME=feat-${NAME:0:30}" >> $GITHUB_ENV
+
+      - name: Check commit msg and label
+        id: check-build
+        env:
+          LABEL_EVENT: ${{ github.event.label.name }}
+          BRANCH_NAME_EVENT: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git fetch origin $BRANCH_NAME_EVENT:$BRANCH_NAME_EVENT
+          COMMIT_MSG=$(git log --format=%B -n 1 $BRANCH_NAME_EVENT -- .)
+          if [[ "${COMMIT_MSG}" =~ "[skip build]" ]] || [[ $LABEL_EVENT == "feature-secrets" ]]; then
+            echo "skip-build=true" >> $GITHUB_OUTPUT
+            echo "Build will be skipped"
+          else
+            echo "skip-build=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build and push image
+        if: steps.check-build.outputs.skip-build == 'false'
+        id: build-image
+        uses: ./.github/actions/build-push-image
+
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout helm charts
+        uses: actions/checkout@v4
+        with:
+          repository: lifinance/lifi-deployment
+          ssh-key: ${{ secrets.DEPLOY_SSH }}
+          ref: develop
+          path: lifi-deployment
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        id: pnpm-install
+        with:
+          run_install: false
+
+      - name: Install node dependencies
+        shell: bash
+        run: pnpm install -g yaml && pnpm link --global yaml
+
+      - name: Update feature img version
+        uses: actions/github-script@v7
+        id: feature-state
+        env:
+          DOCKER_TAG: ${{ steps.build-image.outputs.docker-tag }}
+        with:
+          result-encoding: string
+          script: |
+            const { default: init } = await import('${{ github.workspace }}/.github/scripts/update-feature-img-version.mjs')
+            const state = await init()
+            return state
+
+      - name: Push deployment changes
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          git config --global user.name "lifi-bot-action[bot]"
+          git config --global user.email "160733936+lifi-bot-action[bot]@users.noreply.github.com"
+          cd lifi-deployment
+          git commit -m "[bot][jumper] feature branch ${{ env.APP_NAME }} update"
+          git push
+
+      - name: Comment PR
+        if: steps.feature-state.outputs.result
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Hey! Those are your new endpoints: ${{ steps.feature-state.outputs.result }}`
+            })

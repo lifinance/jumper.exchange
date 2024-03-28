@@ -1,4 +1,4 @@
-import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MenuDesktop, MenuMobile } from '.';
 

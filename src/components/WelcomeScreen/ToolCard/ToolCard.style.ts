@@ -1,3 +1,5 @@
+'use client';
+
 import type { Breakpoint } from '@mui/material';
 import { styled } from '@mui/material';
 import { alpha } from '@mui/material/styles';

@@ -1,25 +1,26 @@
-import * as supportedLanguages from 'i18n';
-import { useTranslation } from 'react-i18next';
+'use client';
+
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { useSettingsStore } from 'src/stores';
-import type { LanguageKey } from 'src/types';
-import { EventTrackingTool } from 'src/types';
+} from '@/const/trackingKeys';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { cookieName } from '@/i18n/i18next-settings';
+import * as supportedLanguages from '@/i18n/translations';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import type { LanguageKey } from '@/types/i18n';
+import { EventTrackingTool } from '@/types/userTracking';
+import { replaceLocaleInUrl } from '@/utils/replaceLocaleInUrl';
+import { usePathname } from 'next/navigation';
+import { useCookies } from 'react-cookie';
 
 export const useLanguagesContent = () => {
-  const { i18n } = useTranslation();
-  const [languageMode, setLanguageMode] = useSettingsStore((state) => [
-    state.languageMode,
-    state.setLanguageMode,
-  ]);
+  const pathname = usePathname();
+  const { i18n } = useClientTranslation();
+  const [_, setCookie] = useCookies([cookieName]);
   const { trackEvent } = useUserTracking();
   const handleSwitchLanguage = (newLanguage: LanguageKey) => {
-    i18n.changeLanguage(newLanguage);
-    setLanguageMode(newLanguage);
     trackEvent({
       category: TrackingCategory.LanguageMenu,
       action: TrackingAction.SwitchLanguage,
@@ -27,13 +28,16 @@ export const useLanguagesContent = () => {
       data: { [TrackingEventParameter.SwitchedLanguage]: newLanguage },
       disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
+    i18n.changeLanguage(newLanguage);
+    setCookie(cookieName, newLanguage, { path: '/' });
+    replaceLocaleInUrl(pathname, newLanguage);
   };
 
   const languages = Object.entries(supportedLanguages)
     .sort()
     .map(([language, languageValue]) => ({
       label: languageValue.language.value,
-      checkIcon: (languageMode || i18n.resolvedLanguage) === language,
+      checkIcon: i18n.language === language,
       onClick: () => handleSwitchLanguage(language as LanguageKey),
     }));
 

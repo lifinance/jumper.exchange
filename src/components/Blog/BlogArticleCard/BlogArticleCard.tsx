@@ -1,18 +1,16 @@
+import { TrackingAction, TrackingEventParameter } from '@/const/trackingKeys';
+import { JUMPER_LEARN_PATH } from '@/const/urls';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useMenuStore } from '@/stores/menu/MenuStore';
+import type { StrapiImageData, TagData } from '@/types/strapi';
+import { EventTrackingTool } from '@/types/userTracking';
+import { formatDate } from '@/utils/formatDate';
+import { readingTime } from '@/utils/readingTime';
 import type { CSSObject } from '@mui/material';
-import { Skeleton, useTheme } from '@mui/material';
-import type { RootNode } from '@strapi/blocks-react-renderer/dist/BlocksRenderer';
+import { Skeleton } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import type { RootNode } from 'node_modules/@strapi/blocks-react-renderer/dist/BlocksRenderer';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import {
-  JUMPER_LEARN_PATH,
-  TrackingAction,
-  TrackingEventParameter,
-} from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { useMenuStore } from 'src/stores';
-import type { TagData } from 'src/types';
-import { EventTrackingTool, type StrapiImageData } from 'src/types';
-import { formatDate, readingTime } from 'src/utils';
 import {
   BlogArticleCardContainer,
   BlogArticleCardContent,
@@ -26,12 +24,13 @@ import {
 } from '.';
 
 interface BlogArticleCardProps {
-  baseUrl: URL;
+  baseUrl: string;
   id: number;
   image: StrapiImageData;
   content: RootNode[];
   publishedAt: string | null | undefined;
   createdAt: string;
+  key?: string;
   title: string;
   tags: TagData | undefined;
   trackingCategory: string;
@@ -48,13 +47,13 @@ export const BlogArticleCard = ({
   publishedAt,
   createdAt,
   id,
+  key,
   title,
   styles,
   slug,
 }: BlogArticleCardProps) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { trackEvent } = useUserTracking();
-  const theme = useTheme();
   const minRead = readingTime(content);
   const { t } = useTranslation();
   const { closeAllMenus } = useMenuStore((state) => state);
@@ -71,18 +70,19 @@ export const BlogArticleCard = ({
       },
     });
     closeAllMenus();
-    navigate(`${JUMPER_LEARN_PATH}/${slug}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    router.push(`${JUMPER_LEARN_PATH}/${slug}`);
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   return (
     <BlogArticleCardContainer
       variant="outlined"
       onClick={handleClick}
       sx={styles}
+      key={key}
     >
       {image.data ? (
         <BlogArticleCardImage
-          src={`${baseUrl?.origin}${image.data?.attributes?.formats.small.url}`}
+          src={`${baseUrl}${image.data?.attributes?.formats.small.url}`}
           alt={image.data?.attributes?.alternativeText}
           draggable={false}
         />

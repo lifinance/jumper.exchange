@@ -1,16 +1,7 @@
 import type { ChainId } from '@lifi/sdk';
 import type { WidgetConfig, WidgetSubvariant } from '@lifi/widget';
 import type { SxProps, Theme } from '@mui/material';
-import 'react-i18next';
-import type { MenuKeys } from 'src/const';
 import type { Gtag } from './gtag';
-
-declare module 'react-i18next' {
-  interface CustomTypeOptions {
-    allowObjectInHTMLChildren: true;
-  }
-}
-
 declare global {
   interface Window {
     gtag: Gtag.Gtag;
@@ -21,7 +12,7 @@ export type StarterVariantType = 'buy' | WidgetSubvariant;
 
 export interface MenuListItem {
   label: string;
-  triggerSubMenu?: MenuKeys;
+  triggerSubMenu?: any; //todo: proper typing
   prefixIcon?: JSX.Element | string;
   suffixIcon?: JSX.Element | string;
   showMoreIcon?: boolean;

@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 
 const easeOutQuad = (t: number) => t * (2 - t);

@@ -1,7 +1,9 @@
+'use client';
+
+import { HeaderHeight } from '@/const/headerHeight';
 import { Box, Modal as MUIModal } from '@mui/material';
 import type { Breakpoint } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
-import { HeaderHeight } from 'src/const';
 
 export const Modal = styled(MUIModal)(({ theme }) => ({
   paddingTop: HeaderHeight.XS,

@@ -1,3 +1,4 @@
+'use client';
 import type { CardProps as MuiCardProps } from '@mui/material';
 import { Card as MuiCard } from '@mui/material';
 

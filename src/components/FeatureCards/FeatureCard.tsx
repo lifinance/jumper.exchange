@@ -1,21 +1,24 @@
+'use client';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Link, Slide, useTheme } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSettingsStore } from 'src/stores';
 
+import { STRAPI_FEATURE_CARDS } from '@/const/strapiContentKeys';
 import {
-  STRAPI_FEATURE_CARDS,
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useStrapi, useUserTracking } from 'src/hooks';
-import { EventTrackingTool, type FeatureCardData } from 'src/types';
-import { openInNewTab } from 'src/utils';
+} from '@/const/trackingKeys';
+import { useStrapi } from '@/hooks/useStrapi';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useSettingsStore } from '@/stores/settings/SettingsStore';
+import type { FeatureCardData } from '@/types/strapi';
+import { EventTrackingTool } from '@/types/userTracking';
+import { openInNewTab } from '@/utils/openInNewTab';
 import { FCard as Card } from '.';
 
 interface FeatureCardProps {
@@ -25,7 +28,7 @@ interface FeatureCardProps {
 
 export const FeatureCard = ({ data, isSuccess }: FeatureCardProps) => {
   const [open, setOpen] = useState(true);
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const { url } = useStrapi<FeatureCardData>({
     contentType: STRAPI_FEATURE_CARDS,
   });

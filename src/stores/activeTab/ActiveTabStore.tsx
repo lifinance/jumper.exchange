@@ -1,4 +1,4 @@
-import { TabsMap } from 'src/const/tabsMap';
+'use client';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 interface ActiveTabState {
@@ -8,7 +8,7 @@ interface ActiveTabState {
 
 export const useActiveTabStore = createWithEqualityFn<ActiveTabState>(
   (set) => ({
-    activeTab: TabsMap.Exchange.index,
+    activeTab: 0, //TabsMap.Exchange.index,
     setActiveTab: (tab: number) => set({ activeTab: tab }),
   }),
   Object.is,

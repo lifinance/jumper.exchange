@@ -8,8 +8,9 @@ import {
   alpha,
 } from '@mui/material';
 
+import { inter, urbanist } from '@/fonts/fonts';
+import { getContrastAlphaColor } from '@/utils/colors';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from 'src/utils';
 
 export const BlogArticleImageContainer = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -146,7 +147,7 @@ export const BlogArticleContainer = styled(Container)(({ theme }) => ({
       0.75,
     ),
     margin: theme.spacing(0.5, 0),
-    fontFamily: 'Inter',
+    fontFamily: inter.style.fontFamily,
     fontSize: '18px',
     lineHeight: '32px',
     fontWeight: 400,
@@ -243,7 +244,7 @@ export const BlogArticleTitle = styled(Typography)<TypographyProps>(
     fontWeight: 700,
     lineHeight: '64px',
     fontSize: '48px',
-    fontFamily: 'Urbanist, Inter', //todo: add font
+    fontFamily: urbanist.style.fontFamily,
     [theme.breakpoints.up('sm' as Breakpoint)]: {
       fontSize: '64px',
       lineHeight: '72px',
@@ -275,7 +276,7 @@ export const BlogArticleSubtitle = styled(Typography, {
   marginTop: theme.spacing(8),
   marginBottom: theme.spacing(6),
   fontWeight: 700,
-  fontFamily: 'Urbanist, Inter',
+  fontFamily: urbanist.style.fontFamily,
   fontSize: '28px',
   lineHeight: '40px',
 }));
@@ -305,7 +306,7 @@ export const BlogArticlAuthorName = styled(Typography)<TypographyProps>(
     fontSize: '24px',
     lineHeight: '28px',
     fontWeight: 700,
-    fontFamily: 'Urbanist, Inter',
+    fontFamily: urbanist.style.fontFamily,
   }),
 );
 

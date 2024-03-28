@@ -1,3 +1,4 @@
+'use client';
 import type { BoxProps } from '@mui/material';
 import { Box, keyframes, styled } from '@mui/material';
 

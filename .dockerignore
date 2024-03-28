@@ -12,6 +12,7 @@ LICENSE
 .husky
 docs
 
+.next
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

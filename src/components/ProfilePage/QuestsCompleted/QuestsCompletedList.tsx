@@ -1,22 +1,25 @@
+import { useAccounts } from '@/hooks/useAccounts';
+import type { PDA } from '@/types/loyaltyPass';
+import { useTranslation } from 'react-i18next';
 import { QuestCard } from '../QuestCard/QuestCard';
+import { QuestCardSkeleton } from '../QuestCard/QuestCardSkeleton';
+import { VoidQuestCard } from '../QuestCard/VoidQuestCard';
 import {
   CompletedQuestContainer,
   CompletedQuestHeader,
   CompletedQuestStack,
   CompletedQuestTitle,
 } from './QuestsCompletedList.style';
-import { VoidQuestCard } from '../QuestCard/VoidQuestCard';
-import { QuestCardSkeleton } from '../QuestCard/QuestCardSkeleton';
-import { useAccounts } from 'src/hooks/useAccounts';
-import { useTranslation } from 'react-i18next';
-import type { PDA } from 'src/types';
 
-interface QuestCompletedList {
+interface QuestCompletedListProps {
   pdas?: PDA[];
   loading: boolean;
 }
 
-export const QuestCompletedList = ({ pdas, loading }: QuestCompletedList) => {
+export const QuestCompletedList = ({
+  pdas,
+  loading,
+}: QuestCompletedListProps) => {
   const { account } = useAccounts();
   const { t } = useTranslation();
 

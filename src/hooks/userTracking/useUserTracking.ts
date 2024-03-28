@@ -1,12 +1,10 @@
-import { useArcxAnalytics } from '@arcxmoney/analytics';
-import { ChainType } from '@lifi/sdk';
-import { useCallback, useEffect } from 'react';
-import { hotjar } from 'react-hotjar';
+'use client';
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
+} from '@/const/trackingKeys';
+import { useAccounts } from '@/hooks/useAccounts';
 import type {
   TrackAttributeProps,
   TrackChainSwitchProps,
@@ -15,15 +13,18 @@ import type {
   TrackEventProps,
   TrackTransactionProps,
   trackPageloadProps,
-} from 'src/types';
-import { EventTrackingTool } from 'src/types';
-import { useAccounts } from '../useAccounts';
+} from '@/types/userTracking';
+import { EventTrackingTool } from '@/types/userTracking';
+import { useArcxAnalytics } from '@arcxmoney/analytics';
+import { ChainType } from '@lifi/sdk';
+import { useCallback, useEffect } from 'react';
+import { hotjar } from 'react-hotjar';
 import { useCookie3 } from './useCookie3';
 
 export function useUserTracking() {
   const arcx = useArcxAnalytics();
-  const cookie3 = useCookie3();
   const { account } = useAccounts();
+  const cookie3 = useCookie3();
 
   useEffect(() => {
     if (account?.chainId) {
@@ -31,10 +32,11 @@ export function useUserTracking() {
         account: `${account?.address}`,
         chainId: `${account?.chainId}`,
       });
-      window.gtag('event', TrackingAction.SwitchChain, {
-        category: TrackingCategory.Wallet,
-        [TrackingEventParameter.SwitchedChain]: account?.chainId,
-      });
+      typeof window !== 'undefined' &&
+        window?.gtag('event', TrackingAction.SwitchChain, {
+          category: TrackingCategory.Wallet,
+          [TrackingEventParameter.SwitchedChain]: account?.chainId,
+        });
     }
   }, [account?.address, account?.chainId, arcx]);
 
@@ -57,11 +59,11 @@ export function useUserTracking() {
         [TrackingEventParameter.Ecosystem]: chainType,
       });
       hotjar.initialized() && hotjar.event(TrackingAction.ConnectWallet);
-
-      window.gtag('event', TrackingAction.ConnectWallet, {
-        [TrackingEventParameter.Wallet]: walletName,
-        [TrackingEventParameter.Ecosystem]: chainType,
-      });
+      typeof window !== 'undefined' &&
+        window?.gtag('event', TrackingAction.ConnectWallet, {
+          [TrackingEventParameter.Wallet]: walletName,
+          [TrackingEventParameter.Ecosystem]: chainType,
+        });
     },
     [arcx],
   );
@@ -83,7 +85,9 @@ export function useUserTracking() {
           });
       }
       if (data && !disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        data && window.gtag('set', 'user_properties', data);
+        data &&
+          typeof window !== 'undefined' &&
+          window?.gtag('set', 'user_properties', data);
       }
     },
     [account?.address],
@@ -101,9 +105,10 @@ export function useUserTracking() {
         hotjar.initialized() && hotjar.event(TrackingAction.DisconnectWallet);
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        window.gtag('event', TrackingAction.DisconnectWallet, {
-          ...data,
-        });
+        typeof window !== 'undefined' &&
+          window?.gtag('event', TrackingAction.DisconnectWallet, {
+            ...data,
+          });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
         arcx?.disconnection({
@@ -129,10 +134,11 @@ export function useUserTracking() {
           hotjar.event(`${action}-${category}-${label ?? '-' + label}`);
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        window.gtag('event', action, {
-          category: category,
-          ...data,
-        });
+        typeof window !== 'undefined' &&
+          window?.gtag('event', action, {
+            category: category,
+            ...data,
+          });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
         arcx?.event(action, {
@@ -141,6 +147,7 @@ export function useUserTracking() {
         });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.Cookie3)) {
+        // todo: add
         cookie3?.trackEvent({
           category,
           action,
@@ -171,13 +178,14 @@ export function useUserTracking() {
           : hotjar.event(`pageload${destination && '-' + destination}`);
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        window.gtag('event', TrackingAction.PageLoad, {
-          category: pageload ? 'external' : 'internal',
-          url,
-          source,
-          destination,
-          ...data,
-        });
+        typeof window !== 'undefined' &&
+          window?.gtag('event', TrackingAction.PageLoad, {
+            category: pageload ? 'external' : 'internal',
+            url,
+            source,
+            destination,
+            ...data,
+          });
       }
     },
     [],
@@ -201,10 +209,11 @@ export function useUserTracking() {
         hotjar.initialized() && hotjar.event(`${category}-${action}`);
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        window.gtag('event', action, {
-          category,
-          ...data,
-        });
+        typeof window !== 'undefined' &&
+          window?.gtag('event', action, {
+            category,
+            ...data,
+          });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.ARCx)) {
         arcx?.transaction({
@@ -214,15 +223,16 @@ export function useUserTracking() {
         });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.Cookie3)) {
-        cookie3?.trackEvent({
-          category,
-          action,
-          name: 'transaction',
-          value: value,
-        });
+        // todo: add cookie3
+        // cookie3?.trackEvent({
+        //   category,
+        //   action,
+        //   name: 'transaction',
+        //   value: value,
+        // });
       }
     },
-    [arcx, cookie3],
+    [arcx],
   );
 
   const trackChainSwitch = useCallback(
@@ -240,10 +250,11 @@ export function useUserTracking() {
         });
       }
       if (!disableTrackingTool?.includes(EventTrackingTool.GA)) {
-        window.gtag('event', action, {
-          category: category,
-          ...data,
-        });
+        typeof window !== 'undefined' &&
+          window?.gtag('event', action, {
+            category: category,
+            ...data,
+          });
       }
     },
     [arcx],

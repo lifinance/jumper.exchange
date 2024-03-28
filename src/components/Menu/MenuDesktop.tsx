@@ -1,3 +1,5 @@
+import { MenuKeysEnum, MenuMain } from '@/const/menuKeys';
+import { useMenuStore } from '@/stores/menu/MenuStore';
 import type { SxProps, Theme } from '@mui/material';
 import { Fade, Typography } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -8,9 +10,7 @@ import {
   MenuList,
   MenuPaper,
   MenuPopper,
-} from 'src/components';
-import { MenuKeys, MenuMain } from 'src/const';
-import { useMenuStore } from 'src/stores';
+} from './Menu.style';
 interface MenuProps {
   isOpenSubMenu: boolean;
   label?: string;
@@ -72,7 +72,7 @@ export const MenuDesktop = ({
                   autoFocusItem={open}
                   id="main-burger-menu"
                   autoFocus={open}
-                  isOpenSubMenu={openSubMenu !== MenuKeys.None}
+                  isOpenSubMenu={openSubMenu !== MenuKeysEnum.None}
                   aria-labelledby="main-burger-menu"
                   onKeyDown={handleListKeyDown}
                   cardsLayout={cardsLayout}

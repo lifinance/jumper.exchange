@@ -1,14 +1,18 @@
+'use client';
+import {
+  STRAPI_FEATURE_CARDS,
+  STRAPI_JUMPER_USERS,
+} from '@/const/strapiContentKeys';
+import { useAccounts } from '@/hooks/useAccounts';
+import { useStrapi } from '@/hooks/useStrapi';
+import { useSettingsStore } from '@/stores/settings/SettingsStore';
+import type { FeatureCardData, JumperUserData } from '@/types/strapi';
 import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { FeatureCard } from 'src/components';
-import { STRAPI_FEATURE_CARDS, STRAPI_JUMPER_USERS } from 'src/const';
-import { useAccounts, useStrapi } from 'src/hooks';
-import { useSettingsStore } from 'src/stores';
-import type { FeatureCardData, JumperUserData } from 'src/types';
 import { shallow } from 'zustand/shallow';
-import { FeatureCardsContainer } from '.';
+import { FeatureCard, FeatureCardsContainer } from '.';
 
 export const FeatureCards = () => {
   const [disabledFeatureCards, welcomeScreenClosed] = useSettingsStore(

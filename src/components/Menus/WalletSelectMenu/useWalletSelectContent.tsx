@@ -1,3 +1,12 @@
+'use client';
+import { useAccountConnect } from '@/hooks/useAccounts';
+import type { CombinedWallet } from '@/hooks/useCombinedWallets';
+import { useCombinedWallets } from '@/hooks/useCombinedWallets';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useMenuStore } from '@/stores/menu';
+import { useSettingsStore } from '@/stores/settings';
+import type { MenuListItem } from '@/types/internal';
+import { getContrastAlphaColor } from '@/utils/colors';
 import {
   getConnectorIcon,
   isWalletInstalled,
@@ -7,17 +16,10 @@ import type { Theme } from '@mui/material';
 import { Avatar, useMediaQuery, useTheme } from '@mui/material';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAccountConnect } from 'src/hooks/useAccounts';
-import type { CombinedWallet } from 'src/hooks/useCombinedWallets';
-import { useCombinedWallets } from 'src/hooks/useCombinedWallets';
-import { useMenuStore, useSettingsStore } from 'src/stores';
-import type { MenuListItem } from 'src/types';
-import { getContrastAlphaColor } from 'src/utils';
 
 export const useWalletSelectContent = () => {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const { combinedInstalledWallets, combinedNotDetectedWallets } =
     useCombinedWallets();
   const isDesktopView = useMediaQuery((theme: Theme) =>

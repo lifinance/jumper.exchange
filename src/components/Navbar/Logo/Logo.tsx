@@ -1,8 +1,8 @@
 import type { Breakpoint, Theme } from '@mui/material';
 
+import { JumperIcon } from '@/components/illustrations/JumperIcon';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import type { ReactNode } from 'react';
-import { JumperIcon } from 'src/components';
 
 type LogoProps = {
   isConnected: boolean;

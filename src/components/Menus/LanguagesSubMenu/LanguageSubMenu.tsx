@@ -1,19 +1,20 @@
-import { useTranslation } from 'react-i18next';
-import { SubMenu } from 'src/components';
-import { MenuKeys } from 'src/const';
-import { useMenuStore } from 'src/stores';
+import { SubMenu } from '@/components/Menu/SubMenu';
+import { MenuKeysEnum } from '@/const/menuKeys';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useMenuStore } from '@/stores/menu';
 import { useLanguagesContent } from '.';
 
 export const LanguagesSubmenu = () => {
-  const { t } = useTranslation();
+  const { t } = useClientTranslation();
   const subMenuLanguages = useLanguagesContent();
   const openSubMenu = useMenuStore((state) => state.openSubMenu);
+
   return (
     <SubMenu
       label={t('language.key', { ns: 'language' })}
-      triggerSubMenu={MenuKeys.Language}
-      open={openSubMenu === MenuKeys.Language}
-      prevMenu={MenuKeys.None}
+      triggerSubMenu={MenuKeysEnum.Language}
+      open={openSubMenu === MenuKeysEnum.Language}
+      prevMenu={MenuKeysEnum.None}
       subMenuList={subMenuLanguages}
     />
   );

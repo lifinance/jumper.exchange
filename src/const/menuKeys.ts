@@ -1,4 +1,16 @@
-export enum MenuKeys {
+export const MenuKeys = {
+  Main: 'Main',
+  WalletSelect: 'WalletSelect',
+  WalletSelectMore: 'WalletSelectMore',
+  Wallet: 'Wallet',
+  Chains: 'Chains',
+  Devs: 'Devs',
+  Language: 'Language',
+  EcosystemSelect: 'EcosystemSelect',
+  None: 'None',
+};
+
+export enum MenuKeysEnum {
   Main = 'Main',
   WalletSelect = 'WalletSelect',
   WalletSelectMore = 'WalletSelectMore',
@@ -11,32 +23,32 @@ export enum MenuKeys {
 }
 
 type MenuMainKeys =
-  | MenuKeys.Main
-  | MenuKeys.Chains
-  | MenuKeys.Wallet
-  | MenuKeys.WalletSelect
-  | MenuKeys.EcosystemSelect;
-type MenuSubKeys = Exclude<MenuKeys, MenuMainKeys>;
+  | MenuKeysEnum.Main
+  | MenuKeysEnum.Chains
+  | MenuKeysEnum.Wallet
+  | MenuKeysEnum.WalletSelect
+  | MenuKeysEnum.EcosystemSelect;
+type MenuSubKeys = Exclude<MenuKeysEnum, MenuMainKeys>;
 
 type MenuMainType = {
-  [key in MenuMainKeys]: MenuKeys;
+  [key in MenuMainKeys]: MenuKeysEnum;
 };
 
 type MenuSubType = {
-  [key in MenuSubKeys]: MenuKeys;
+  [key in MenuSubKeys]: MenuKeysEnum;
 };
 
 export const MenuMain: MenuMainType = {
-  [MenuKeys.Main]: MenuKeys.Main,
-  [MenuKeys.Chains]: MenuKeys.Chains,
-  [MenuKeys.Wallet]: MenuKeys.Wallet,
-  [MenuKeys.EcosystemSelect]: MenuKeys.EcosystemSelect,
-  [MenuKeys.WalletSelect]: MenuKeys.WalletSelect,
+  [MenuKeysEnum.Main]: MenuKeysEnum.Main,
+  [MenuKeysEnum.Chains]: MenuKeysEnum.Chains,
+  [MenuKeysEnum.Wallet]: MenuKeysEnum.Wallet,
+  [MenuKeysEnum.EcosystemSelect]: MenuKeysEnum.EcosystemSelect,
+  [MenuKeysEnum.WalletSelect]: MenuKeysEnum.WalletSelect,
 };
 
 export const MenuSub: MenuSubType = {
-  [MenuKeys.Devs]: MenuKeys.Devs,
-  [MenuKeys.Language]: MenuKeys.Language,
-  [MenuKeys.WalletSelectMore]: MenuKeys.WalletSelectMore,
-  [MenuKeys.None]: MenuKeys.None,
+  [MenuKeysEnum.Devs]: MenuKeysEnum.Devs,
+  [MenuKeysEnum.Language]: MenuKeysEnum.Language,
+  [MenuKeysEnum.WalletSelectMore]: MenuKeysEnum.WalletSelectMore,
+  [MenuKeysEnum.None]: MenuKeysEnum.None,
 };

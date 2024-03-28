@@ -1,6 +1,6 @@
+import { getContrastAlphaColor } from '@/utils/colors';
 import type { IconButtonProps } from '@mui/material';
-import { IconButton as MuiIconButtom, darken, styled } from '@mui/material';
-import { getContrastAlphaColor } from 'src/utils';
+import { IconButton as MuiIconButtom, styled } from '@mui/material';
 
 export const ProfileIconButton = styled(MuiIconButtom, {
   shouldForwardProp: (prop) => prop !== 'styles',

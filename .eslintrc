@@ -43,7 +43,7 @@
     ],
     "curly": 1,
     "import/extensions": "off",
-    "import/no-default-export": "error",
+    // "import/no-default-export": "error",
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": 0,
     "import/prefer-default-export": "off",

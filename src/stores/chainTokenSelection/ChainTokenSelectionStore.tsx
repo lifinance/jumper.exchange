@@ -1,3 +1,5 @@
+'use client';
+
 import type { ChainId } from '@lifi/types';
 import type { ChainTokenSelected } from '@lifi/widget';
 import { createWithEqualityFn } from 'zustand/traditional';
@@ -14,11 +16,14 @@ interface ChainTokenSelectionState {
   setDestinationChainToken: (destinationChainToken: ChainTokenSelected) => void;
 }
 
-const queryParameters = new URLSearchParams(window.location.search);
-const fromChain = queryParameters.get('fromChain');
-const fromToken = queryParameters.get('fromToken');
-const toChain = queryParameters.get('toChain');
-const toToken = queryParameters.get('toToken');
+const queryParameters =
+  typeof window !== 'undefined' &&
+  window?.location &&
+  new URLSearchParams(window.location.search);
+const fromChain = queryParameters && queryParameters.get('fromChain');
+const fromToken = queryParameters && queryParameters.get('fromToken');
+const toChain = queryParameters && queryParameters.get('toChain');
+const toToken = queryParameters && queryParameters.get('toToken');
 
 export const useChainTokenSelectionStore =
   createWithEqualityFn<ChainTokenSelectionState>(

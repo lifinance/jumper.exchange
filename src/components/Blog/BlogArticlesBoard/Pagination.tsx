@@ -1,15 +1,16 @@
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import type { StrapiMeta } from '@/types/strapi';
+import { EventTrackingTool } from '@/types/userTracking';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Skeleton, Typography, useTheme } from '@mui/material';
 import type { Dispatch, SetStateAction } from 'react';
+
 import {
   TrackingAction,
   TrackingCategory,
   TrackingEventParameter,
-} from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import type { StrapiMeta } from 'src/types';
-import { EventTrackingTool } from 'src/types';
+} from '@/const/trackingKeys';
 import {
   PaginationButton,
   PaginationContainer,

@@ -1,3 +1,5 @@
+import { useMultisigStore } from '@/stores/multisig';
+import type { MultisigWidgetConfig } from '@/types/internal';
 import type {
   MultisigConfig,
   MultisigTransaction,
@@ -6,8 +8,6 @@ import type {
 import { type Process, type Route } from '@lifi/sdk';
 import type { GatewayTransactionDetails } from '@safe-global/safe-apps-sdk';
 import SafeAppsSDK, { TransactionStatus } from '@safe-global/safe-apps-sdk';
-import { useMultisigStore } from 'src/stores';
-import type { MultisigWidgetConfig } from 'src/types';
 import { useAccounts } from './useAccounts';
 
 export const useMultisig = () => {

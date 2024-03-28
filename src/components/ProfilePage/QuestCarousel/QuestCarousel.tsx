@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { CarouselContainer } from 'src/components';
-import { QuestCard } from '../QuestCard/QuestCard';
-import { useOngoingQuests } from 'src/hooks/useOngoingQuests';
+import { CarouselContainer } from '@/components/Blog/BlogCarousel/CarouselContainer';
+import { useOngoingQuests } from '@/hooks/useOngoingQuests';
+import type { Quest } from '@/types/loyaltyPass';
 import { Stack } from '@mui/material';
-import { QuestCardSkeleton } from '../QuestCard/QuestCardSkeleton';
+import { useTranslation } from 'react-i18next';
 import { BlogCarouselContainer } from '../../Blog/BlogCarousel/BlogCarousel.style';
-import type { Quest } from 'src/types';
+import { QuestCard } from '../QuestCard/QuestCard';
+import { QuestCardSkeleton } from '../QuestCard/QuestCardSkeleton';
 
 interface QuestCarouselProps {
   quests?: Quest[];

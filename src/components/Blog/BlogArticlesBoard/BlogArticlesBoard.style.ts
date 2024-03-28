@@ -1,8 +1,8 @@
 import type { Breakpoint, IconButtonProps } from '@mui/material';
 import { Grid, IconButton } from '@mui/material';
 
+import { getContrastAlphaColor } from '@/utils/colors';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from 'src/utils';
 
 export const BlogArticlesBoardContainer = styled(Grid)(({ theme }) => ({
   position: 'relative',

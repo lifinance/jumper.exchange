@@ -1,3 +1,4 @@
+'use client';
 import type { CSSObject } from '@mui/material';
 import {
   BackgroundGradientBottomLeft,

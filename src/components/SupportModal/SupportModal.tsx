@@ -1,8 +1,10 @@
+'use client';
+
+import { HeaderHeight } from '@/const/headerHeight';
+import { useMenuStore } from '@/stores/menu';
 import type { Breakpoint } from '@mui/material';
 import { useTheme } from '@mui/material';
 import WidgetBot from '@widgetbot/react-embed';
-import { HeaderHeight } from 'src/const';
-import { useMenuStore } from 'src/stores';
 import { Modal, SupportModalContainer } from './SupportModal.style';
 
 export const SupportModal = () => {

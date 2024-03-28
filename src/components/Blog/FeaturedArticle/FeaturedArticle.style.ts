@@ -1,3 +1,4 @@
+import { urbanist } from '@/fonts/fonts';
 import type { BoxProps, Breakpoint, TypographyProps } from '@mui/material';
 import { Box, Skeleton, Typography, lighten } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
@@ -217,7 +218,7 @@ export const FeaturedArticleTitle = styled(Typography)<TypographyProps>(
     marginBottom: theme.spacing(3),
     marginTop: theme.spacing(3),
     overflow: 'hidden',
-    fontFamily: 'Urbanist, Inter', //todo: use typography
+    fontFamily: urbanist.style.fontFamily,
     lineHeight: '40px',
     fontSize: '40px',
     fontWeight: 700,

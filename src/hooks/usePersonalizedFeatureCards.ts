@@ -1,6 +1,6 @@
-import { useAccounts } from './useAccounts';
+import type { FeatureCardData } from '@/types/strapi';
 import { useQuery } from '@tanstack/react-query';
-import type { FeatureCardData } from 'src/types';
+import { useAccounts } from './useAccounts';
 
 export interface UsePersonalizedFeatureCardsProps {
   featureCards: FeatureCardData[] | undefined;
@@ -14,9 +14,9 @@ export const usePersonalizedFeatureCards =
     const { account } = useAccounts();
 
     const apiBaseUrl =
-      import.meta.env.VITE_STRAPI_DEVELOP === 'true'
-        ? import.meta.env.VITE_LOCAL_STRAPI_URL
-        : import.meta.env.VITE_STRAPI_URL;
+      process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
+        ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_URL
+        : process.env.NEXT_PUBLIC_STRAPI_URL;
     const apiUrl = new URL(`${apiBaseUrl}/${STRAPI_CONTENT_TYPE}`);
     apiUrl.searchParams.set('populate[0]', 'feature_cards');
     apiUrl.searchParams.set(
@@ -33,12 +33,12 @@ export const usePersonalizedFeatureCards =
         account?.address,
       );
     }
-    import.meta.env.MODE !== 'production' &&
+    process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production' &&
       apiUrl.searchParams.set('publicationState', 'preview');
     const apiAccesToken =
-      import.meta.env.VITE_STRAPI_DEVELOP === 'true'
-        ? import.meta.env.VITE_LOCAL_STRAPI_API_TOKEN
-        : import.meta.env.VITE_STRAPI_API_TOKEN;
+      process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
+        ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_API_TOKEN
+        : process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
     const { data, isSuccess } = useQuery({
       queryKey: ['jumperUser'],
 

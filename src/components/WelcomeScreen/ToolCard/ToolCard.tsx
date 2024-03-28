@@ -1,5 +1,5 @@
+import { useCountUpAnimation } from '@/hooks/useCountUpAnimation';
 import { Typography, useTheme } from '@mui/material';
-import { useCountUpAnimation } from 'src/hooks';
 import { ToolCardContainer } from './ToolCard.style';
 
 interface ToolCardProps {

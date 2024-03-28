@@ -1,3 +1,26 @@
+import { Tabs } from '@/components/Tabs/Tabs';
+import { Discord } from '@/components/illustrations/Discord';
+import { MenuKeysEnum } from '@/const/menuKeys';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from '@/const/trackingKeys';
+import {
+  DISCORD_URL,
+  EXPLORER_URL,
+  JUMPER_LEARN_PATH,
+  JUMPER_LOYALTY_PATH,
+  X_URL,
+} from '@/const/urls';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useClientTranslation } from '@/i18n/useClientTranslation';
+import { useMenuStore } from '@/stores/menu';
+import { useSettingsStore } from '@/stores/settings';
+import { EventTrackingTool } from '@/types/userTracking';
+import { appendUTMParametersToLink } from '@/utils/append-utm-params-to-link';
+import { getContrastAlphaColor } from '@/utils/colors';
+import { openInNewTab } from '@/utils/openInNewTab';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -6,31 +29,13 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import XIcon from '@mui/icons-material/X';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { Discord, Tabs } from 'src/components';
-import { useUserTracking } from 'src/hooks';
-import { useMenuStore, useSettingsStore } from 'src/stores';
-import { EventTrackingTool } from 'src/types';
-import { getContrastAlphaColor, openInNewTab } from 'src/utils';
-import { appendUTMParametersToLink } from 'src/utils/append-utm-params-to-link';
-import {
-  DISCORD_URL,
-  EXPLORER_URL,
-  JUMPER_LEARN_PATH,
-  JUMPER_LOYALTY_PATH,
-  MenuKeys,
-  TrackingAction,
-  TrackingCategory,
-  TrackingEventParameter,
-  X_URL,
-  useThemeSwitchTabs,
-} from '../../../const';
+import { useRouter } from 'next/navigation';
+import { useThemeSwitchTabs } from './useThemeSwitchTabs';
 
 export const useMainMenuContent = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useClientTranslation();
   const { trackPageload, trackEvent } = useUserTracking();
-  const navigate = useNavigate();
+  const router = useRouter();
   const theme = useTheme();
   const { closeAllMenus } = useMenuStore((state) => state);
   const { setSupportModalState } = useMenuStore((state) => state);
@@ -111,16 +116,16 @@ export const useMainMenuContent = () => {
             maxWidth: 38,
           }}
         >
-          {i18n.resolvedLanguage}
+          {i18n.language}
         </Typography>
       ),
       showMoreIcon: true,
-      triggerSubMenu: MenuKeys.Language,
+      triggerSubMenu: MenuKeysEnum.Language,
     },
     {
       label: t('navbar.navbarMenu.developers'),
       prefixIcon: <DeveloperModeIcon />,
-      triggerSubMenu: MenuKeys.Devs,
+      triggerSubMenu: MenuKeysEnum.Devs,
     },
     {
       label: t('navbar.navbarMenu.profile'),
@@ -138,7 +143,7 @@ export const useMainMenuContent = () => {
           ],
         });
         closeAllMenus();
-        navigate(JUMPER_LOYALTY_PATH);
+        router.push(JUMPER_LOYALTY_PATH);
       },
     },
     {
@@ -157,7 +162,7 @@ export const useMainMenuContent = () => {
           ],
         });
         closeAllMenus();
-        navigate(JUMPER_LEARN_PATH);
+        router.push(JUMPER_LEARN_PATH);
       },
     },
     {

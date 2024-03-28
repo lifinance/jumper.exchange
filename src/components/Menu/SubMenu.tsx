@@ -1,3 +1,15 @@
+'use client';
+import type { MenuKeysEnum } from '@/const/menuKeys';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from '@/const/trackingKeys';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { useMenuStore } from '@/stores/menu';
+import type { MenuListItem } from '@/types/internal';
+import { EventTrackingTool } from '@/types/userTracking';
+import { getContrastAlphaColor } from '@/utils/colors';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -10,20 +22,11 @@ import {
   MenuHeaderAppBar,
   MenuHeaderAppWrapper,
   MenuHeaderLabel,
+  MenuItemContainer,
   MenuItemLink,
+  MenuLabel,
   MenuPaper,
-} from 'src/components';
-import {
-  TrackingAction,
-  TrackingCategory,
-  TrackingEventParameter,
-  type MenuKeys,
-} from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { useMenuStore } from 'src/stores';
-import { EventTrackingTool, type MenuListItem } from 'src/types';
-import { getContrastAlphaColor } from 'src/utils';
-import { MenuItemContainer, MenuLabel } from '.';
+} from '.';
 
 interface SubMenuProps {
   open: boolean;
@@ -32,9 +35,9 @@ interface SubMenuProps {
   prefixIcon?: JSX.Element | string;
   checkIcon?: boolean;
   url?: string;
-  prevMenu: MenuKeys;
+  prevMenu: MenuKeysEnum;
   subMenuList: MenuListItem[];
-  triggerSubMenu: MenuKeys;
+  triggerSubMenu: MenuKeysEnum;
 }
 
 export const SubMenu = ({

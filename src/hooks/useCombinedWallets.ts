@@ -1,16 +1,17 @@
-import type { Wallet } from '@solana/wallet-adapter-react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletReadyState } from '@solana/wallet-adapter-base';
+'use client';
 import {
   isWalletInstalled,
   isWalletInstalledAsync,
 } from '@lifi/wallet-management';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useEffect, useState } from 'react';
 import {
-  type Connector,
   useConnect,
   useAccount as useWagmiAccount,
+  type Connector,
 } from 'wagmi';
-import { useEffect, useState } from 'react';
 
 export interface CombinedWallet {
   evm?: Connector;

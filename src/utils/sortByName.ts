@@ -1,4 +1,4 @@
-import type { DataItem } from 'src/types';
+import type { DataItem } from '@/types/internal';
 
 export const sortByName = (data: DataItem[]): DataItem[] => {
   return data?.sort(function (a: DataItem, b: DataItem) {

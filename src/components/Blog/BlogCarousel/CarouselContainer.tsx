@@ -2,11 +2,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, useTheme, type CSSObject } from '@mui/material';
 
+import { TrackingAction, TrackingEventParameter } from '@/const/trackingKeys';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { EventTrackingTool } from '@/types/userTracking';
 import { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TrackingAction, TrackingEventParameter } from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { EventTrackingTool } from 'src/types';
 import {
   CarouselContainerBox,
   CarouselHeader,

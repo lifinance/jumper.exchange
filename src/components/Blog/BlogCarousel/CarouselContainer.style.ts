@@ -1,3 +1,4 @@
+import { IconButtonTertiary } from '@/components/IconButton.style';
 import type {
   BoxProps,
   Breakpoint,
@@ -5,7 +6,6 @@ import type {
   IconButtonProps,
 } from '@mui/material';
 import { Box, Typography, styled } from '@mui/material';
-import { IconButtonTertiary } from 'src/components/IconButton.style';
 
 export interface CarouselContainerBoxProps extends Omit<BoxProps, 'variant'> {
   styles?: CSSObject;

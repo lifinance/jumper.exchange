@@ -1,8 +1,8 @@
+import { useChainTokenSelectionStore } from '@/stores/chainTokenSelection/ChainTokenSelectionStore';
 import { ChainId } from '@lifi/types';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { InfoAlert } from 'src/components';
-import { useChainTokenSelectionStore } from 'src/stores';
+import { InfoAlert } from '.';
 
 export const SolanaAlert = () => {
   const { t } = useTranslation();

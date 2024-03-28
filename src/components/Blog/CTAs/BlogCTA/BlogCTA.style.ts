@@ -1,6 +1,7 @@
 import type { BoxProps, Breakpoint } from '@mui/material';
 import { Box, alpha, darken } from '@mui/material';
 
+import { urbanist } from '@/fonts/fonts';
 import { styled } from '@mui/material/styles';
 
 export const BlogCtaContainer = styled(Box)<BoxProps>(({ theme }) => ({
@@ -34,7 +35,7 @@ export const BlogCtaContainer = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 export const BlogCtaTitle = styled(Box)<BoxProps>(({ theme }) => ({
-  fontFamily: 'Urbanist, Inter',
+  fontFamily: urbanist.style.fontFamily,
   fontWeight: 700,
   fontSize: '32px',
   lineHeight: '38px',

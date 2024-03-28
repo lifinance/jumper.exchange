@@ -1,5 +1,6 @@
 export * from './DevelopersSubMenu';
 export * from './DevelopersSubMenu/useDevelopersContent';
+export * from './EcosystemSelectMenu';
 export * from './LanguagesSubMenu';
 export * from './LanguagesSubMenu/useLanguagesContent';
 export * from './MainMenu';

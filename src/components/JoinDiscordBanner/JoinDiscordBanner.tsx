@@ -1,21 +1,15 @@
+'use client';
+import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
+import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
+import { EventTrackingTool } from '@/types/userTracking';
+import { openInNewTab } from '@/utils/openInNewTab';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-  DiscordBanner,
-  DiscordBannerButton,
-  DiscordBannerLabel,
-} from 'src/components';
-import { TrackingAction, TrackingCategory } from 'src/const';
-import { useUserTracking } from 'src/hooks';
-import { EventTrackingTool } from 'src/types';
-import { openInNewTab } from 'src/utils';
+import { DiscordBanner, DiscordBannerButton, DiscordBannerLabel } from '.';
 
 export const JoinDiscordBanner = () => {
-  const theme = useTheme();
   const { t } = useTranslation();
   const { trackEvent } = useUserTracking();
-
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
   ) => {

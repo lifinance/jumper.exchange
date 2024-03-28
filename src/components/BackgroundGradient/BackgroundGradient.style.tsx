@@ -1,3 +1,4 @@
+'use client';
 import { alpha, darken, styled } from '@mui/material/styles';
 export interface BackgroundGradientContainerProps
   extends Omit<HTMLDivElement, 'children'> {

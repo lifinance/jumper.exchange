@@ -1,8 +1,8 @@
 import type { IconButtonProps } from '@mui/material';
 import { Box, IconButton } from '@mui/material';
 
+import { getContrastAlphaColor } from '@/utils/colors';
 import { styled } from '@mui/material/styles';
-import { getContrastAlphaColor } from 'src/utils';
 
 export const PaginationContainer = styled(Box)(({ theme }) => ({
   position: 'absolute',

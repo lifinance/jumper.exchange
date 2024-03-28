@@ -1,18 +1,18 @@
+import { IconButtonTertiary } from '@/components/IconButton.style';
+import { getContrastAlphaColor } from '@/utils/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import type { Breakpoint } from '@mui/material';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
+import type { InstructionItemProps } from '.';
 import {
-  IconButtonTertiary,
   InstructionsAccordionItemContainer,
   InstructionsAccordionItemIndex,
   InstructionsAccordionItemLabel,
   InstructionsAccordionItemMain,
   InstructionsAccordionItemMore,
-} from 'src/components';
-import { getContrastAlphaColor } from 'src/utils';
-import type { InstructionItemProps } from '.';
+} from '.';
 
 interface InstructionsAccordionItemProps extends InstructionItemProps {
   index: number;
@@ -23,7 +23,7 @@ const parseTitle = (title: string, link: { label: string; url: string }) => {
   // Replace <LINK> with anchor tag
   return title.replace(
     '<LINK>',
-    `<a href="${link.url}" target="${link.url.includes(window.location.host) || link.url[0] === '/' ? '_self' : '_blank'}">${link.label}</a>`,
+    `<a href="${link.url}" target="${!link.url.includes('jumper.exchange') || link.url[0] === '/' ? '_self' : '_blank'}">${link.label}</a>`,
   );
 };
 
@@ -32,6 +32,7 @@ export const InstructionsAccordionItem = ({
   step,
   link,
   index,
+  url,
 }: InstructionsAccordionItemProps) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();

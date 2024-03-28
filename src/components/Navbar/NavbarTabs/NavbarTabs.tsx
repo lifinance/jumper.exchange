@@ -1,8 +1,8 @@
+import { Tabs } from '@/components/Tabs';
+import { useActiveTabStore } from '@/stores/activeTab';
 import { useMediaQuery } from '@mui/material';
-import type { Breakpoint, Theme } from '@mui/material/styles';
+import type { Theme } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
-import { Tabs } from 'src/components';
-import { useActiveTabStore } from 'src/stores';
 import { useNavbarTabs } from '.';
 
 interface NavbarTabsProps {

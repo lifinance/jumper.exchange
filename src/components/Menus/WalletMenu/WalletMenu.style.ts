@@ -1,8 +1,10 @@
+'use client';
+
+import { ButtonSecondary, ButtonTransparent } from '@/components/Button';
+import { avatarMask32 } from '@/components/Mask.style';
 import type { ButtonProps } from '@mui/material';
 import { Avatar, Badge, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ButtonSecondary, ButtonTransparent } from 'src/components/Button';
-import { avatarMask32 } from 'src/components/Mask.style';
 
 export interface WalletButtonProps extends ButtonProps {
   colored?: boolean;

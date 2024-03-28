@@ -1,7 +1,7 @@
+import { useLoyaltyPassStore } from '@/stores/loyaltyPass';
+import type { PDA } from '@/types/loyaltyPass';
 import { useQuery } from '@tanstack/react-query';
 import request from 'graphql-request';
-import { useLoyaltyPassStore } from 'src/stores';
-import type { PDA } from 'src/types';
 import { getAllPDAs } from './querries/pdas';
 import { useAccounts } from './useAccounts';
 
@@ -41,10 +41,10 @@ export const useLoyaltyPass = (): UseLoyaltyPassProps => {
       account?.address?.toLowerCase() !== storedAddress?.toLowerCase());
 
   // query
-  const apiBaseUrl = import.meta.env.VITE_GATEWAY_URL;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_GATEWAY_URL;
   const apiUrl = new URL(`${apiBaseUrl}`);
-  const apiKey = import.meta.env.VITE_GATEWAY_API_KEY;
-  const apiAccesToken = import.meta.env.VITE_GATEWAY_API_TOKEN;
+  const apiKey = process.env.NEXT_PUBLIC_GATEWAY_API_KEY;
+  const apiAccesToken = process.env.NEXT_PUBLIC_GATEWAY_API_TOKEN;
   const headers = {
     'x-api-key': `${apiKey}`,
     Authorization: `Bearer ${apiAccesToken}`,
