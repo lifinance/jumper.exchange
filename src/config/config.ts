@@ -5,7 +5,6 @@ export const cookiesExpires = 3;
 
 export const localStorageKey = {
   activeTab: 'activeTab',
-  activeWalletName: 'activeWalletName',
   themeMode: 'themeMode',
   clientWallets: 'clientWallets',
   languageMode: 'languageMode',
@@ -29,7 +28,6 @@ const setLanguage = () => {
 interface DefaultSettingsType {
   themeMode: ThemeModesSupported;
   languageMode: LanguageKey;
-  activeWalletName: string;
   clientWallets: string[];
   disabledFeatureCards: string[];
   welcomeScreenClosed: boolean;
@@ -41,8 +39,6 @@ export const defaultSettings: DefaultSettingsType = {
     'auto',
   languageMode: setLanguage() as LanguageKey,
   clientWallets: [],
-  activeWalletName:
-    (localStorage.getItem(localStorageKey.activeWalletName) as string) || '',
   disabledFeatureCards: [],
   welcomeScreenClosed: false,
 };

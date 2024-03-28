@@ -1,7 +1,7 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import LanguageIcon from '@mui/icons-material/Language';
 import SchoolIcon from '@mui/icons-material/School';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import XIcon from '@mui/icons-material/X';
 import { Typography } from '@mui/material';
@@ -130,7 +130,7 @@ export const useMainMenuContent = () => {
         trackEvent({
           category: TrackingCategory.Menu,
           label: 'click-jumper-pass-link',
-          action: TrackingAction.ClickJumperLearnLink,
+          action: TrackingAction.ClickJumperProfileLink,
           data: { [TrackingEventParameter.Menu]: 'pass' },
           disableTrackingTool: [
             EventTrackingTool.ARCx,

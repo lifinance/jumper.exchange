@@ -25,7 +25,12 @@ export const Snackbar = () => {
       autoHideDuration={2000}
       onClose={handleCloseSnackbar}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      sx={{ zIndex: 9999 }}
+      sx={{
+        zIndex: 9999,
+        '.MuiAlert-message:first-letter': {
+          textTransform: 'capitalize',
+        },
+      }}
     >
       <MuiAlert elevation={6} variant="filled" severity={openSnackbar.severity}>
         {openSnackbar.label}

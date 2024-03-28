@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_ONRAMPER_API_KEY: string;
   readonly VITE_CUSTOM_RPCS: string;
   readonly VITE_WIDGET_INTEGRATOR: string;
+  readonly VITE_WIDGET_INTEGRATOR_REFUEL: string;
   readonly VITE_LIFI_API_URL: string;
   readonly VITE_ONRAMPER_ENABLED: string;
   readonly VITE_ONRAMPER_API_KEY: string;

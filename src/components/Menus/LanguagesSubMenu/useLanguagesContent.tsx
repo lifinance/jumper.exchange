@@ -12,14 +12,14 @@ import { EventTrackingTool } from 'src/types';
 
 export const useLanguagesContent = () => {
   const { i18n } = useTranslation();
-  const [languageMode, onChangeLanguage] = useSettingsStore((state) => [
+  const [languageMode, setLanguageMode] = useSettingsStore((state) => [
     state.languageMode,
-    state.onChangeLanguage,
+    state.setLanguageMode,
   ]);
   const { trackEvent } = useUserTracking();
   const handleSwitchLanguage = (newLanguage: LanguageKey) => {
     i18n.changeLanguage(newLanguage);
-    onChangeLanguage(newLanguage);
+    setLanguageMode(newLanguage);
     trackEvent({
       category: TrackingCategory.LanguageMenu,
       action: TrackingAction.SwitchLanguage,

@@ -27,7 +27,7 @@ export const useWalletSelectContent = () => {
 
   const { setSnackbarState, closeAllMenus, setEcosystemSelectMenuState } =
     useMenuStore((state) => state);
-  const { onWelcomeScreenClosed } = useSettingsStore((state) => state);
+  const { setWelcomeScreenClosed } = useSettingsStore((state) => state);
 
   const availableWallets = useMemo(() => {
     let allowedWallets = combinedInstalledWallets.slice(0, 7);
@@ -57,11 +57,11 @@ export const useWalletSelectContent = () => {
         );
       }
       closeAllMenus();
-      onWelcomeScreenClosed(true);
+      setWelcomeScreenClosed(true);
     },
     [
       closeAllMenus,
-      onWelcomeScreenClosed,
+      setWelcomeScreenClosed,
       setEcosystemSelectMenuState,
       connect,
       setSnackbarState,

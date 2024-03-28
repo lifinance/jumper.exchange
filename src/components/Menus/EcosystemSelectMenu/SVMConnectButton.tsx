@@ -1,13 +1,13 @@
-import { Avatar, Skeleton, Typography, useTheme } from '@mui/material';
+import { ChainId } from '@lifi/types';
+import { Avatar, Typography, useTheme } from '@mui/material';
 import type { Wallet } from '@solana/wallet-adapter-react';
+import { useChains } from 'src/hooks';
 import { useAccountConnect } from 'src/hooks/useAccounts';
 import { useMenuStore } from 'src/stores';
 import {
   ConnectButton,
   EcoSystemSelectBadge,
 } from './EcosystemSelectMenu.style';
-import { useChains } from 'src/hooks';
-import { ChainId } from '@lifi/types';
 
 interface SVMConnectButtonProps {
   walletIcon?: string;
@@ -38,7 +38,7 @@ export const SVMConnectButton = ({
           <Avatar
             src={walletIcon}
             alt={'wallet-avatar'}
-            sx={{ width: '33px', height: '33px' }}
+            sx={{ width: '36px', height: '36px' }}
           />
         }
       >

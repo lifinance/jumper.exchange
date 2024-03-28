@@ -10,8 +10,8 @@ import { WidgetContainer } from './Widgets.style';
 
 export function Widgets() {
   const { activeTab, setActiveTab } = useActiveTabStore();
-  const [welcomeScreenClosed, onWelcomeScreenClosed] = useSettingsStore(
-    (state) => [state.welcomeScreenClosed, state.onWelcomeScreenClosed],
+  const [welcomeScreenClosed, setWelcomeScreenClosed] = useSettingsStore(
+    (state) => [state.welcomeScreenClosed, state.setWelcomeScreenClosed],
   );
   const theme = useTheme();
   const [starterVariantUsed, setStarterVariantUsed] = useState(false);
@@ -72,7 +72,7 @@ export function Widgets() {
   }, [activeTab, setActiveTab, starterVariant, starterVariantUsed]);
 
   const handleCloseWelcomeScreen = () => {
-    onWelcomeScreenClosed(true);
+    setWelcomeScreenClosed(true);
   };
 
   useLayoutEffect(() => {

@@ -1,1 +1,1 @@
-export * from './chainTokenSelection';
+export * from './ChainTokenSelectionStore';

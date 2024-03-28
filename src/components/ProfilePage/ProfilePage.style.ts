@@ -1,11 +1,5 @@
-import {
-  Box,
-  Container,
-  Typography,
-  TypographyProps,
-  alpha,
-  styled,
-} from '@mui/material';
+import type { TypographyProps } from '@mui/material';
+import { Box, Container, Typography, alpha, styled } from '@mui/material';
 
 export const ProfilePageContainer = styled(Container)(() => ({
   marginTop: 32,

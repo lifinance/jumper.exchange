@@ -31,8 +31,8 @@ const lifiWelcomeUrl = appendUTMParametersToLink('https://li.fi/', {
 export const WelcomeScreen = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [welcomeScreenClosed, onWelcomeScreenClosed] = useSettingsStore(
-    (state) => [state.welcomeScreenClosed, state.onWelcomeScreenClosed],
+  const [welcomeScreenClosed, setWelcomeScreenClosed] = useSettingsStore(
+    (state) => [state.welcomeScreenClosed, state.setWelcomeScreenClosed],
     shallow,
   );
 
@@ -98,7 +98,7 @@ export const WelcomeScreen = () => {
       return;
     } else {
       event.stopPropagation();
-      onWelcomeScreenClosed(true);
+      setWelcomeScreenClosed(true);
       trackEvent({
         category: TrackingCategory.WelcomeScreen,
         action: TrackingAction.CloseWelcomeScreen,

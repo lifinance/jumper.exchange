@@ -1,3 +1,4 @@
+import type { IconButtonProps } from '@mui/material';
 import {
   Box,
   ButtonProps,
@@ -8,7 +9,6 @@ import {
   Button as MuiButton,
   darken,
   ButtonProps as MuiButtonProps,
-  IconButtonProps,
   IconButton,
 } from '@mui/material';
 

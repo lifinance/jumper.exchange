@@ -150,6 +150,7 @@ export const QuestCard = ({
               href={link}
               target="_blank"
               style={{ textDecoration: 'none', width: '50%' }}
+              rel="noreferrer"
             >
               <Button
                 variant="secondary"

@@ -7,8 +7,8 @@ import {
   TrackingCategory,
   TrackingEventParameter,
 } from 'src/const';
-import { useAccounts, useChains, useUserTracking } from 'src/hooks';
-import { useMenuStore, useSettingsStore } from 'src/stores';
+import { useChains, useUserTracking } from 'src/hooks';
+import { useMenuStore } from 'src/stores';
 import { EventTrackingTool } from 'src/types';
 import { NavbarButtonsContainer, WalletManagementButtons } from '.';
 import { MainMenu, MenuToggle } from '../..';
@@ -21,19 +21,11 @@ export const NavbarButtons = ({ redirectToLearn }: NavbarButtonsProps) => {
   const mainMenuAnchor = useRef<any>(null);
   const { trackEvent } = useUserTracking();
 
-  const onWalletDisconnect = useSettingsStore(
-    (state) => state.onWalletDisconnect,
-  );
-
   const [openMainMenu, setMainMenuState] = useMenuStore((state) => [
     state.openMainMenu,
     state.setMainMenuState,
   ]);
   const { t } = useTranslation();
-  const { account } = useAccounts();
-  if (!account?.isConnected) {
-    onWalletDisconnect();
-  }
 
   // return focus to the button when we transitioned from !open -> open
   const prevMainMenu = useRef(openMainMenu);

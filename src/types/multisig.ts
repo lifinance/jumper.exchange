@@ -4,5 +4,5 @@ export interface MultisigProps {
 }
 export interface MultisigState extends MultisigProps {
   // Destination Chain
-  onDestinationChainSelected: (chainId: ChainId) => void;
+  setDestinationChain: (chainId: ChainId) => void;
 }

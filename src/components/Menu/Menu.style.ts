@@ -112,15 +112,15 @@ export const MenuPaper = styled(Paper, {
   },
 
   [theme.breakpoints.up('sm' as Breakpoint)]: {
-    transformOrigin: 'inherit',
     maxHeight: 'calc( 100vh - 72px - 12px )',
-    borderRadius: '12px !important',
-    width: width ?? 288,
-    marginTop: -2,
   },
 
   [theme.breakpoints.up('md' as Breakpoint)]: {
+    transformOrigin: 'inherit',
     maxHeight: 'calc( 100vh - 80px - 12px )',
+    borderRadius: '12px !important',
+    width: width ?? 288,
+    marginTop: -2,
   },
 }));
 

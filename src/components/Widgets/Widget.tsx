@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TabsMap } from 'src/const';
 import { useMultisig } from 'src/hooks';
-import { useMenuStore, useSettingsStore } from 'src/stores';
+import { useActiveTabStore, useMenuStore, useSettingsStore } from 'src/stores';
 import { darkTheme } from 'src/theme';
 import type { LanguageKey, MenuState, StarterVariantType } from 'src/types';
 import { useConfig } from 'wagmi';
@@ -39,6 +39,9 @@ export function Widget({ starterVariant }: WidgetProps) {
   const { isMultisigSigner, getMultisigWidgetConfig } = useMultisig();
   const { multisigWidget, multisigSdkConfig } = getMultisigWidgetConfig();
 
+  const { activeTab } = useActiveTabStore();
+  const isGasVariant = activeTab === TabsMap.Refuel.index;
+
   const welcomeScreenClosed = useSettingsStore(
     (state) => state.welcomeScreenClosed,
   );
@@ -56,6 +59,7 @@ export function Widget({ starterVariant }: WidgetProps) {
         console.warn('Parsing custom rpcs failed', e);
       }
     }
+
     return {
       ...widgetConfig,
       variant: starterVariant === 'refuel' ? 'compact' : 'wide',
@@ -127,7 +131,9 @@ export function Widget({ starterVariant }: WidgetProps) {
       },
       buildUrl: true,
       insurance: true,
-      integrator: import.meta.env.VITE_WIDGET_INTEGRATOR,
+      integrator: isGasVariant
+        ? import.meta.env.VITE_WIDGET_INTEGRATOR_REFUEL
+        : import.meta.env.VITE_WIDGET_INTEGRATOR,
     };
   }, [
     starterVariant,
@@ -143,6 +149,7 @@ export function Widget({ starterVariant }: WidgetProps) {
     multisigSdkConfig,
     setWalletSelectMenuState,
     wagmiConfig,
+    isGasVariant,
   ]);
 
   return (
@@ -151,10 +158,7 @@ export function Widget({ starterVariant }: WidgetProps) {
       welcomeScreenClosed={welcomeScreenClosed}
     >
       {isMultisigSigner && <MultisigWalletHeaderAlert />}
-      <LiFiWidget
-        integrator={import.meta.env.VITE_WIDGET_INTEGRATOR as string}
-        config={config}
-      />
+      <LiFiWidget integrator={config.integrator} config={config} />
     </WidgetWrapper>
   );
 }

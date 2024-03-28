@@ -12,7 +12,7 @@ import {
 import { ProfilePageTypography } from '../ProfilePage.style';
 import { useEnsName } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 
 interface AddressBoxProps {
   address?: string;
@@ -59,6 +59,7 @@ export const AddressBox = ({ address, isEVM }: AddressBoxProps) => {
           href={`https://etherscan.io/address/${address}`}
           target="_blank"
           style={{ textDecoration: 'none', color: 'inherit' }}
+          rel="noreferrer"
         >
           <ProfileIconButton>
             <OpenInNewIcon sx={{ height: '16px' }} />

@@ -16,7 +16,7 @@ export const useThemeSwitchTabs = () => {
   const { t } = useTranslation();
   const { trackEvent } = useUserTracking();
 
-  const onChangeMode = useSettingsStore((state) => state.onChangeMode);
+  const setThemeMode = useSettingsStore((state) => state.setThemeMode);
 
   const handleSwitchMode = (mode: ThemeModesSupported) => {
     trackEvent({
@@ -28,7 +28,7 @@ export const useThemeSwitchTabs = () => {
       },
       disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
-    onChangeMode(mode);
+    setThemeMode(mode);
   };
 
   const output = [

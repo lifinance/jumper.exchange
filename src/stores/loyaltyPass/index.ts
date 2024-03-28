@@ -1,1 +1,1 @@
-export * from './loyaltyPassStore';
+export * from './LoyaltyPassStore';

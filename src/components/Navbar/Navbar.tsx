@@ -25,14 +25,14 @@ export const Navbar = ({
   const theme = useTheme();
   const navigate = useNavigate();
   const { account } = useAccounts();
-  const [onWelcomeScreenClosed] = useSettingsStore((state) => [
-    state.onWelcomeScreenClosed,
+  const [setWelcomeScreenClosed] = useSettingsStore((state) => [
+    state.setWelcomeScreenClosed,
   ]);
   const { closeAllMenus } = useMenuStore((state) => state);
 
   const handleClick = () => {
     closeAllMenus();
-    onWelcomeScreenClosed(false);
+    setWelcomeScreenClosed(false);
     redirectToLearn ? navigate(JUMPER_LEARN_PATH) : navigate('/');
   };
 

@@ -1,0 +1,69 @@
+name: Delete feature
+
+on:
+  pull_request:
+    types:
+      - unlabeled
+      - closed
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  delete-feature-tags:
+    if: contains(github.event.label.name, 'newtesting') || contains(github.event.pull_request.labels.*.name, 'newtesting')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout jumper-exchange
+        uses: actions/checkout@v4
+
+      - name: Set app name
+        run: |
+          NAME=$(echo "${{ env.BRANCH_NAME }}" | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
+          echo "APP_NAME=feat-${NAME:0:30}" >> $GITHUB_ENV
+
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout helm charts
+        uses: actions/checkout@v4
+        with:
+          repository: lifinance/lifi-deployment
+          ssh-key: ${{ secrets.DEPLOY_SSH }}
+          ref: develop
+          path: lifi-deployment
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        id: pnpm-install
+        with:
+          run_install: false
+
+      - name: Install node dependencies
+        shell: bash
+        run: pnpm install -g yaml && pnpm link --global yaml
+
+      - name: Update application deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { default: init } = await import('${{ github.workspace }}/.github/scripts/delete-feature.mjs')
+            await init()
+
+      - name: push changes
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          git config --global user.name "lifi-bot-action[bot]"
+          git config --global user.email "160733936+lifi-bot-action[bot]@users.noreply.github.com"
+          cd lifi-deployment
+          git commit -m "[bot][jumper] delete feature branch: ${{ env.APP_NAME }}"
+          git push

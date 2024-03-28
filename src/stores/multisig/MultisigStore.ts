@@ -20,7 +20,7 @@ export const useMultisigStore = createWithEqualityFn<MultisigState>(
         }
         return updatedState;
       }),
-    onDestinationChainSelected: (chainId: ChainId) => {
+    setDestinationChain: (chainId: ChainId) => {
       set({
         destinationChain: chainId,
       });

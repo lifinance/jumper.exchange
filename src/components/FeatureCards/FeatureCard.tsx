@@ -30,18 +30,18 @@ export const FeatureCard = ({ data, isSuccess }: FeatureCardProps) => {
     contentType: STRAPI_FEATURE_CARDS,
   });
   const { trackEvent } = useUserTracking();
-  const [onDisableFeatureCard] = useSettingsStore((state) => [
-    state.onDisableFeatureCard,
+  const [setDisabledFeatureCard] = useSettingsStore((state) => [
+    state.setDisabledFeatureCard,
   ]);
   const theme = useTheme();
   useEffect(() => {
     if (data?.attributes.DisplayConditions?.showOnce) {
-      onDisableFeatureCard(data?.attributes.uid);
+      setDisabledFeatureCard(data?.attributes.uid);
     }
   }, [
     data?.attributes.DisplayConditions,
     data?.attributes.uid,
-    onDisableFeatureCard,
+    setDisabledFeatureCard,
   ]);
 
   const typographyColor = useMemo(() => {
@@ -109,7 +109,7 @@ export const FeatureCard = ({ data, isSuccess }: FeatureCardProps) => {
     setOpen(false);
     !data?.attributes.DisplayConditions?.hasOwnProperty('showOnce') &&
       !!data?.attributes.uid &&
-      onDisableFeatureCard(data?.attributes.uid);
+      setDisabledFeatureCard(data?.attributes.uid);
     trackEvent({
       category: TrackingCategory.FeatureCard,
       action: TrackingAction.CloseFeatureCard,
