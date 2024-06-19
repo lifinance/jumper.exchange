@@ -1,25 +1,20 @@
-'use client';
 import { useEffect, useState } from 'react';
 import { uuidv7 } from 'uuidv7';
 
-export const useSession = (): string | undefined => {
-  const [session, setSession] = useState<string | undefined>(() => {
-    if (
-      typeof window !== 'undefined' &&
-      typeof sessionStorage !== 'undefined'
-    ) {
-      return sessionStorage.getItem('session_id') || undefined;
-    }
-    return undefined;
-  });
+export const useSession = (): string => {
+  const sessionIdFromStorage = sessionStorage?.getItem('session_id');
+  const [session, setSession] = useState('');
 
   useEffect(() => {
-    if (!session) {
-      const newSessionId = uuidv7();
-      setSession(newSessionId);
-      sessionStorage.setItem('session_id', newSessionId);
+    if (sessionIdFromStorage) {
+      setSession(sessionIdFromStorage);
+    } else {
+      setSession(uuidv7());
+      sessionStorage?.setItem('session_id', session);
     }
-  }, [session]);
+
+    // Log the session ID for testing purposes
+  }, [session, sessionIdFromStorage, setSession]);
 
   return session;
 };

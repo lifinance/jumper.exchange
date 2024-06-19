@@ -12,17 +12,17 @@ import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useLoyaltyPass } from 'src/hooks/useLoyaltyPass';
-import { usePersonalizedFeatureOnLevel } from 'src/hooks/usePersonalizedFeatureOnLevel';
 import { shallow } from 'zustand/shallow';
 import { FeatureCard, FeatureCardsContainer } from '.';
+import { usePersonalizedFeatureOnLevel } from 'src/hooks/usePersonalizedFeatureOnLevel';
+import { useLoyaltyPass } from 'src/hooks/useLoyaltyPass';
 
 export const FeatureCards = () => {
   const [disabledFeatureCards] = useSettingsStore(
     (state) => [state.disabledFeatureCards, state.welcomeScreenClosed],
     shallow,
   );
-  const { points } = useLoyaltyPass();
+  const { isLoading, points, tier, pdas } = useLoyaltyPass();
   const [cookie] = useCookies(['welcomeScreenClosed']);
   const [widgetExpanded, setWidgetExpanded] = useState(false);
   const widgetEvents = useWidgetEvents();
@@ -34,14 +34,15 @@ export const FeatureCards = () => {
     queryKey: ['feature-cards'],
   });
 
-  const { data: jumperUser } = useStrapi<JumperUserData>({
-    contentType: STRAPI_JUMPER_USERS,
-    filterPersonalFeatureCards: {
-      enabled: true,
-      account: account,
-    },
-    queryKey: ['personalized-feature-cards'],
-  });
+  const { data: jumperUser, isSuccess: isJumperUsersSuccess } =
+    useStrapi<JumperUserData>({
+      contentType: STRAPI_JUMPER_USERS,
+      filterPersonalFeatureCards: {
+        enabled: true,
+        account: account,
+      },
+      queryKey: ['personalized-feature-cards'],
+    });
 
   const { featureCards: featureCardsLevel } = usePersonalizedFeatureOnLevel({
     points: points,
