@@ -7,7 +7,6 @@ import {
 } from '@/const/trackingKeys';
 import { useWelcomeScreen } from '@/hooks/useWelcomeScreen';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { EventTrackingTool } from '@/types/userTracking';
 import { appendUTMParametersToLink } from '@/utils/append-utm-params-to-link';
 import { Slide } from '@mui/material';
 import type { MouseEventHandler } from 'react';
@@ -44,7 +43,7 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
   const { welcomeScreenClosed, setWelcomeScreenClosed } =
     useWelcomeScreen(closed);
   const { t } = useTranslation();
-  const { trackPageload, trackEvent } = useUserTracking();
+  const { trackEvent } = useUserTracking();
   const [openChainsToolModal, setOpenChainsToolModal] = useState(false);
   const [openBridgesToolModal, setOpenBridgesToolModal] = useState(false);
   const [openDexsToolModal, setOpenDexsToolModal] = useState(false);
@@ -54,10 +53,6 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
         category: TrackingCategory.WelcomeScreen,
         label: 'open-welcome-screen',
         action: TrackingAction.ShowWelcomeMessageScreen,
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Cookie3,
-        ],
       });
     }
   }, [trackEvent, welcomeScreenClosed]);
@@ -68,14 +63,17 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
       label: 'open-welcome-message-link',
       action: TrackingAction.OpenWelcomeMessageLink,
       data: { [TrackingEventParameter.WelcomeMessageLink]: '4x_audited' },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
-    trackPageload({
-      source: TrackingCategory.WelcomeScreen,
-      destination: 'docs-sc-audits',
-      url: auditsWelcomeUrl,
-      pageload: true,
-      disableTrackingTool: [EventTrackingTool.Cookie3],
+    trackEvent({
+      category: TrackingCategory.Pageload,
+      action: TrackingAction.PageLoad,
+      label: 'pageload-audits',
+      data: {
+        [TrackingEventParameter.PageloadSource]: TrackingCategory.WelcomeScreen,
+        [TrackingEventParameter.PageloadDestination]: '4x_audited',
+        [TrackingEventParameter.PageloadURL]: auditsWelcomeUrl,
+        [TrackingEventParameter.PageloadExternal]: true,
+      },
     });
   };
 
@@ -85,14 +83,17 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
       label: 'open-welcome-message-link',
       action: TrackingAction.OpenWelcomeMessageLink,
       data: { [TrackingEventParameter.WelcomeMessageLink]: 'LIFI' },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
-    trackPageload({
-      source: TrackingCategory.WelcomeScreen,
-      destination: 'lifi-website',
-      url: lifiWelcomeUrl,
-      pageload: true,
-      disableTrackingTool: [EventTrackingTool.Cookie3],
+    trackEvent({
+      category: TrackingCategory.Pageload,
+      action: TrackingAction.PageLoad,
+      label: 'pageload-lifi-website',
+      data: {
+        [TrackingEventParameter.PageloadSource]: TrackingCategory.WelcomeScreen,
+        [TrackingEventParameter.PageloadDestination]: 'lifi-website',
+        [TrackingEventParameter.PageloadURL]: lifiWelcomeUrl,
+        [TrackingEventParameter.PageloadExternal]: true,
+      },
     });
   };
 
@@ -111,10 +112,6 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
           category: TrackingCategory.WelcomeScreen,
           action: TrackingAction.CloseWelcomeScreen,
           label: 'enter_welcome_screen',
-          disableTrackingTool: [
-            EventTrackingTool.ARCx,
-            EventTrackingTool.Cookie3,
-          ],
           enableAddressable: true,
         });
       }

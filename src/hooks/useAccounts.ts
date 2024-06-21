@@ -4,6 +4,11 @@ import type { WalletAdapter } from '@solana/wallet-adapter-base';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useMemo } from 'react';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from 'src/const/trackingKeys';
 import type { Chain } from 'viem';
 import type { Connector } from 'wagmi';
 import {
@@ -134,18 +139,24 @@ export const useAccountConnect = () => {
   const { connectAsync } = useConnect();
   const { disconnect: wagmiDisconnect } = useDisconnect();
   const { select, disconnect, connected } = useWallet();
-  const { trackConnectWallet } = useUserTracking();
+  const { trackEvent } = useUserTracking();
 
   return async (combinedWallet: CombinedWallet) => {
     if (combinedWallet.evm) {
       wagmiDisconnect();
       lastConnectedAccount = combinedWallet.evm;
       await connectAsync({ connector: combinedWallet.evm! });
-      trackConnectWallet({
-        walletName: combinedWallet.evm.name,
-        chainType: ChainType.EVM,
-        chainId: await combinedWallet.evm.getChainId(),
-        address: `${(await combinedWallet.evm.getAccounts())?.[0]}`,
+      trackEvent({
+        category: TrackingCategory.Connect,
+        action: TrackingAction.ConnectWallet,
+        label: 'connect-wallet',
+        data: {
+          [TrackingEventParameter.Wallet]: combinedWallet.evm.name,
+          [TrackingEventParameter.Ecosystem]: ChainType.EVM,
+          [TrackingEventParameter.ChainId]:
+            await combinedWallet.evm.getChainId(),
+          [TrackingEventParameter.WalletAddress]: `${(await combinedWallet.evm.getAccounts())?.[0]}`,
+        },
       });
     } else if (combinedWallet.svm) {
       if (connected) {
@@ -153,10 +164,15 @@ export const useAccountConnect = () => {
       }
       lastConnectedAccount = combinedWallet.svm;
       select(combinedWallet.svm.adapter.name);
-      trackConnectWallet({
-        walletName: combinedWallet.svm.adapter.name,
-        chainType: ChainType.SVM,
-        chainId: ChainId.SOL,
+      trackEvent({
+        category: TrackingCategory.Connect,
+        action: TrackingAction.ConnectWallet,
+        label: 'connect-wallet',
+        data: {
+          [TrackingEventParameter.Wallet]: combinedWallet.svm.adapter.name,
+          [TrackingEventParameter.Ecosystem]: ChainType.SVM,
+          [TrackingEventParameter.ChainId]: ChainId.SOL,
+        },
       });
     }
   };

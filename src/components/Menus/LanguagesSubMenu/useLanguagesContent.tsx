@@ -9,7 +9,6 @@ import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import { cookieName } from '@/i18n/i18next-settings';
 import * as supportedLanguages from '@/i18n/translations';
 import type { LanguageKey } from '@/types/i18n';
-import { EventTrackingTool } from '@/types/userTracking';
 import { replaceLocaleInUrl } from '@/utils/replaceLocaleInUrl';
 import { usePathname } from 'next/navigation';
 import { useCookies } from 'react-cookie';
@@ -26,7 +25,6 @@ export const useLanguagesContent = () => {
       action: TrackingAction.SwitchLanguage,
       label: `language_${newLanguage}`,
       data: { [TrackingEventParameter.SwitchedLanguage]: newLanguage },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
     i18n.changeLanguage(newLanguage);
     setCookie(cookieName, newLanguage, { path: '/', sameSite: true });

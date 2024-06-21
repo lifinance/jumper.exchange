@@ -21,7 +21,13 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { publicRPCList } from 'src/const/rpcList';
 import { ThemesMap } from 'src/const/themesMap';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from 'src/const/trackingKeys';
 import { useMemelist } from 'src/hooks/useMemelist';
+import { useUserTracking } from 'src/hooks/userTracking';
 import { darkTheme } from 'src/theme/theme';
 import { useConfig } from 'wagmi';
 import { WidgetWrapper } from '.';
@@ -49,6 +55,7 @@ export function Widget({
   const { isMultisigSigner, getMultisigWidgetConfig } = useMultisig();
   const { multisigWidget, multisigSdkConfig } = getMultisigWidgetConfig();
   const { activeTab } = useActiveTabStore();
+  const { trackEvent } = useUserTracking();
   const { tokens } = useMemelist({
     enabled: !!themeVariant,
   });
@@ -183,6 +190,14 @@ export function Widget({
                 getWalletClient: () => getWalletClient(wagmiConfig),
                 switchChain: async (chainId) => {
                   const chain = await switchChain(wagmiConfig, { chainId });
+                  trackEvent({
+                    category: TrackingCategory.Widget,
+                    action: TrackingAction.SwitchChain,
+                    label: 'switch-chain',
+                    data: {
+                      [TrackingEventParameter.ChainId]: chainId,
+                    },
+                  });
                   return getWalletClient(wagmiConfig, { chainId: chain.id });
                 },
                 multisig: multisigSdkConfig,

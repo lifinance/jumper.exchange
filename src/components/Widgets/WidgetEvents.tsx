@@ -24,14 +24,13 @@ import type {
 } from '@lifi/widget';
 import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import { useEffect, useRef, useState } from 'react';
-import { EventTrackingTool } from 'src/types/userTracking';
 
 export function WidgetEvents() {
   const lastTxHashRef = useRef<string>();
   const { activeTab } = useActiveTabStore();
   const { setDestinationChainToken, setSourceChainToken } =
     useChainTokenSelectionStore();
-  const { trackEvent, trackTransaction } = useUserTracking();
+  const { trackEvent } = useUserTracking();
   const [setSupportModalState] = useMenuStore((state) => [
     state.setSupportModalState,
   ]);
@@ -89,14 +88,11 @@ export function WidgetEvents() {
       if (!!update.process && !!update.route) {
         if (update.process.txHash !== lastTxHashRef.current) {
           lastTxHashRef.current = update.process.txHash;
-          trackTransaction({
-            chain: update.route.fromChainId,
-            txhash: update.process.txHash || '',
+          trackEvent({
             category: TrackingCategory.WidgetEvent,
             action: TrackingAction.OnRouteExecutionUpdated,
-            value: parseFloat(update.route.fromAmountUSD),
+            label: 'execution_update',
             data: {
-              label: 'execution_update',
               [TrackingEventParameter.FromAmountUSD]:
                 update.route.fromAmountUSD,
               [TrackingEventParameter.ToAmountUSD]: update.route.toAmountUSD,
@@ -112,7 +108,8 @@ export function WidgetEvents() {
               [TrackingEventParameter.TxHash]: update.process.txHash || '',
               [TrackingEventParameter.TxLink]: update.process.txLink || '',
               [TrackingEventParameter.Type]: update.process.type,
-              [TrackingEventParameter.GasCostUSD]: update.route.gasCostUSD,
+              [TrackingEventParameter.GasCostUSD]:
+                update.route.gasCostUSD || '',
               [TrackingEventParameter.ErrorCode]:
                 update.process.error?.code || '',
               [TrackingEventParameter.ErrorMessage]:
@@ -179,7 +176,9 @@ export function WidgetEvents() {
           [TrackingEventParameter.ToAmountUSD]: update.toAmountUSD,
           [TrackingEventParameter.GasCostUSD]: update.gasCostUSD || '',
           [TrackingEventParameter.ValueLoss]: update.valueLoss,
-          [TrackingEventParameter.Timestamp]: Date.now(),
+          [TrackingEventParameter.Timestamp]: new Date(
+            Date.now(),
+          ).toUTCString(),
         },
         enableAddressable: true,
       });
@@ -208,10 +207,6 @@ export function WidgetEvents() {
           [TrackingEventParameter.SourceTokenSelection]:
             sourceChainData.tokenAddress,
         },
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Cookie3,
-        ],
         enableAddressable: true,
       });
       setSourceChainToken(sourceChainData);
@@ -223,10 +218,6 @@ export function WidgetEvents() {
           category: TrackingCategory.WidgetEvent,
           action: TrackingAction.OnWidgetExpanded,
           label: `widget_expanded`,
-          disableTrackingTool: [
-            EventTrackingTool.ARCx,
-            EventTrackingTool.Cookie3,
-          ],
           enableAddressable: true,
         });
     };
@@ -244,10 +235,6 @@ export function WidgetEvents() {
           [TrackingEventParameter.DestinationTokenSelection]:
             toChainData.tokenAddress,
         },
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Cookie3,
-        ],
         enableAddressable: true,
       });
       setDestinationChainToken(toChainData);
@@ -262,10 +249,6 @@ export function WidgetEvents() {
         data: {
           [TrackingEventParameter.AvailableRoutesCount]: availableRoutes.length,
         },
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Cookie3,
-        ],
       });
     };
 
@@ -335,7 +318,6 @@ export function WidgetEvents() {
     setSupportModalState,
     shouldOpenMultisigSignatureModal,
     trackEvent,
-    trackTransaction,
     widgetEvents,
   ]);
 

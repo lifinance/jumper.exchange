@@ -1,13 +1,16 @@
 import { Avatar } from '@/components/Avatar/Avatar';
 import { Button } from '@/components/Button/Button';
-import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from '@/const/trackingKeys';
 import type { Account } from '@/hooks/useAccounts';
 import { useAccountDisconnect } from '@/hooks/useAccounts';
 import { useChains } from '@/hooks/useChains';
 import { useMultisig } from '@/hooks/useMultisig';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import { useMenuStore } from '@/stores/menu';
-import { EventTrackingTool } from '@/types/userTracking';
 import { openInNewTab } from '@/utils/openInNewTab';
 import { walletDigest } from '@/utils/walletDigest';
 import { getConnectorIcon } from '@lifi/wallet-management';
@@ -30,7 +33,7 @@ interface WalletCardProps {
 export const WalletCard = ({ account }: WalletCardProps) => {
   const { t } = useTranslation();
   const disconnectWallet = useAccountDisconnect();
-  const { trackPageload, trackEvent } = useUserTracking();
+  const { trackEvent } = useUserTracking();
   const { chains } = useChains();
   const { checkMultisigEnvironment } = useMultisig();
   const [isMultisigEnvironment, setIsMultisigEnvironment] = useState(false);
@@ -60,15 +63,19 @@ export const WalletCard = ({ account }: WalletCardProps) => {
       category: TrackingCategory.WalletMenu,
       action: TrackingAction.OpenBlockchainExplorer,
       label: 'open-blockchain-explorer-wallet',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
     if (account.blockChainExplorerUrl) {
-      trackPageload({
-        source: TrackingCategory.Wallet,
-        destination: 'blokchain-explorer',
-        url: account.blockChainExplorerUrl || '',
-        pageload: true,
-        disableTrackingTool: [EventTrackingTool.Cookie3],
+      trackEvent({
+        category: TrackingCategory.Pageload,
+        action: TrackingAction.PageLoad,
+        label: 'pageload-explorer',
+        data: {
+          [TrackingEventParameter.PageloadSource]: TrackingCategory.Wallet,
+          [TrackingEventParameter.PageloadDestination]: 'blokchain-explorer',
+          [TrackingEventParameter.PageloadURL]:
+            account.blockChainExplorerUrl || '',
+          [TrackingEventParameter.PageloadExternal]: true,
+        },
       });
       openInNewTab(account.blockChainExplorerUrl);
     }
@@ -84,13 +91,17 @@ export const WalletCard = ({ account }: WalletCardProps) => {
       category: TrackingCategory.WalletMenu,
       action: TrackingAction.CopyAddressToClipboard,
       label: 'copy_addr_to_clipboard',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
     closeAllMenus();
   };
 
   const handleDisconnect = () => {
     disconnectWallet(account);
+    trackEvent({
+      category: TrackingCategory.WalletMenu,
+      action: TrackingAction.DisconnectWallet,
+      label: 'disconnect_wallet',
+    });
   };
 
   return (

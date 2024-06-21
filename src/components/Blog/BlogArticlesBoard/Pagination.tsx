@@ -1,6 +1,5 @@
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import type { StrapiMeta } from '@/types/strapi';
-import { EventTrackingTool } from '@/types/userTracking';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Skeleton, Typography, useTheme } from '@mui/material';
@@ -45,7 +44,6 @@ export const BlogArticlesBoardPagination = ({
         [TrackingEventParameter.Pagination]: page,
         [TrackingEventParameter.PaginationCat]: categoryId || '',
       },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
     setPage(page);
   };
@@ -64,7 +62,6 @@ export const BlogArticlesBoardPagination = ({
         [TrackingEventParameter.Pagination]: page,
         [TrackingEventParameter.PaginationCat]: categoryId || '',
       },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 
@@ -82,7 +79,6 @@ export const BlogArticlesBoardPagination = ({
         [TrackingEventParameter.Pagination]: page,
         [TrackingEventParameter.PaginationCat]: categoryId || '',
       },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

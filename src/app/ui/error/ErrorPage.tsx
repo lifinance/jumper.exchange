@@ -3,13 +3,8 @@ import { useTheme } from '@mui/material';
 
 import { Discord } from '@/components/illustrations/Discord';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { EventTrackingTool } from '@/types/userTracking';
 
-import {
-  TrackingAction,
-  TrackingCategory,
-  TrackingEventParameter,
-} from '@/const/trackingKeys';
+import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
 import { DISCORD_URL } from '@/const/urls';
 import { getContrastAlphaColor } from '@/utils/colors';
 import { openInNewTab } from '@/utils/openInNewTab';
@@ -25,7 +20,7 @@ interface FallbackErrorProps {
 }
 
 const ErrorPage = ({ reset }: FallbackErrorProps) => {
-  const { trackPageload, trackEvent } = useUserTracking();
+  const { trackEvent } = useUserTracking();
   const theme = useTheme();
   const { t } = useTranslation();
   return (
@@ -37,21 +32,9 @@ const ErrorPage = ({ reset }: FallbackErrorProps) => {
         variant="primary"
         onClick={() => {
           trackEvent({
-            category: TrackingCategory.Menu,
-            label: 'click-discord-link',
-            action: TrackingAction.OpenMenu,
-            data: { [TrackingEventParameter.Menu]: 'lifi_discord' },
-            disableTrackingTool: [
-              EventTrackingTool.ARCx,
-              EventTrackingTool.Cookie3,
-            ],
-          });
-          trackPageload({
-            source: TrackingCategory.Menu,
-            destination: 'discord-lifi',
-            url: DISCORD_URL,
-            pageload: true,
-            disableTrackingTool: [EventTrackingTool.Cookie3],
+            category: TrackingCategory.ErrorPage,
+            label: 'click-discord-support',
+            action: TrackingAction.OpenDiscordSupport,
           });
           openInNewTab(DISCORD_URL);
         }}

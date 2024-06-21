@@ -7,7 +7,6 @@ import {
 } from '@/const/trackingKeys';
 import { useUserTracking } from '@/hooks/userTracking';
 import { useMenuStore } from '@/stores/menu';
-import { EventTrackingTool } from '@/types/userTracking';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useRef } from 'react';
 import { MenuToggle, NavbarButtonsContainer, WalletManagementButtons } from '.';
@@ -47,7 +46,6 @@ export const NavbarButtons = () => {
       action: TrackingAction.OpenMenu,
       label: 'open_main_menu',
       data: { [TrackingEventParameter.Menu]: 'main_menu' },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

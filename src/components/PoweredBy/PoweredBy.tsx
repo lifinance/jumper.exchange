@@ -1,9 +1,12 @@
 'use client';
 import { LinkMap } from '@/const/linkMap';
-import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
+import {
+  TrackingAction,
+  TrackingCategory,
+  TrackingEventParameter,
+} from '@/const/trackingKeys';
 import { JUMPER_MEMECOIN_PATH, LIFI_URL } from '@/const/urls';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { EventTrackingTool } from '@/types/userTracking';
 import { appendUTMParametersToLink } from '@/utils/append-utm-params-to-link';
 import { isArticlePage } from '@/utils/isArticlePage';
 import { openInNewTab } from '@/utils/openInNewTab';
@@ -25,7 +28,7 @@ interface PoweredByProps {
 
 export const PoweredBy = ({ styles }: PoweredByProps) => {
   const theme = useTheme();
-  const { trackPageload, trackEvent } = useUserTracking();
+  const { trackEvent } = useUserTracking();
   const currentPath = usePathname();
   let result = currentPath?.substring(0, currentPath.lastIndexOf('/'));
   const isArticle = isArticlePage(
@@ -40,18 +43,21 @@ export const PoweredBy = ({ styles }: PoweredByProps) => {
   );
 
   const handleClick = () => {
-    trackPageload({
-      source: TrackingCategory.PoweredBy,
-      destination: 'lifi-website',
-      url: lifiUrl,
-      pageload: true,
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
+    trackEvent({
+      category: TrackingCategory.Pageload,
+      action: TrackingAction.PageLoad,
+      label: 'pageload-powered-by',
+      data: {
+        [TrackingEventParameter.PageloadSource]: TrackingCategory.PoweredBy,
+        [TrackingEventParameter.PageloadDestination]: 'lifi-website',
+        [TrackingEventParameter.PageloadURL]: lifiUrl,
+        [TrackingEventParameter.PageloadExternal]: true,
+      },
     });
     trackEvent({
       category: TrackingCategory.PoweredBy,
       action: TrackingAction.PoweredBy,
       label: 'click_lifi_in_powered_by',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
     openInNewTab(lifiUrl);
   };

@@ -1,7 +1,6 @@
 'use client';
 import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { EventTrackingTool } from '@/types/userTracking';
 import { isArticlePage } from '@/utils/isArticlePage';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { usePathname } from 'next/navigation';
@@ -21,7 +20,6 @@ export const JoinDiscordBanner = () => {
       category: TrackingCategory.DiscordBanner,
       action: TrackingAction.JoinDiscordCommunity,
       label: 'click-join-discord-community',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

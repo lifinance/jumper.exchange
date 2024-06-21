@@ -4,7 +4,6 @@ import {
   TrackingEventParameter,
 } from '@/const/trackingKeys';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { EventTrackingTool } from '@/types/userTracking';
 import { replacePathInUrl } from '@/utils/replacePathInUr';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import EvStationOutlinedIcon from '@mui/icons-material/EvStationOutlined';
@@ -36,10 +35,6 @@ export const useNavbarTabs = ({ navbarPageReload }: useNavbarTabsProps) => {
         action: TrackingAction.SwitchTab,
         label: `switch_tab_to_${tab}`,
         data: { [TrackingEventParameter.Tab]: tab },
-        disableTrackingTool: [
-          EventTrackingTool.ARCx,
-          EventTrackingTool.Cookie3,
-        ],
         enableAddressable: true,
       });
     };

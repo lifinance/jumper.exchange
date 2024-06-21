@@ -3,7 +3,6 @@ import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
 import { JUMPER_LEARN_PATH } from '@/const/urls';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import type { BlogArticleData, StrapiResponseData } from '@/types/strapi';
-import { EventTrackingTool } from '@/types/userTracking';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { CarouselContainer } from '.';
@@ -36,7 +35,6 @@ export const BlogCarousel = ({
       category: TrackingCategory.BlogCarousel,
       action: TrackingAction.SeeAllPosts,
       label: 'click-see-all-posts',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

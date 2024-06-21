@@ -11,7 +11,6 @@ import {
 import { useSession } from '@/hooks/useSession';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import type { BlogArticleData } from '@/types/strapi';
-import { EventTrackingTool } from '@/types/userTracking';
 import { formatDate } from '@/utils/formatDate';
 import { readingTime } from '@/utils/readingTime';
 import { JUMPER_LEARN_PATH } from 'src/const/urls';
@@ -49,7 +48,6 @@ export const FeaturedArticle = ({
       label: 'click-featured-article',
       action: TrackingAction.ClickFeaturedArticle,
       data: { [TrackingEventParameter.ArticleID]: featuredArticle[0]?.id },
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 

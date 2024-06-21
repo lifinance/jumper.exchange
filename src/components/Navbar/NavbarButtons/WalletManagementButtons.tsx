@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { TrackingAction, TrackingCategory } from 'src/const/trackingKeys';
 import { JUMPER_LEARN_PATH } from 'src/const/urls';
 import { useUserTracking } from 'src/hooks/userTracking';
-import { EventTrackingTool } from 'src/types/userTracking';
 import { WallettButtons } from '../WalletButton';
 import { ConnectButton } from './WalletManagementButtons.style';
 
@@ -28,7 +27,6 @@ export const WalletManagementButtons = () => {
       category: TrackingCategory.WalletSelectMenu,
       action: TrackingAction.ClickConnectToWidget,
       label: 'click_connect_wallet_on_jumper_learn',
-      disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
   };
 
