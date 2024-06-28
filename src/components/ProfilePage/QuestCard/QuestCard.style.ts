@@ -14,6 +14,7 @@ export const QuestCardMainBox = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   overflow: 'hidden',
   padding: theme.spacing(2),
+  minWidth: 272,
 }));
 
 export const QuestCardBottomBox = styled(Box)(({ theme }) => ({
