@@ -82,3 +82,18 @@ export const ButtonTransparent = styled(ButtonBase)<MuiButtonProps>(
     },
   }),
 );
+
+export const SuperfestButton = styled(ButtonBase)<MuiButtonProps>(
+  ({ theme }) => ({
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? alpha(theme.palette.primary.main, 0.08)
+        : alpha(theme.palette.primary.main, 0.42),
+    '&:hover': {
+      backgroundColor:
+        theme.palette.mode === 'light'
+          ? alpha(theme.palette.primary.main, 0.12)
+          : alpha(theme.palette.primary.main, 0.56),
+    },
+  }),
+);

@@ -1,11 +1,10 @@
 import { CarouselContainer } from '@/components/Blog/BlogCarousel/CarouselContainer';
 import { useOngoingQuests } from '@/hooks/useOngoingQuests';
 import type { Quest } from '@/types/loyaltyPass';
-import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { BlogCarouselContainer } from '../../Blog/BlogCarousel/BlogCarousel.style';
 import { QuestCard } from '../QuestCard/QuestCard';
 import { QuestCardSkeleton } from '../QuestCard/QuestCardSkeleton';
+import { QuestCarouselContainer } from './QuestCarousel.style';
 
 interface QuestCarouselProps {
   quests?: Quest[];
@@ -21,14 +20,10 @@ export const QuestCarousel = ({ quests, loading }: QuestCarouselProps) => {
   return (
     <>
       {!isNotLive ? (
-        <BlogCarouselContainer>
-          <CarouselContainer
-            title={t('missions.available')}
-            itemsCount={quests?.length}
-          >
-            <Stack direction={'row'} spacing={{ xs: 2, sm: 4 }}>
-              {!loading ? (
-                quests?.map((quest: Quest, index: number) => {
+        <QuestCarouselContainer>
+          <CarouselContainer title={t('missions.available')}>
+            {!loading
+              ? quests?.map((quest: Quest, index: number) => {
                   return (
                     <QuestCard
                       key={`ongoing-mission-${index}`}
@@ -53,16 +48,11 @@ export const QuestCarousel = ({ quests, loading }: QuestCarouselProps) => {
                     />
                   );
                 })
-              ) : (
-                <>
-                  {Array.from({ length: 3 }, () => 42).map((_, idx) => (
-                    <QuestCardSkeleton key={'mission-card-skeleton-' + idx} />
-                  ))}
-                </>
-              )}
-            </Stack>
+              : Array.from({ length: 3 }, () => 42).map((_, idx) => (
+                  <QuestCardSkeleton key={'mission-card-skeleton-' + idx} />
+                ))}
           </CarouselContainer>
-        </BlogCarouselContainer>
+        </QuestCarouselContainer>
       ) : null}
     </>
   );

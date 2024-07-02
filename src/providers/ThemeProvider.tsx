@@ -4,9 +4,12 @@ import type { ThemeModesSupported } from '@/types/settings';
 import { CssBaseline, useMediaQuery } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { darkTheme, lightTheme } from 'src/theme/theme';
+import { deepmerge } from '@mui/utils';
+import { sora } from 'src/fonts/fonts';
+import { useSuperfest } from 'src/hooks/useSuperfest';
 
 export const useDetectDarkModePreference = () => {
   const themeMode = useSettingsStore((state) => state.themeMode);
@@ -29,6 +32,7 @@ export const ThemeProvider: React.FC<
   const [theme, setTheme] = useState<ThemeModesSupported | undefined>(
     themeProp,
   );
+  const { isSuperfest } = useSuperfest();
   const isDarkMode = useDetectDarkModePreference();
 
   useEffect(() => {
@@ -55,7 +59,42 @@ export const ThemeProvider: React.FC<
     }
   }, [themeMode, isDarkMode, setCookie]);
 
-  const activeTheme = theme === 'dark' ? darkTheme : lightTheme;
+  const activeTheme = useMemo(() => {
+    let currentTheme = theme === 'dark' ? darkTheme : lightTheme;
+
+    if (isSuperfest) {
+      currentTheme = lightTheme;
+      // Merge partner theme attributes into the base theme
+      const mergedTheme = deepmerge(currentTheme, {
+        typography: {
+          fontFamily: sora.style.fontFamily,
+        },
+        palette: {
+          primary: {
+            main: '#ff0420',
+          },
+          accent1: {
+            main: '#ff0420',
+          },
+          accent1Alt: {
+            main: '#ff0420',
+          },
+          secondary: {
+            main: '#FDFBEF',
+          },
+          surface1: {
+            main: '#FDFBEF',
+          },
+        },
+        // typography: currentCustomizedTheme.typography
+        //   ? currentCustomizedTheme.typography
+        //   : currentTheme.typography,
+      });
+      return mergedTheme;
+    } else {
+      return currentTheme;
+    }
+  }, [isSuperfest, theme]);
 
   // Render children only when the theme is determined
   return (

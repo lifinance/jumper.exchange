@@ -29,6 +29,7 @@ interface CustomRichBlocksProps {
   content: RootNode[] | undefined;
   id?: number;
   activeTheme?: ThemeModesSupported;
+  variant?: string;
 }
 
 interface ImageData {
@@ -47,6 +48,7 @@ export const CustomRichBlocks = ({
   baseUrl,
   content,
   activeTheme,
+  variant,
 }: CustomRichBlocksProps) => {
   const customRichBlocks = {
     image: (data: ImageData) =>
@@ -174,6 +176,8 @@ export const CustomRichBlocks = ({
             <InstructionsAccordion
               data={instructions_array}
               key={generateKey('instructions')}
+              activeTheme={activeTheme}
+              variant={variant}
             />
           );
         } catch (error) {

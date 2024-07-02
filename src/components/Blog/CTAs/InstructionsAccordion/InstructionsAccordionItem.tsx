@@ -1,7 +1,7 @@
 import { getContrastAlphaColor } from '@/utils/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import type { Breakpoint } from '@mui/material';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import type { MouseEventHandler } from 'react';
 import { useState } from 'react';
 import type { InstructionItemProps } from '.';
@@ -14,6 +14,9 @@ import {
   InstructionsAccordionItemMore,
   InstructionsAccordionToggle,
 } from '.';
+import { Button } from 'src/components/Button';
+import { sora } from 'src/fonts/fonts';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 interface InstructionsAccordionItemProps extends InstructionItemProps {
   index: number;
@@ -42,6 +45,10 @@ export const InstructionsAccordionItem = ({
   link,
   index,
   url,
+  buttonText,
+  buttonLink,
+  activeTheme,
+  variant,
 }: InstructionsAccordionItemProps) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -53,7 +60,13 @@ export const InstructionsAccordionItem = ({
     step && setOpen((prev) => !prev);
   };
   return (
-    <InstructionsAccordionItemContainer>
+    <InstructionsAccordionItemContainer
+      sx={{
+        typograpy: variant === 'superfest' ? sora.style.fontFamily : undefined,
+        border: variant === 'superfest' ? '2px dotted' : undefined,
+        borderColor: variant === 'superfest' ? '#000000' : undefined,
+      }}
+    >
       <InstructionsAccordionItemMain onClick={(e) => handleOpen(e)}>
         <InstructionsAccordionItemHeader>
           <InstructionsAccordionItemIndex>
@@ -90,7 +103,59 @@ export const InstructionsAccordionItem = ({
       </InstructionsAccordionItemMain>
 
       {open ? (
-        <InstructionsAccordionItemMore>{step}</InstructionsAccordionItemMore>
+        <InstructionsAccordionItemMore>
+          <>
+            <Typography>{step}</Typography>
+            {buttonLink ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignContent: 'center',
+                  justifyContent: 'flex-start',
+                  mt: '16px',
+                  typography:
+                    variant === 'superfest' ? sora.style.fontFamily : undefined,
+                }}
+              >
+                <a
+                  href={buttonLink}
+                  target="_blank"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      textAlign: 'left',
+                      alignItems: 'center',
+                      alignContent: 'center',
+                      color: '#000000',
+                      '&:hover': {
+                        color: theme.palette.primary.main,
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant={'lifiBodyMediumStrong'}
+                      component={'span'}
+                      mr={'8px'}
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: 208,
+                        [theme.breakpoints.up('sm' as Breakpoint)]: {
+                          maxWidth: 168,
+                        },
+                      }}
+                    >
+                      {buttonText}
+                    </Typography>
+                    <ArrowForwardIcon />
+                  </Box>
+                </a>
+              </Box>
+            ) : null}
+          </>
+        </InstructionsAccordionItemMore>
       ) : null}
     </InstructionsAccordionItemContainer>
   );

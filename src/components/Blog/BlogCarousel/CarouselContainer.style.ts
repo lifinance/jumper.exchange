@@ -19,6 +19,7 @@ export const CarouselContainerBox = styled(Box, {
   marginTop: theme.spacing(3),
   overflow: 'auto',
   width: '100%',
+  overflowY: 'hidden',
   scrollSnapType: 'x mandatory',
   '& > *': {
     scrollSnapAlign: 'center',

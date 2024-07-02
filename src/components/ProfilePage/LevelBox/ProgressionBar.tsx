@@ -1,7 +1,7 @@
 import type { LevelData } from '@/types/loyaltyPass';
 import { Box } from '@mui/material';
 import { XPIcon } from '../../illustrations/XPIcon';
-import { CenteredBox, ProfilePageTypography } from '../ProfilePage.style';
+import { CenteredBox, NoSelectTypography } from '../ProfilePage.style';
 import {
   ProgressionChart,
   ProgressionChartBg,
@@ -33,12 +33,20 @@ export const ProgressionBar = ({ points, levelData }: ProgressionBarProps) => {
               justifyContent: 'space-between',
             }}
           >
-            <ProfilePageTypography fontSize="14px" lineHeight="18px">
+            <NoSelectTypography
+              fontSize="14px"
+              lineHeight="18px"
+              fontWeight={700}
+            >
               {`LEVEL ${levelData?.level}`}
-            </ProfilePageTypography>
-            <ProfilePageTypography fontSize="14px" lineHeight="18px">
+            </NoSelectTypography>
+            <NoSelectTypography
+              fontSize="14px"
+              lineHeight="18px"
+              fontWeight={700}
+            >
               {`LEVEL ${levelData.level + 1}`}
-            </ProfilePageTypography>
+            </NoSelectTypography>
           </Box>
           <ProgressionChart>
             <ProgressionChartScore
@@ -50,25 +58,25 @@ export const ProgressionBar = ({ points, levelData }: ProgressionBarProps) => {
           </ProgressionChart>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <CenteredBox>
-              <ProfilePageTypography
+              <NoSelectTypography
                 fontSize="16px"
                 lineHeight="20px"
                 fontWeight={600}
               >
                 {levelData.minPoints}
-              </ProfilePageTypography>
+              </NoSelectTypography>
               <CenteredBox sx={{ marginLeft: '8px' }}>
                 <XPIcon size={24} />
               </CenteredBox>
             </CenteredBox>
             <CenteredBox>
-              <ProfilePageTypography
+              <NoSelectTypography
                 fontSize={'16px'}
                 lineHeight={'20px'}
                 fontWeight={600}
               >
                 {levelData.maxPoints}
-              </ProfilePageTypography>
+              </NoSelectTypography>
               <CenteredBox sx={{ marginLeft: '8px' }}>
                 <XPIcon size={24} />
               </CenteredBox>

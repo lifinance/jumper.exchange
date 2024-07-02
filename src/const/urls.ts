@@ -13,6 +13,7 @@ export const FB_SHARE_URL = 'https://www.facebook.com/sharer/sharer.php';
 export const LINKEDIN_SHARE_URL = 'https://www.linkedin.com/shareArticle';
 export const JUMPER_LEARN_PATH = '/learn';
 export const JUMPER_LOYALTY_PATH = '/profile';
+export const JUMPER_FEST = '/superfest';
 export const JUMPER_MEMECOIN_PATH = '/memecoins';
 
 // prepare sitemap

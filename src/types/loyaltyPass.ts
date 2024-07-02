@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { RootNode } from 'node_modules/@strapi/blocks-react-renderer/dist/BlocksRenderer';
+
 // PDA Type
 
 type Claim = {
@@ -75,6 +77,15 @@ type ImageData = {
   };
 };
 
+type BannerImageData = {
+  data: [
+    {
+      id: number;
+      attributes: ImageAttributes;
+    },
+  ];
+};
+
 type QuestsPlatformAttributes = {
   Name: string;
   WebsiteLink: string;
@@ -94,14 +105,22 @@ type QuestAttributes = {
   Title: string;
   Description?: string;
   Link: string;
-  Type?: string;
+  Category?: string;
   Points: number;
   EndDate?: string;
   StartDate?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
+  Slug: string;
+  Label?: string;
+  Information?: string;
+  ClaimingId?: string;
+  Subtitle?: string;
+  Steps?: RootNode[];
+  CustomInformation?: any; // JSON object that can change and where type is not enforced inside Strapi yet.
   Image: ImageData;
+  BannerImage: BannerImageData;
   quests_platform: QuestsPlatformData;
 };
 
