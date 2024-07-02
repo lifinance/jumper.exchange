@@ -6,7 +6,8 @@ interface GetStrapiBaseUrlProps {
     | 'blog-articles'
     | 'faq-items'
     | 'tags'
-    | 'jumper-users';
+    | 'jumper-users'
+    | 'partner-themes';
 }
 
 interface PaginationProps {
@@ -157,6 +158,19 @@ class FeatureCardStrapiApi extends StrapiApi {
   }
 }
 
+class PartnerThemeStrapiApi extends StrapiApi {
+  constructor() {
+    super({ contentType: 'partner-themes' }); // Set content type to "feature-cards" automatically
+    this.addPartnerThemeParams(); // Add specific parameters for feature cards
+  }
+
+  private addPartnerThemeParams(): void {
+    // populate images on feature card query
+    this.apiUrl.searchParams.set('populate[0]', 'BackgroundImageLight');
+    this.apiUrl.searchParams.set('populate[1]', 'BackgroundImageDark');
+  }
+}
+
 interface FilterPerrsonalFeatureCardsProps {
   account: Account | undefined;
 }
@@ -219,5 +233,6 @@ export {
   BlogFaqStrapiApi,
   FeatureCardStrapiApi,
   JumperUserStrapiApi,
+  PartnerThemeStrapiApi,
   StrapiApi,
 };

@@ -18,8 +18,8 @@ import { shallow } from 'zustand/shallow';
 import { FeatureCard, FeatureCardsContainer } from '.';
 
 export const FeatureCards = () => {
-  const [disabledFeatureCards] = useSettingsStore(
-    (state) => [state.disabledFeatureCards, state.welcomeScreenClosed],
+  const disabledFeatureCards = useSettingsStore(
+    (state) => state.disabledFeatureCards,
     shallow,
   );
   const { points } = useLoyaltyPass();

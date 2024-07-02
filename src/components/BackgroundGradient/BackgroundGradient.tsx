@@ -1,5 +1,8 @@
 'use client';
-import { type CSSObject } from '@mui/material';
+import { useTheme, type CSSObject } from '@mui/material';
+import { useMemo } from 'react';
+import { usePartnerFilter } from 'src/hooks/usePartnerFilter';
+import { usePartnerTheme } from 'src/hooks/usePartnerTheme';
 import {
   BackgroundGradientBottomLeft,
   BackgroundGradientBottomRight,
@@ -8,15 +11,34 @@ import {
 } from '.';
 import { SirBridgeLot } from '../illustrations/SirBridgeLot';
 import { FixBoxWithNoOverflow, MovingBox } from './MovingBox.style';
-import { usePartnerTheme } from 'src/hooks/usePartnerTheme';
-import Image from 'next/image';
 
 interface BackgroundGradientProps {
   styles?: CSSObject;
 }
 
 export const BackgroundGradient = ({ styles }: BackgroundGradientProps) => {
-  const { partnerName } = usePartnerTheme();
+  const { partnerName } = usePartnerFilter();
+  const { partnerTheme, activeUid, backgroundColor, imgUrl } =
+    usePartnerTheme();
+  const theme = useTheme();
+  const bgImg = useMemo(() => {
+    return imgUrl;
+  }, [imgUrl]);
+  const bgCol = useMemo(() => {
+    return (
+      backgroundColor ||
+      (theme.palette.mode === 'light'
+        ? partnerTheme?.attributes.lightConfig?.customization?.palette
+            .background
+        : partnerTheme?.attributes.darkConfig?.customization?.palette
+            .background)
+    );
+  }, [
+    backgroundColor,
+    partnerTheme?.attributes.darkConfig,
+    partnerTheme?.attributes.lightConfig,
+    theme.palette.mode,
+  ]);
 
   if (partnerName === 'memecoins') {
     return (
@@ -35,10 +57,18 @@ export const BackgroundGradient = ({ styles }: BackgroundGradientProps) => {
     );
   }
   return (
-    <BackgroundGradientContainer sx={styles}>
-      <BackgroundGradientBottomLeft />
-      <BackgroundGradientBottomRight />
-      <BackgroundGradientTopCenter />
+    <BackgroundGradientContainer
+      sx={styles}
+      backgroundImageUrl={activeUid ? bgImg : undefined}
+      backgroundColor={activeUid ? (bgCol as string) : undefined}
+    >
+      {!activeUid && (
+        <>
+          <BackgroundGradientBottomLeft />
+          <BackgroundGradientBottomRight />
+          <BackgroundGradientTopCenter />
+        </>
+      )}
     </BackgroundGradientContainer>
   );
 };

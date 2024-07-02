@@ -4,6 +4,7 @@ import { MenuKeysEnum } from '@/const/menuKeys';
 import { useMenuStore } from '@/stores/menu';
 import type { JsxElement } from 'typescript';
 import { DevelopersSubmenu, LanguagesSubmenu, useMainMenuContent } from '..';
+import { ThemeSubmenu } from '../ThemeSubMenu';
 
 interface MenuProps {
   anchorEl?: HTMLAnchorElement;
@@ -44,6 +45,7 @@ export const MainMenu = ({ anchorEl }: MenuProps) => {
         ))}
       <LanguagesSubmenu />
       <DevelopersSubmenu />
+      <ThemeSubmenu />
     </Menu>
   );
 };

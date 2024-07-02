@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { JUMPER_LEARN_PATH, JUMPER_LOYALTY_PATH } from '@/const/urls';
 import { useWelcomeScreen } from '@/hooks/useWelcomeScreen';
 import { useMenuStore } from '@/stores/menu';
+import { usePartnerFilter } from 'src/hooks/usePartnerFilter';
 import {
   NavbarContainer as Container,
   Logo,
@@ -22,20 +23,19 @@ export const Navbar = () => {
   const handleClick = () => {
     closeAllMenus();
     setWelcomeScreenClosed(false);
-
-    if (pathname === '/gas/') {
-      return;
-    }
-
     isLearnPage ? router.push(JUMPER_LEARN_PATH) : router.push('/');
   };
+
+  const { hasTheme } = usePartnerFilter();
 
   return (
     <Container>
       <LogoLink id="jumper-logo" onClick={handleClick} sx={{ height: '32px' }}>
         <Logo variant={isLearnPage ? 'learn' : 'default'} />
       </LogoLink>
-      {!isLearnPage ? <NavbarTabs navbarPageReload={isLoyaltyPage} /> : null}
+      {!isLearnPage && !hasTheme ? (
+        <NavbarTabs navbarPageReload={isLoyaltyPage} />
+      ) : null}
       <NavbarButtons />
     </Container>
   );

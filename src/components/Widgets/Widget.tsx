@@ -6,31 +6,27 @@ import { TabsMap } from '@/const/tabsMap';
 import { useMultisig } from '@/hooks/useMultisig';
 import { useActiveTabStore } from '@/stores/activeTab/ActiveTabStore';
 import { useMenuStore } from '@/stores/menu';
-import { useSettingsStore } from '@/stores/settings';
 import type { LanguageKey } from '@/types/i18n';
 import type { MenuState } from '@/types/menu';
 import { EVM } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
 import { HiddenUI, LiFiWidget } from '@lifi/widget';
-import type { Breakpoint } from '@mui/material/styles';
-import { useTheme } from '@mui/material/styles';
 import { getWalletClient, switchChain } from '@wagmi/core';
+import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { publicRPCList } from 'src/const/rpcList';
 import { ThemesMap } from 'src/const/themesMap';
 import { useMemelist } from 'src/hooks/useMemelist';
-import { darkTheme } from 'src/theme/theme';
+import { usePartnerFilter } from 'src/hooks/usePartnerFilter';
+import { useWelcomeScreen } from 'src/hooks/useWelcomeScreen';
 import { useConfig } from 'wagmi';
 import { WidgetWrapper } from '.';
 import type { WidgetProps } from './Widget.types';
 import { refuelAllowChains, themeAllowChains } from './Widget.types';
 import { WidgetSkeleton } from './WidgetSkeleton';
-import { usePartnerTheme } from 'src/hooks/usePartnerTheme';
-import { useMediaQuery } from '@mui/material';
-import type { Theme } from '@mui/material';
-import { publicRPCList } from 'src/const/rpcList';
-import { useRouter } from 'next/navigation';
-import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
+import { useWidgetTheme } from './useWidgetTheme';
 
 export function Widget({
   starterVariant,
@@ -43,15 +39,13 @@ export function Widget({
   widgetIntegrator,
   activeTheme,
 }: WidgetProps) {
-  const theme = useTheme();
-  const themeMode = useSettingsStore((state) => state.themeMode);
   const { i18n } = useTranslation();
   const wagmiConfig = useConfig();
-  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
   const { isMultisigSigner, getMultisigWidgetConfig } = useMultisig();
-  const { isBridgeFiltered, isDexFiltered, partnerName } = usePartnerTheme();
+  const { isBridgeFiltered, isDexFiltered, partnerName } = usePartnerFilter();
   const { multisigWidget, multisigSdkConfig } = getMultisigWidgetConfig();
   const { activeTab } = useActiveTabStore();
+  const widgetTheme = useWidgetTheme();
   const { tokens } = useMemelist({
     enabled: partnerName === ThemesMap.Memecoins,
   });
@@ -65,9 +59,8 @@ export function Widget({
   });
 
   const isGasVariant = activeTab === TabsMap.Refuel.index;
-  const welcomeScreenClosed = useSettingsStore(
-    (state) => state.welcomeScreenClosed,
-  );
+  const { welcomeScreenClosed, welcomeScreenDisabled } = useWelcomeScreen();
+
   const setWalletSelectMenuState = useMenuStore(
     (state: MenuState) => state.setWalletSelectMenuState,
   );
@@ -96,7 +89,7 @@ export function Widget({
     }
 
     return process.env.NEXT_PUBLIC_WIDGET_INTEGRATOR;
-  }, [widgetIntegrator, isGasVariant, isDesktop]) as string;
+  }, [widgetIntegrator, isGasVariant]) as string;
 
   // load environment config
   const config: WidgetConfig = useMemo((): WidgetConfig => {
@@ -143,50 +136,14 @@ export function Widget({
         default: i18n.language as LanguageKey,
         allow: i18n.languages as LanguageKey[],
       },
-      appearance: themeMode,
+      appearance: widgetTheme.config.appearance,
       hiddenUI: [
         HiddenUI.Appearance,
         HiddenUI.Language,
         HiddenUI.PoweredBy,
         HiddenUI.WalletMenu,
       ],
-      theme: {
-        // @ts-expect-error
-        typography: {
-          fontFamily: theme.typography.fontFamily,
-        },
-        container: {
-          borderRadius: '12px',
-          maxWidth: '100%',
-          [theme.breakpoints.up('sm' as Breakpoint)]: {
-            borderRadius: '12px',
-            maxWidth: 416,
-            minWidth: 416,
-            boxShadow:
-              theme.palette.mode === 'light'
-                ? '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.08)'
-                : '0px 2px 4px rgba(0, 0, 0, 0.08), 0px 8px 16px rgba(0, 0, 0, 0.16)',
-          },
-        },
-        shape: {
-          borderRadius: 12,
-          borderRadiusSecondary: 24,
-        },
-        palette: {
-          background: {
-            paper: theme.palette.surface2.main,
-            default: theme.palette.surface1.main,
-          },
-          primary: {
-            main: theme.palette.accent1.main,
-          },
-          secondary: {
-            // FIXME: we need to find out how to use the correct color from the main theme config
-            main: darkTheme.palette.accent2.main,
-          },
-          grey: theme.palette.grey,
-        },
-      },
+      theme: widgetTheme.config.theme,
       keyPrefix: `jumper-${starterVariant}`,
       ...multisigWidget,
       apiKey: process.env.NEXT_PUBLIC_LIFI_API_KEY,
@@ -225,34 +182,25 @@ export function Widget({
     i18n.language,
     i18n.languages,
     integratorStringByType,
+    isBridgeFiltered,
+    isDexFiltered,
     isMultisigSigner,
     multisigSdkConfig,
     multisigWidget,
+    partnerName,
     setWalletSelectMenuState,
     starterVariant,
-    theme.breakpoints,
-    theme.palette.accent1.main,
-    theme.palette.grey,
-    theme.palette.mode,
-    theme.palette.surface1.main,
-    theme.palette.surface2.main,
-    theme.typography.fontFamily,
-    themeMode,
     toChain,
     toToken,
     tokens,
     wagmiConfig,
-    widgetIntegrator,
-    partnerName,
-    isDexFiltered,
-    isBridgeFiltered,
-    integratorStringByType,
+    widgetTheme,
   ]);
 
   return (
     <WidgetWrapper
       className="widget-wrapper"
-      welcomeScreenClosed={welcomeScreenClosed}
+      welcomeScreenClosed={!welcomeScreenDisabled ?? welcomeScreenClosed}
     >
       {isMultisigSigner && <MultisigWalletHeaderAlert />}
       <ClientOnly

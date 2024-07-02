@@ -1,7 +1,7 @@
-import App from '@/app/ui/app/App';
-import { WidgetContainer, Widgets } from '@/components/Widgets';
-import { OnRamper } from '@/components/OnRamper';
 import { getCookies } from '@/app/lib/getCookies';
+import App from '@/app/ui/app/App';
+import { OnRamper } from '@/components/OnRamper';
+import { WidgetContainerBox, Widgets } from '@/components/Widgets';
 
 const Page = () => {
   const variant = 'buy';
@@ -10,7 +10,7 @@ const Page = () => {
 
   return (
     <App starterVariant={variant} isWelcomeScreenClosed={isWelcomeScreenClosed}>
-      <WidgetContainer welcomeScreenClosed={true}>
+      <WidgetContainerBox welcomeScreenClosed={true}>
         <Widgets
           activeTheme={activeTheme}
           closedWelcomeScreen={!!welcomeScreenClosed}
@@ -18,7 +18,7 @@ const Page = () => {
         />
 
         <OnRamper />
-      </WidgetContainer>
+      </WidgetContainerBox>
     </App>
   );
 };

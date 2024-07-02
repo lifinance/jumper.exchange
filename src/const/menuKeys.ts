@@ -7,6 +7,7 @@ export const MenuKeys = {
   Devs: 'Devs',
   Language: 'Language',
   EcosystemSelect: 'EcosystemSelect',
+  Theme: 'Theme',
   None: 'None',
 };
 
@@ -19,6 +20,7 @@ export enum MenuKeysEnum {
   Devs = 'Devs',
   Language = 'Language',
   EcosystemSelect = 'EcosystemSelect',
+  Theme = 'Theme',
   None = 'None',
 }
 
@@ -51,4 +53,5 @@ export const MenuSub: MenuSubType = {
   [MenuKeysEnum.Language]: MenuKeysEnum.Language,
   [MenuKeysEnum.WalletSelectMore]: MenuKeysEnum.WalletSelectMore,
   [MenuKeysEnum.None]: MenuKeysEnum.None,
+  [MenuKeysEnum.Theme]: MenuKeysEnum.Theme,
 };

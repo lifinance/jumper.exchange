@@ -54,9 +54,13 @@ interface Resources {
         connectAnotherWallet: 'Connect another wallet';
       };
       themes: {
-        switchToLight: 'Switch to Light Theme';
-        switchToDark: 'Switch to Dark Theme';
+        switchToLight: 'Switch to Light mode';
+        switchToDark: 'Switch to Dark mode';
         switchToSystem: 'Switch to System';
+        lightModeDisabled: 'Light mode is disabled for this theme';
+        darkModeDisabled: 'Dark mode is disabled for this theme';
+        systemModeDisabled: 'System mode is disabled for this theme';
+        default: 'Default';
       };
       developers: {
         github: 'GitHub';

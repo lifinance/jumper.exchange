@@ -1,7 +1,8 @@
-import App from '@/app/ui/app/App';
-import { WidgetContainer, Widgets } from '@/components/Widgets';
-import { Widget } from '@/components/Widgets/Widget';
 import { getCookies } from '@/app/lib/getCookies';
+import App from '@/app/ui/app/App';
+import { Widgets } from '@/components/Widgets';
+import { Widget } from '@/components/Widgets/Widget';
+import { WidgetContainer } from '@/components/Widgets/WidgetContainer';
 
 const Page = () => {
   const variant = 'refuel';
@@ -10,7 +11,7 @@ const Page = () => {
 
   return (
     <App starterVariant={variant} isWelcomeScreenClosed={isWelcomeScreenClosed}>
-      <WidgetContainer welcomeScreenClosed={true}>
+      <WidgetContainer welcomeScreenClosed={true} widgetVariant={'refuel'}>
         <Widgets
           activeTheme={activeTheme}
           closedWelcomeScreen={!!welcomeScreenClosed}

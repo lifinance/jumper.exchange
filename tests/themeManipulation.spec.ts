@@ -12,7 +12,10 @@ test.describe('Switch between dark and light theme and check background color', 
     await page.locator('xpath=//*[@id="tab-key-1"]').click();
     await page.locator('#main-burger-menu-button').click(); //Close menu
     const backgroundColor = await page.locator('xpath=/html/body/div[1]');
-    expect(backgroundColor).toHaveCSS('background-color', 'rgba(101, 0, 254, 0.1)');
+    expect(backgroundColor).toHaveCSS(
+      'background-color',
+      'rgba(101, 0, 254, 0.1)',
+    );
   });
 
   test.use({ colorScheme: 'light' });
@@ -22,6 +25,9 @@ test.describe('Switch between dark and light theme and check background color', 
     await page.locator('xpath=//*[@id="tab-key-0"]').click();
     await page.locator('#main-burger-menu-button').click(); // Close menu
     const backgroundColor = await page.locator('xpath=/html/body/div[1]');
-    expect(backgroundColor).toHaveCSS('background-color', 'rgba(101, 0, 254, 0.1)');
+    expect(backgroundColor).toHaveCSS(
+      'background-color',
+      'rgba(101, 0, 254, 0.1)',
+    );
   });
 });
