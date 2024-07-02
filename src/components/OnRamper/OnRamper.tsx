@@ -1,15 +1,13 @@
 'use client';
 import { WidgetWrapper } from '@/components/Widgets';
-import { useSettingsStore } from '@/stores/settings';
 import { removeHash } from '@/utils/removeHash';
 import { useTheme } from '@mui/material';
+import { useWelcomeScreen } from 'src/hooks/useWelcomeScreen';
 import { OnRamperIFrame } from './index';
 
 export const OnRamper = () => {
   const theme = useTheme();
-  const welcomeScreenClosed = useSettingsStore(
-    (state) => state.welcomeScreenClosed,
-  );
+  const { welcomeScreenClosed, welcomeScreenDisabled } = useWelcomeScreen();
   const onRamperConfig = {
     apiKey: process.env.NEXT_PUBLIC_ONRAMPER_API_KEY,
     defaultCrypto: 'ETH',
@@ -41,8 +39,9 @@ export const OnRamper = () => {
   const onRamperSrc = `https://buy.onramper.com/?${searchParams.toString()}`;
   return (
     <WidgetWrapper
-      welcomeScreenClosed={welcomeScreenClosed}
+      welcomeScreenClosed={welcomeScreenDisabled ?? welcomeScreenClosed}
       className="widget-wrapper"
+      sx={{ textAlign: 'center' }}
     >
       <div>
         <OnRamperIFrame

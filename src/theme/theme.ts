@@ -112,7 +112,7 @@ declare module '@mui/material/styles' {
     // lifiBrandBodySmall: React.CSSProperties;
     // lifiBrandHeaderMedium: React.CSSProperties;
     // lifiBrandHeaderLarge: React.CSSProperties;
-    lifiBrandHeaderXLarge: React.CSSProperties;
+    lifiBrandHeaderXLarge?: React.CSSProperties;
     lifiHeaderDisplay?: React.CSSProperties;
     lifiHeaderXLarge?: React.CSSProperties;
     lifiHeaderLarge?: React.CSSProperties;
@@ -120,15 +120,15 @@ declare module '@mui/material/styles' {
     lifiHeaderSmall?: React.CSSProperties;
     lifiHeaderXSmall?: React.CSSProperties;
     lifiBodyXLargeStrong?: React.CSSProperties;
-    lifiBodyXLarge: React.CSSProperties;
-    lifiBodyLargeStrong: React.CSSProperties;
-    lifiBodyLarge: React.CSSProperties;
-    lifiBodyMediumStrong: React.CSSProperties;
-    lifiBodyMedium: React.CSSProperties;
-    lifiBodySmallStrong: React.CSSProperties;
-    lifiBodySmall: React.CSSProperties;
-    lifiBodyXSmallStrong: React.CSSProperties;
-    lifiBodyXSmall: React.CSSProperties;
+    lifiBodyXLarge?: React.CSSProperties;
+    lifiBodyLargeStrong?: React.CSSProperties;
+    lifiBodyLarge?: React.CSSProperties;
+    lifiBodyMediumStrong?: React.CSSProperties;
+    lifiBodyMedium?: React.CSSProperties;
+    lifiBodySmallStrong?: React.CSSProperties;
+    lifiBodySmall?: React.CSSProperties;
+    lifiBodyXSmallStrong?: React.CSSProperties;
+    lifiBodyXSmall?: React.CSSProperties;
   }
 }
 declare module '@mui/material/Button' {

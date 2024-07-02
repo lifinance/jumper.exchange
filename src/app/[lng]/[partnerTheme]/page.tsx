@@ -1,7 +1,7 @@
-import App from '../../../ui/app/App';
-import { WidgetContainer, Widgets } from '@/components/Widgets';
-import { Widget } from '@/components/Widgets/Widget';
 import { getCookies } from '@/app/lib/getCookies';
+import { WidgetContainerBox, Widgets } from '@/components/Widgets';
+import { Widget } from '@/components/Widgets/Widget';
+import App from '../../ui/app/App';
 
 export const dynamicParams = false;
 
@@ -32,14 +32,14 @@ export default function Page() {
 
   return (
     <App starterVariant={variant} isWelcomeScreenClosed={isWelcomeScreenClosed}>
-      <WidgetContainer welcomeScreenClosed={true}>
+      <WidgetContainerBox welcomeScreenClosed={true}>
         <Widgets
           activeTheme={activeTheme}
           closedWelcomeScreen={isWelcomeScreenClosed}
           widgetVariant={variant}
         />
         <Widget starterVariant={variant} activeTheme={activeTheme} />
-      </WidgetContainer>
+      </WidgetContainerBox>
     </App>
   );
 }

@@ -2,6 +2,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 
 import { JUMPER_LEARN_PATH, JUMPER_LOYALTY_PATH } from '@/const/urls';
+import { usePartnerTheme } from '@/hooks/usePartnerTheme';
 import { useWelcomeScreen } from '@/hooks/useWelcomeScreen';
 import { useMenuStore } from '@/stores/menu';
 import {
@@ -17,15 +18,12 @@ export const Navbar = () => {
   const pathname = usePathname();
   const isLearnPage = pathname?.includes(JUMPER_LEARN_PATH);
   const isLoyaltyPage = pathname?.includes(JUMPER_LOYALTY_PATH);
+  const { activeUid } = usePartnerTheme();
   const { setWelcomeScreenClosed } = useWelcomeScreen();
   const { closeAllMenus } = useMenuStore((state) => state);
   const handleClick = () => {
     closeAllMenus();
     setWelcomeScreenClosed(false);
-
-    if (pathname === '/gas/') {
-      return;
-    }
 
     isLearnPage ? router.push(JUMPER_LEARN_PATH) : router.push('/');
   };

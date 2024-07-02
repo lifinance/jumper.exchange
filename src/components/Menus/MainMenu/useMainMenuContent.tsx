@@ -22,6 +22,7 @@ import { getContrastAlphaColor } from '@/utils/colors';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import LanguageIcon from '@mui/icons-material/Language';
+import PaletteIcon from '@mui/icons-material/Palette';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import XIcon from '@mui/icons-material/X';
@@ -29,6 +30,9 @@ import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { useIsDapp } from 'src/hooks/useIsDapp';
+import { usePartnerFilter } from 'src/hooks/usePartnerFilter';
+import { usePartnerTheme } from 'src/hooks/usePartnerTheme';
 import { useThemeSwitchTabs } from './useThemeSwitchTabs';
 
 export const useMainMenuContent = () => {
@@ -36,6 +40,9 @@ export const useMainMenuContent = () => {
   const { trackPageload, trackEvent } = useUserTracking();
   const router = useRouter();
   const theme = useTheme();
+  const isDapp = useIsDapp();
+  const { activeUid } = usePartnerTheme();
+  const { hasTheme } = usePartnerFilter();
   const { setSupportModalState, setSubMenuState, closeAllMenus } = useMenuStore(
     (state) => state,
   );
@@ -68,7 +75,7 @@ export const useMainMenuContent = () => {
     borderRadius: '18px',
   };
 
-  return [
+  const mainMenuContent = [
     {
       children: (
         <Tabs
@@ -102,6 +109,37 @@ export const useMainMenuContent = () => {
       },
       showMoreIcon: false,
       disableRipple: true,
+    },
+    {
+      label: t('navbar.navbarMenu.theme'),
+      prefixIcon: <PaletteIcon />,
+      triggerSubMenu: !hasTheme ? MenuKeysEnum.Theme : undefined,
+      showMoreIcon: !hasTheme,
+      suffixIcon:
+        activeUid !== 'undefined' ? (
+          <Typography
+            variant="lifiBodyMedium"
+            textTransform={'uppercase'}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: 38,
+            }}
+          >
+            {activeUid}
+          </Typography>
+        ) : undefined,
+      onClick: () => {
+        if (!hasTheme) {
+          setSubMenuState(MenuKeysEnum.Theme);
+          trackEvent({
+            category: TrackingCategory.MainMenu,
+            action: TrackingAction.OpenMenu,
+            label: `open_submenu_${MenuKeysEnum.Theme.toLowerCase()}`,
+            data: { [TrackingEventParameter.Menu]: MenuKeysEnum.Theme },
+          });
+        }
+      },
     },
     {
       label: t('language.key', { ns: 'language' }),
@@ -303,4 +341,10 @@ export const useMainMenuContent = () => {
       showButton: true,
     },
   ];
+
+  if (!isDapp) {
+    return mainMenuContent.slice(0, 1).concat(mainMenuContent.slice(2));
+  } else {
+    return mainMenuContent;
+  }
 };

@@ -16,7 +16,6 @@ import { Trans } from 'react-i18next/TransWithoutContext';
 import { ToolCards } from './ToolCard/ToolCards';
 import {
   ContentWrapper,
-  Overlay,
   WelcomeContent,
   WelcomeScreenButton,
   WelcomeScreenButtonLabel,
@@ -40,13 +39,14 @@ interface WelcomeScreenProps {
 }
 
 export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
-  const { welcomeScreenClosed, setWelcomeScreenClosed } =
+  const { welcomeScreenClosed, setWelcomeScreenClosed, welcomeScreenDisabled } =
     useWelcomeScreen(closed);
   const { t } = useTranslation();
   const { trackPageload, trackEvent } = useUserTracking();
   const [openChainsToolModal, setOpenChainsToolModal] = useState(false);
   const [openBridgesToolModal, setOpenBridgesToolModal] = useState(false);
   const [openDexsToolModal, setOpenDexsToolModal] = useState(false);
+
   useEffect(() => {
     if (welcomeScreenClosed) {
       trackEvent({
@@ -104,7 +104,7 @@ export const WelcomeScreen = ({ closed }: WelcomeScreenProps) => {
       return;
     } else {
       event.stopPropagation();
-      if (!welcomeScreenClosed) {
+      if (!welcomeScreenClosed && !welcomeScreenDisabled) {
         setWelcomeScreenClosed(true);
         trackEvent({
           category: TrackingCategory.WelcomeScreen,

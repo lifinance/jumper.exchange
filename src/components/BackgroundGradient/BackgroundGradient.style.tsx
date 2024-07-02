@@ -1,25 +1,40 @@
 'use client';
-import type { Breakpoint } from '@mui/material/styles';
+import type { Breakpoint, Theme } from '@mui/material/styles';
 import { alpha, darken, styled } from '@mui/material/styles';
-export interface BackgroundGradientContainerProps
-  extends Omit<HTMLDivElement, 'children'> {
-  children?: JSX.Element | JSX.Element[] | React.ReactNode;
+
+export interface BackgroundGradientContainerProps {
+  backgroundImageUrl?: URL;
+  backgroundColor?: string | undefined;
 }
 
-export const BackgroundGradientContainer = styled('div')(({ theme }) => ({
-  position: 'fixed',
-  overflow: 'hidden',
-  pointerEvents: 'none',
-  background: theme.palette.surface1.main,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  top: 0,
-  zIndex: -1,
-  [theme.breakpoints.up('sm' as Breakpoint)]: {
-    background: theme.palette.bg.main, //theme.palette.bg.main,
-  },
-}));
+export const BackgroundGradientContainer = styled('div', {
+  shouldForwardProp: (prop) =>
+    prop !== 'backgroundImageUrl' && prop !== 'backgroundColor',
+})<BackgroundGradientContainerProps>(({
+  theme,
+  backgroundImageUrl,
+  backgroundColor,
+}) => {
+  return {
+    position: 'fixed',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    background: backgroundImageUrl
+      ? `url(${backgroundImageUrl.href})`
+      : (theme as Theme).palette.surface1.main,
+    backgroundColor: backgroundColor,
+    left: 0,
+    ...(backgroundImageUrl && { backgroundSize: 'cover' }),
+    bottom: 0,
+    right: 0,
+    top: 0,
+    zIndex: -1,
+    [theme.breakpoints.up('sm' as Breakpoint)]: {
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+    },
+  };
+});
 
 const BackgroundGradient = styled('span')(() => ({
   content: '" "',

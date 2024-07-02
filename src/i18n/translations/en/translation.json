@@ -47,9 +47,13 @@
       "connectAnotherWallet": "Connect another wallet"
     },
     "themes": {
-      "switchToLight": "Switch to Light Theme",
-      "switchToDark": "Switch to Dark Theme",
-      "switchToSystem": "Switch to System"
+      "switchToLight": "Switch to light mode",
+      "switchToDark": "Switch to dark mode",
+      "switchToSystem": "Switch to system mode",
+      "lightModeDisabled": "Light mode is disabled for this theme",
+      "darkModeDisabled": "Dark mode is disabled for this theme",
+      "systemModeDisabled": "System mode is disabled for this theme",
+      "default": "Default"
     },
     "developers": {
       "github": "GitHub",

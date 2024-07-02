@@ -11,6 +11,7 @@ import type { CSSObject } from '@mui/material';
 import { Typography, useTheme } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { Trans } from 'react-i18next/TransWithoutContext';
+import { usePartnerFilter } from 'src/hooks/usePartnerFilter';
 import { Container } from './PoweredBy.style';
 
 const lifiUrl = appendUTMParametersToLink(LIFI_URL, {
@@ -31,10 +32,15 @@ export const PoweredBy = ({ styles }: PoweredByProps) => {
   const isArticle = isArticlePage(
     `${process.env.NEXT_PUBLIC_SITE_URL}/${currentPath}`,
   );
+  const { bridgesKeys, exchangesKeys } = usePartnerFilter();
 
   //Todo: logic to review
   const isRoot = result === '/' || result === '';
   const isThemePage = result === JUMPER_MEMECOIN_PATH;
+  const isPartnerPage =
+    currentPath &&
+    (exchangesKeys.includes(currentPath.replace(/\//g, '')) ||
+      bridgesKeys.includes(currentPath.replace(/\//g, '')));
   const isApp = Object.values(LinkMap).some((page) =>
     result?.includes(`/${page}`),
   );
@@ -58,7 +64,7 @@ export const PoweredBy = ({ styles }: PoweredByProps) => {
 
   return (
     <Container
-      fixedPosition={isRoot || isApp || isThemePage}
+      fixedPosition={isPartnerPage || isRoot || isApp || isThemePage}
       sx={styles}
       isArticlePage={isArticle}
     >

@@ -36,7 +36,7 @@ export const ChainAlert = () => {
       setIsClickable(false);
       setChainId(0);
     }
-  }, [destinationChainToken, sourceChainToken]);
+  }, [destinationChainToken, sourceChainToken, t]);
 
   return (
     <>

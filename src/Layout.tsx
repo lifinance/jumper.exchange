@@ -1,18 +1,24 @@
-import type { PropsWithChildren } from 'react';
-import { BackgroundGradient } from './components/BackgroundGradient/BackgroundGradient';
+import Image from 'next/image';
+import { type PropsWithChildren } from 'react';
+import { BackgroundGradient } from './components/BackgroundGradient';
 import { Navbar } from './components/Navbar/Navbar';
 import { PoweredBy } from './components/PoweredBy/PoweredBy';
 import { Snackbar } from './components/Snackbar/Snackbar';
 import { SupportModal } from './components/SupportModal/SupportModal';
-import Image from 'next/image';
+import type { ThemeModesSupported } from './types/settings';
+import type { PartnerThemesAttributes } from './types/strapi';
 
 interface LayoutProps {
-  fixedPoweredBy?: boolean | undefined;
+  fixedPoweredBy?: boolean;
+  partnerTheme?: PartnerThemesAttributes;
+  themeMode?: ThemeModesSupported;
 }
 
 export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   children,
+  partnerTheme,
   fixedPoweredBy,
+  themeMode,
 }) => {
   return (
     <>
@@ -38,7 +44,7 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
           src="https://cdn.discordapp.com/emojis/898917406548836402.webp?size=96&quality=lossless"
         />
       </div>
-      <BackgroundGradient />
+      <BackgroundGradient partnerTheme={partnerTheme} themeMode={themeMode} />
       <Navbar />
       {children}
       <SupportModal />

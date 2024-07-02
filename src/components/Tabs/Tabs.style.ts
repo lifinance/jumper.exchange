@@ -1,9 +1,8 @@
 'use client';
 
 import { getContrastAlphaColor } from '@/utils/colors';
-import type { TabProps, TabsProps } from '@mui/material';
-import { alpha } from '@mui/material';
-import { Tab as MuiTab, Tabs, styled } from '@mui/material';
+import type { TabProps as MuiTabProps, TabsProps } from '@mui/material';
+import { Tab as MuiTab, Tabs, alpha, styled } from '@mui/material';
 
 export const TabsContainer = styled(Tabs, {
   shouldForwardProp: (prop) => prop !== 'styles',
@@ -34,9 +33,13 @@ export const TabsContainer = styled(Tabs, {
   },
 }));
 
+export interface CustomTabProps extends Omit<MuiTabProps, 'component'> {
+  blur?: boolean;
+}
+
 export const Tab = styled(MuiTab, {
-  shouldForwardProp: (prop) => prop !== 'styles',
-})<TabProps>(({ theme }) => ({
+  shouldForwardProp: (prop) => prop !== 'blur',
+})<CustomTabProps>(({ theme, blur }) => ({
   textTransform: 'initial',
   letterSpacing: 0,
   display: 'flex',
@@ -57,6 +60,8 @@ export const Tab = styled(MuiTab, {
       ? theme.palette.white.main
       : theme.palette.black.main,
   textDecoration: 'none',
+  opacity: blur ? 0.2 : 'unset',
+
   '&.Mui-selected': {
     color:
       theme.palette.mode === 'dark'

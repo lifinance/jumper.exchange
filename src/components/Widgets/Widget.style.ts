@@ -1,6 +1,6 @@
 'use client';
 
-import type { BoxProps, Breakpoint } from '@mui/material';
+import type { BoxProps } from '@mui/material';
 import { Box, styled } from '@mui/material';
 
 export interface WidgetWrapperProps extends Omit<BoxProps, 'component'> {

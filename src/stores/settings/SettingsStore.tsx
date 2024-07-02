@@ -62,16 +62,16 @@ export const useSettingsStore = createWithEqualityFn(
     }),
     {
       name: 'jumper-store', // name of the item in the storage (must be unique)
-      version: 1,
+      version: 2,
       migrate: (persistedState: any, version: number) => {
-        if (version === 0) {
+        if (version > 1) {
           const newStore = { ...persistedState };
           Object.keys(persistedState)
             .filter((el) => !(el in defaultSettings))
             .forEach((el) => delete newStore[el]);
           return newStore;
         }
-        return persistedState;
+        return { ...persistedState, partnerThemeUid: 'OP' };
       },
       // storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
     },

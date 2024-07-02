@@ -1,8 +1,10 @@
+import { useSettingsStore } from '@/stores/settings';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useSettingsStore } from '@/stores/settings';
+import { usePartnerTheme } from './usePartnerTheme';
 
 interface useWelcomeScreenProps {
+  welcomeScreenDisabled: boolean;
   welcomeScreenClosed: boolean | undefined;
   setWelcomeScreenClosed: (closed: boolean) => void;
 }
@@ -12,6 +14,7 @@ export const useWelcomeScreen = (
 ): useWelcomeScreenProps => {
   const [state, setState] = useState(initialState);
   const [cookie, setCookie] = useCookies(['welcomeScreenClosed']);
+  const { activeUid } = usePartnerTheme();
 
   const [sessionWelcomeScreenClosed, sessionSetWelcomeScreenClosed] =
     useSettingsStore((state) => [
@@ -20,8 +23,8 @@ export const useWelcomeScreen = (
     ]);
 
   useEffect(() => {
-    setState(cookie.welcomeScreenClosed);
-  }, [cookie.welcomeScreenClosed]);
+    setState(!!activeUid || cookie.welcomeScreenClosed);
+  }, [activeUid, cookie.welcomeScreenClosed]);
 
   const updateState = (closed: boolean) => {
     setState(closed);
@@ -34,7 +37,8 @@ export const useWelcomeScreen = (
   };
 
   return {
-    welcomeScreenClosed: state || sessionWelcomeScreenClosed,
+    welcomeScreenClosed: !!activeUid || state || sessionWelcomeScreenClosed,
     setWelcomeScreenClosed: updateState,
+    welcomeScreenDisabled: !!activeUid,
   };
 };

@@ -1,6 +1,6 @@
 'use client';
 import type { BoxProps, Breakpoint } from '@mui/material';
-import { Box, Typography, keyframes, styled } from '@mui/material';
+import { Box, Typography, styled } from '@mui/material';
 import { ButtonPrimary } from '../Button';
 
 export interface WrapperProps extends Omit<BoxProps, 'component'> {
@@ -31,15 +31,6 @@ export const Overlay = styled(Box, {
 export interface ContentWrapperProps extends Omit<BoxProps, 'component'> {
   showWelcome?: boolean;
 }
-
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
 
 export const ContentWrapper = styled(
   Box,

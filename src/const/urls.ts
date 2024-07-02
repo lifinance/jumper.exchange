@@ -14,15 +14,21 @@ export const LINKEDIN_SHARE_URL = 'https://www.linkedin.com/shareArticle';
 export const JUMPER_LEARN_PATH = '/learn';
 export const JUMPER_LOYALTY_PATH = '/profile';
 export const JUMPER_MEMECOIN_PATH = '/memecoins';
+export const JUMPER_BUY_PATH = '/buy';
+export const JUMPER_REFUEL_PATH = '/refuel';
+export const JUMPER_GAS_PATH = '/gas';
+export const JUMPER_EXCHANGE_PATH = '/exchange';
+export const JUMPER_SWAP_PATH = '/swap';
+export const STRAPI_URL_PATH = 'https://strapi.li.finance';
 
 // prepare sitemap
 export const pages: SitemapPage[] = [
   { path: '', priority: 1 },
   { path: JUMPER_LEARN_PATH, priority: 0.9 },
   { path: JUMPER_LOYALTY_PATH, priority: 0.8 },
-  { path: '/buy', priority: 0.7 },
-  { path: '/exchange', priority: 0.7 },
-  { path: '/swap', priority: 0.7 },
-  { path: '/refuel', priority: 0.7 },
-  { path: '/gas', priority: 0.7 },
+  { path: JUMPER_BUY_PATH, priority: 0.7 },
+  { path: JUMPER_EXCHANGE_PATH, priority: 0.7 },
+  { path: JUMPER_SWAP_PATH, priority: 0.7 },
+  { path: JUMPER_REFUEL_PATH, priority: 0.7 },
+  { path: JUMPER_GAS_PATH, priority: 0.7 },
 ];

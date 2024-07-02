@@ -207,6 +207,9 @@ export const CustomRichBlocks = ({
                     </BlogParagraph>
                   );
                 }
+              } else {
+                // fix: expects a return value from arrow function
+                return <></>;
               }
             })}
           </BlogParagraphContainer>

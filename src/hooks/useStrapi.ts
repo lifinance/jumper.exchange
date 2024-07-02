@@ -3,6 +3,7 @@ import {
   STRAPI_FAQ_ITEMS,
   STRAPI_FEATURE_CARDS,
   STRAPI_JUMPER_USERS,
+  STRAPI_PARTNER_THEMES,
 } from '@/const/strapiContentKeys';
 import type { StrapiMeta, StrapiResponseData } from '@/types/strapi';
 import { useQuery } from '@tanstack/react-query';
@@ -34,8 +35,10 @@ interface ContentTypeProps {
     | 'blog-articles'
     | 'faq-items'
     | 'tags'
+    | 'partner-themes'
     | 'jumper-users';
   filterSlug?: string;
+  filterUid?: string;
   filterTag?: (number | null | undefined)[] | null | undefined;
   filterFeaturedArticle?: boolean | undefined;
   filterPersonalFeatureCards?: filterPerrsonalFeatureCardsProps;
@@ -49,6 +52,7 @@ interface ContentTypeProps {
 export const useStrapi = <T>({
   contentType,
   filterSlug,
+  filterUid,
   filterFeaturedArticle,
   filterPersonalFeatureCards,
   sort,
@@ -157,6 +161,21 @@ export const useStrapi = <T>({
     apiUrl.searchParams.set('filters[$or][1][campaignStart][$null]', 'true');
     apiUrl.searchParams.set('filters[$or][0][campaignEnd][$gte]', currentDate);
     apiUrl.searchParams.set('filters[$or][1][campaignEnd][$null]', 'true');
+  }
+
+  // partner-themes -->
+  if (contentType === STRAPI_PARTNER_THEMES) {
+    apiUrl.searchParams.set('populate[BackgroundImageLight]', '*');
+    apiUrl.searchParams.set('populate[BackgroundImageDark]', '*');
+    apiUrl.searchParams.set('populate[FooterImageLight]', '*');
+    apiUrl.searchParams.set('populate[FooterImageDark]', '*');
+    apiUrl.searchParams.set('populate[LogoLight]', '*');
+    apiUrl.searchParams.set('populate[LogoDark]', '*');
+
+    // filter partner-themes by "uid"
+    if (filterUid) {
+      apiUrl.searchParams.set('filters[uid][$eq]', filterUid);
+    }
   }
 
   // jumper users -->

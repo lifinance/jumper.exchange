@@ -11,6 +11,7 @@ export const LogoWrapper = styled('div')(({ theme }) => {
   return {
     cursor: 'pointer',
     display: 'flex',
+    alignItems: 'center',
     fill: 'none',
     '.main-color': {
       fill: mainCol,
