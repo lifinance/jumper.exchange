@@ -1,5 +1,7 @@
 'use client';
 import { useChains } from '@/hooks/useChains';
+import { injected } from 'wagmi/connectors';
+
 import {
   createDefaultWagmiConfig,
   safe,
@@ -21,9 +23,18 @@ const { config, connectors } = createDefaultWagmiConfig({
   connectors: [safe],
 });
 
+export const metaMaskConnector = injected({
+  target: 'metaMask',
+  shimDisconnect: false,
+});
+
+export const phantomConnector = injected({
+  target: 'phantom',
+  shimDisconnect: false,
+});
+
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useChains();
-
   useSyncWagmiConfig(config, connectors, chains);
 
   return (

@@ -1,13 +1,14 @@
 'use client';
 
 import { WelcomeScreen } from '@/components/WelcomeScreen/WelcomeScreen';
-import type { StarterVariantType } from '@/types/internal';
 import { WidgetContainer } from '@/components/Widgets';
 import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
-import { EventTrackingTool } from '@/types/userTracking';
 import { useWelcomeScreen } from '@/hooks/useWelcomeScreen';
 import { useUserTracking } from '@/hooks/userTracking';
+import type { StarterVariantType } from '@/types/internal';
+import { EventTrackingTool } from '@/types/userTracking';
 import { Box } from '@mui/material';
+import Testing from 'src/components/Testing/Testing';
 import { StyledSlide } from './App.style';
 
 export interface AppProps {
@@ -41,6 +42,8 @@ const App = ({ starterVariant, isWelcomeScreenClosed, children }: AppProps) => {
 
   return (
     <Box onClick={handleWelcomeScreenEnter}>
+      <Testing />
+
       <StyledSlide
         direction="up"
         in={!welcomeScreen.welcomeScreenClosed}

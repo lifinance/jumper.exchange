@@ -99,6 +99,9 @@ export const useWalletSelectContent = () => {
     };
 
     const output = availableWallets.map((combinedWallet) => {
+      console.log('Metamask?', navigator.userAgent.includes('MetaMaskMobile'));
+      console.log('Phantom?', navigator.userAgent.includes('Phantom'));
+
       return {
         label:
           (combinedWallet.evm?.name || combinedWallet.svm?.adapter.name) ?? '',
