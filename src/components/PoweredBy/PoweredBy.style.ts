@@ -25,6 +25,7 @@ export const Container = styled('div', {
           marginRight: theme.spacing(3),
           [theme.breakpoints.up('sm' as Breakpoint)]: {
             marginTop: isArticlePage ? theme.spacing(-6) : theme.spacing(8),
+            alignSelf: 'flex-end',
           },
         }
       : {

@@ -15,7 +15,7 @@ export const WidgetContainer = styled(Box, {
 })<WidgetContainerProps>(
   ({ theme, isActive, welcomeScreenClosed = false }) => ({
     display: 'flex',
-    margin: '0 auto 24px',
+    margin: '0 auto',
     overflow: !welcomeScreenClosed ? 'hidden' : 'inherit',
     width: 'auto',
     minHeight: '50vh',
