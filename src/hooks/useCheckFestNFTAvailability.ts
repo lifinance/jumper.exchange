@@ -29,6 +29,20 @@ export interface UseCheckFestNFTAvailabilityProps {
 
 const GALXE_ENDPOINT = 'https://graphigo.prd.galaxy.eco/query';
 
+const ROOTS = {
+  optimism: '',
+  fraxtal: '',
+  base: '',
+  mode: '',
+};
+
+const ADDRESSES = {
+  optimism: '',
+  fraxtal: '',
+  base: '',
+  mode: '',
+};
+
 export const useCheckFestNFTAvailability = ({
   userAddress,
 }: UseCheckFestNFTAvailabilityProps): UseCheckFestNFTAvailabilityRes => {
