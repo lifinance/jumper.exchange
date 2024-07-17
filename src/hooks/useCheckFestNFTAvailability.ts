@@ -8,11 +8,8 @@ export interface NFTInfo {
   isClaimable: boolean;
   isClaimed: boolean;
   claimingAddress: string;
-  cid: string;
-  signature?: string;
-  cap?: number;
-  verifyIds?: number;
-  NFTAddress?: string;
+  quantityToMint: any;
+  allowListEntry: any;
 }
 
 export interface UseCheckFestNFTAvailabilityRes {
@@ -27,27 +24,26 @@ export interface UseCheckFestNFTAvailabilityProps {
   userAddress?: string;
 }
 
-const GALXE_ENDPOINT = 'https://graphigo.prd.galaxy.eco/query';
-
-const ROOTS = {
+const ROOTS: { [key: string]: string } = {
   optimism: '',
   fraxtal: '',
   base: '',
   mode: '',
 };
 
-const ADDRESSES = {
+const ADDRESSES: { [key: string]: string } = {
   optimism: '',
   fraxtal: '',
   base: '',
   mode: '',
 };
+
+const CHAINS = ['optimism', 'fraxtal', 'base', 'mode'];
 
 export const useCheckFestNFTAvailability = ({
   userAddress,
 }: UseCheckFestNFTAvailabilityProps): UseCheckFestNFTAvailabilityRes => {
   const { address } = useAccount();
-  const CID = 'GC2MEtgCz4';
 
   // state
   let claimInfo = {
@@ -55,27 +51,18 @@ export const useCheckFestNFTAvailability = ({
       isClaimable: false,
       isClaimed: false,
       claimingAddress: `0x1`,
-      cid: CID,
       signature: '',
-      cap: 0,
-      verifyIds: 0,
-      NFTAddress: `0x1`,
     },
     optimism: {
       isClaimable: false,
       isClaimed: false,
       claimingAddress: `0x1`,
-      cid: CID,
       signature: '',
-      cap: 0,
-      verifyIds: 0,
-      NFTAddress: `0x1`,
     },
     base: {
       isClaimable: false,
       isClaimed: false,
       claimingAddress: `0x1`,
-      cid: CID,
       signature: '',
       cap: 0,
       verifyIds: 0,
@@ -85,13 +72,30 @@ export const useCheckFestNFTAvailability = ({
       isClaimable: false,
       isClaimed: false,
       claimingAddress: `0x1`,
-      cid: CID,
       signature: '',
       cap: 0,
       verifyIds: 0,
       NFTAddress: `0x1`,
     },
   };
+
+  for (const chain of CHAINS) {
+    const tokenId = 1n;
+    const NFT_ADDRESS = ADDRESSES[chain];
+
+    // check if already minted
+    const balance = await publicClient.readContract({
+      abi: zoraCreator1155ImplABI,
+      functionName: 'balanceOf',
+      address: NFT_ADDRESS,
+      args: [userAddress, tokenId],
+    });
+
+    console.log(balance);
+
+    // if not already minted, check if can mint
+    const merkl = ROOTS[chain];
+  }
 
   // Call to get the available rewards
   const { data, isSuccess, isLoading } = useQuery({
