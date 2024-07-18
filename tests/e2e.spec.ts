@@ -15,14 +15,12 @@ test.describe('Jumper full e2e flow', () => {
     const buyETHButton = page
       .frameLocator('iframe[title="Onramper widget"]')
       .locator('button:has-text("Buy ETH")');
-    // await closeWelcomeScreen(page);
-    await page.getByRole('tab', { name: 'Exchange' }).click();
     await expect(
       page.locator('[id="widget-header-\\:r0\\:"]').getByText('Exchange'),
     ).toBeVisible();
-    await page.getByRole('tab', { name: 'Gas' }).click();
-    await expect(page.locator('#tab-Gas-1')).toBeVisible();
-    await page.getByRole('tab', { name: 'Buy' }).click();
+    await page.locator('#tab-key-1').click();
+    await expect(page.locator('xpath=//p[text()="Gas"]')).toBeVisible();
+    await page.locator('#tab-key-2').click();
     await expect(buyETHButton).toBeEnabled();
     await expect(
       page

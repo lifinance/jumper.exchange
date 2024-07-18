@@ -15,9 +15,8 @@ export const WidgetContainer = styled(Box, {
 })<WidgetContainerProps>(
   ({ theme, isActive, welcomeScreenClosed = false }) => ({
     display: 'flex',
-    margin: '0 auto 24px',
     overflow: !welcomeScreenClosed ? 'hidden' : 'inherit',
-    width: '100%',
+    width: 'auto',
     minHeight: '50vh',
     transitionProperty: 'max-height',
     transitionDuration: '.3s',
@@ -39,17 +38,17 @@ export const WidgetContainer = styled(Box, {
       },
 
       [theme.breakpoints.up('sm' as Breakpoint)]: {
-        marginTop: !welcomeScreenClosed ? '24px' : theme.spacing(3.5),
+        marginTop: !welcomeScreenClosed ? '24px' : 0,
         [`@media screen and (min-height: 700px)`]: {
           marginTop: !welcomeScreenClosed
             ? 'calc( 50vh - 680px / 2.75 - 40px)'
-            : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - navbar height )
+            : 0, // (mid viewheight - half-two/thirds widget height - navbar height )
         },
 
         [`@media screen and (min-height: 900px)`]: {
           marginTop: !welcomeScreenClosed
             ? 'calc( 50vh - 680px / 2.75 - 128px)'
-            : theme.spacing(3.5), // (mid viewheight - half-two/thirds widget height - ( navbar height + additional spacing) )
+            : 0, // (mid viewheight - half-two/thirds widget height - ( navbar height + additional spacing) )
         },
       },
     },

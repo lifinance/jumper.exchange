@@ -1,5 +1,5 @@
 import { XpIconContainer } from '@/components/ProfilePage/LevelBox/PointsBox.style';
-import { useTheme } from '@mui/material';
+import { Skeleton, useTheme } from '@mui/material';
 import { XPIcon } from '../../illustrations/XPIcon';
 import { CenteredBox, NoSelectTypography } from '../ProfilePage.style';
 
@@ -23,7 +23,14 @@ export const PointsBox = ({ points }: PointsBoxProps) => {
           fontSize: { xs: 48, sm: 80 },
         }}
       >
-        {points ?? 0}
+        {points === undefined ? (
+          <Skeleton
+            variant="text"
+            sx={{ fontSize: { xs: 48, sm: 80 }, minWidth: 40 }}
+          />
+        ) : (
+          points
+        )}
       </NoSelectTypography>
       <XpIconContainer>
         <XPIcon />

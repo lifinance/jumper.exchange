@@ -15,7 +15,6 @@ export const NavbarContainer = styled(AppBar)<{ sticky?: boolean }>(
     justifyContent: 'space-between',
     position: 'sticky',
     top: 0,
-    backdropFilter: 'blur(12px)',
     boxShadow: 'unset',
     background: 'transparent',
     alignItems: 'center',
