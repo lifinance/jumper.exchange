@@ -113,7 +113,7 @@ export function formatTheme(theme: PartnerThemesAttributes) {
               backgroundColor: config.backgroundColor,
             }),
             ...(config.backgroundImageUrl && {
-              background: `url('${config.backgroundImageUrl}') ${config.backgroundColor ?? ''}`,
+              background: `url('${config.backgroundImageUrl}') ${config.backgroundColor ?? ''} no-repeat center center / cover`,
             }),
           },
         },
