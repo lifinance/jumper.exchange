@@ -11,7 +11,8 @@ import {
 import { RewardBox } from './Rewards/RewardBox';
 import { checkInclusion } from '../../ActiveSuperfestMissionsCarousel/ActiveSuperfestMissionsCarousel';
 import type { Theme } from '@mui/material';
-import { useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
+import { SoraTypography } from '../../Superfest.style';
 
 interface SuperfestMissionPageVar {
   quest: Quest;
@@ -35,6 +36,7 @@ export const BannerBox = ({
   const attributes = quest?.attributes;
   const rewardsIds = quest.attributes?.CustomInformation?.['rewardsIds'];
   const rewards = attributes?.CustomInformation?.['rewards'];
+  const rewardsType = attributes?.CustomInformation?.['rewards_type'];
   const chains = attributes?.CustomInformation?.['chains'];
   const partners = attributes?.CustomInformation?.['partner'];
   const bannerImageURL = isMobile
@@ -64,6 +66,23 @@ export const BannerBox = ({
       <BannerBottomBox>
         <BannerTitleBox>
           <BannerTitleTypography>{attributes?.Title}</BannerTitleTypography>
+          <Box
+            sx={{
+              border: '2px dotted',
+              // borderColor: '#000000',
+              borderColor: '#000000',
+              borderRadius: '8px',
+              padding: '8px',
+            }}
+          >
+            <SoraTypography
+              fontSize={'14px'}
+              fontWeight={700}
+              color={'#525252'}
+            >
+              {rewardsType === 'weekly' ? 'Weekly Rewards' : 'Daily Rewards'}
+            </SoraTypography>
+          </Box>
         </BannerTitleBox>
         <RewardMainBox>
           {/* chains  */}

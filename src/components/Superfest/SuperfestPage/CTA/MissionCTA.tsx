@@ -11,15 +11,19 @@ import {
   CTAMainBox,
   CTAExplanationBox,
 } from './MissionCTA.style';
-import { type Theme, useMediaQuery, Box } from '@mui/material';
+import { type Theme, useMediaQuery, Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { SoraTypography } from '../../Superfest.style';
 import { FlexCenterRowBox } from '../SuperfestMissionPage.style';
+import { checkMerklAPY } from 'src/utils/merkl/checkMerklAPY';
 
-interface CTALinkInt {
+export interface CTALinkInt {
   logo: string;
   text: string;
   link: string;
+  claimingId: string;
+  rewardId?: string;
+  apy?: number;
 }
 
 interface MissionCtaProps {
@@ -64,7 +68,7 @@ export const MissionCTA = ({ CTAs }: MissionCtaProps) => {
         </Box>
       </StartedTitleBox>
       <SeveralCTABox>
-        {CTAs.map((CTA: CTALinkInt, i: number) => {
+        {CTAs.map(async (CTA: CTALinkInt, i: number) => {
           return (
             <Link
               key={`cta-mission-${i}`}
@@ -94,16 +98,29 @@ export const MissionCTA = ({ CTAs }: MissionCtaProps) => {
                     {CTA.text ?? 'Go to Protocol Page'}
                   </SoraTypography>
                 </CTAExplanationBox>
-                {isMobile ? undefined : (
-                  <IconButtonPrimary onClick={handleClick}>
-                    <ArrowForwardIcon
-                      sx={{
-                        width: '28px',
-                        height: '28px',
-                      }}
-                    />
-                  </IconButtonPrimary>
-                )}
+                <Box>
+                  <Box
+                    sx={{
+                      padding: 1,
+                      backgroundColor: '#FF0420',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <Typography sx={{ color: '#ffffff' }}>
+                      {CTA.apy ? `${CTA.apy}%` : '...'}
+                    </Typography>
+                  </Box>
+                  {isMobile ? undefined : (
+                    <IconButtonPrimary onClick={handleClick}>
+                      <ArrowForwardIcon
+                        sx={{
+                          width: '28px',
+                          height: '28px',
+                        }}
+                      />
+                    </IconButtonPrimary>
+                  )}
+                </Box>
               </SeveralMissionCtaContainer>
             </Link>
           );
