@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "repository": "https://github.com/jumperexchange/jumper-exchange",
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "npm@10.2.4",
   "dependencies": {
     "@arcxmoney/analytics": "^2.2.0",
     "@cookie3/analytics": "^0.6.0",
@@ -28,6 +28,7 @@
     "@strapi/blocks-react-renderer": "^1.0.1",
     "@tanstack/react-query": "^5.51.11",
     "@widgetbot/react-embed": "^1.9.0",
+    "@zoralabs/protocol-sdk": "^0.7.2-ALLOWLIST.0",
     "accept-language": "^3.0.18",
     "dotenv-cli": "^7.4.2",
     "fontaine": "^0.5.0",
@@ -94,21 +95,21 @@
     "clean": "rm -rf ./tsconfig.tsbuildinfo",
     "lint-staged": "lint-staged",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
-    "test": "yarn playwright test",
+    "test": "npm run playwright test",
     "fix:staged-files": "lint-staged --allow-empty",
     "fix:all-files": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "pre-commit": "lint-staged",
-    "pre-push": "yarn && yarn build",
+    "pre-push": "npm install && npm run build",
     "i18next-resources-for-ts": "i18next-resources-for-ts interface -i ./src/i18n/translations/en -o ./src/i18n/resources.d.ts"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js)": [
       "bash -c tsc --noEmit",
-      "yarn eslint --fix",
-      "yarn prettier --write"
+      "npm run eslint --fix",
+      "npm run prettier --write"
     ],
     "**/*.(md|json)": [
-      "yarn prettier --write"
+      "npm run prettier --write"
     ]
   }
 }
