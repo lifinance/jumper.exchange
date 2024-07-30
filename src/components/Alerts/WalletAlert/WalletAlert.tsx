@@ -1,5 +1,4 @@
 import {
-  MultisigConfirmationModal,
   MultisigConfirmationModalContainer,
   MultisigConfirmationModalIcon,
   MultisigConfirmationModalIconContainer,

@@ -5,7 +5,6 @@
       "subtitle": "Agregador de liquidez multi-cadeias <0>4x auditado</0> fornecido pela <1>LI.FI</1>",
       "cta": "Começar"
     },
-    "poweredByLifi": "<0>Desenvolvido por </0><1>LI.FI</1>",
     "links": {
       "exchange": "Conversão",
       "dashboard": "Painel de controle",
@@ -32,7 +31,7 @@
       "theme": "Tema",
       "developers": "Desenvolvedores",
       "lifiExplorer": "Explorador LI.FI",
-      "aboutLIFI": "Sobre a LI.FI",
+      "about": "",
       "support": "Suporte",
       "profile": "Perfil Jumper"
     },

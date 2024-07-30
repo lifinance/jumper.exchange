@@ -5,7 +5,6 @@
       "subtitle": "<0>4x auditado</0> agregador de liquidez multicadena impulsado por <1>LI.FI</1>",
       "cta": "Comenzar"
     },
-    "poweredByLifi": "<0>Creado por </0><1>LI.FI</1>",
     "links": {
       "exchange": "Cambiar",
       "dashboard": "Panel",
@@ -32,7 +31,7 @@
       "theme": "Tema",
       "developers": "Desarrolladores",
       "lifiExplorer": "Explorador LI.FI",
-      "aboutLIFI": "Acerca de LI.FI",
+      "about": "",
       "support": "Soporte",
       "profile": "Perfil de Jumper"
     },

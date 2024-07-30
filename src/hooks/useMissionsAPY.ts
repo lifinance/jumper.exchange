@@ -1,6 +1,6 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
-import { CTALinkInt } from 'src/components/Superfest/SuperfestPage/CTA/MissionCTA';
+import { type CTALinkInt } from 'src/components/Superfest/SuperfestPage/CTA/MissionCTA';
 
 const ACTIVE_CHAINS = ['10', '8453', '252', '34443'];
 const MERKL_API = 'https://api.merkl.xyz/v3';

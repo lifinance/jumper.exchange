@@ -5,12 +5,12 @@ import {
 import { SoraTypography } from '../../Superfest.style';
 import { DescriptionTitleTypography } from './DescriptionBox.style';
 
-interface DescriptionBox {
+interface IDescriptionBox {
   longTitle?: string;
   description?: string;
 }
 
-export const DescriptionBox = ({ longTitle, description }: DescriptionBox) => {
+export const DescriptionBox = ({ longTitle, description }: IDescriptionBox) => {
   return (
     <SuperfestPageElementContainer>
       <DescriptionTitleTypography>{longTitle}</DescriptionTitleTypography>

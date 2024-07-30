@@ -59,7 +59,7 @@ It fixes some problems we had with lint-staged ignoring our tsconfig and not wor
 
 We appreciate your interest in helping translate our project!
 
-If you'd like to contribute translations, please visit our Crowdin project page at [Crowdin Jumper Exchange](https://crowdin.com/project/jumper-exchange) and [Crowdin LI.FI Widget](https://crowdin.com/project/lifi-widget).
+If you'd like to contribute translations, please visit our Crowdin project page at [Crowdin Jumper Exchange](https://crowdin.com/project/jumper-exchange).
 Register on Crowdin and you can start translating the project into your preferred language.
 Your contributions will help make our project accessible to a wider audience around the world.
 
@@ -71,8 +71,6 @@ Thank you for your support!
 
 provider for the theme context, it is used to provide the theme to the whole app, must be into the layout.tsx or page.tsx.
 
-
 ### ThemeProviderV2
 
 provider for the MUI theme context, mainly setting up the MUI provider, very linked to the next-theme provider
-

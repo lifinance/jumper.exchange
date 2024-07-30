@@ -2,10 +2,9 @@
   "navbar": {
     "welcome": {
       "title": "Знайдіть найкращий маршрут",
-      "subtitle": "<0>4x аудитований</0> мульти-чейн агрегатор ліквідності на основі <1>LI.FI</1>",
+      "subtitle": "",
       "cta": "Почати"
     },
-    "poweredByLifi": "<0>Powered by </0><1>LI.FI</1>",
     "links": {
       "exchange": "Обмін",
       "dashboard": "Дешборд",
@@ -32,7 +31,7 @@
       "theme": "Тема",
       "developers": "Розробникам",
       "lifiExplorer": "LI.FI Scan",
-      "aboutLIFI": "Про LI.FI",
+      "about": "",
       "support": "Підтримка",
       "profile": "Профіль Jumper"
     },

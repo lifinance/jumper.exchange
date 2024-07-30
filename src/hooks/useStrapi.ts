@@ -78,10 +78,10 @@ export const useStrapi = <T>({
     filterPersonalFeatureCards.account?.isConnected;
 
   // create url
-  const apiBaseUrl =
-    process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
-      ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_URL
-      : process.env.NEXT_PUBLIC_STRAPI_URL;
+  // const apiBaseUrl =
+  //   process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
+  //     ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_URL
+  //     : process.env.NEXT_PUBLIC_STRAPI_URL;
   const apiUrl = getStrapiUrl(contentType);
 
   // pagination by page + pagesize + return meta object

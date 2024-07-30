@@ -1,7 +1,7 @@
 'use client';
 import { LinkMap } from '@/const/linkMap';
 import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
-import { JUMPER_MEMECOIN_PATH, LIFI_URL } from '@/const/urls';
+import { JUMPER_MEMECOIN_PATH } from '@/const/urls';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import { EventTrackingTool } from '@/types/userTracking';
 import { appendUTMParametersToLink } from '@/utils/append-utm-params-to-link';
@@ -13,10 +13,10 @@ import { usePathname } from 'next/navigation';
 import { Trans } from 'react-i18next/TransWithoutContext';
 import { Container } from './PoweredBy.style';
 
-const lifiUrl = appendUTMParametersToLink(LIFI_URL, {
-  utm_campaign: 'jumper_to_lifi',
-  utm_medium: 'powered_by',
-});
+// const rrl = appendUTMParametersToLink("", {
+//   utm_campaign: 'jumper_to_partner',
+//   utm_medium: 'powered_by',
+// });
 
 interface PoweredByProps {
   styles?: CSSObject;
@@ -43,7 +43,7 @@ export const PoweredBy = ({ styles, fixedPosition }: PoweredByProps) => {
     trackPageload({
       source: TrackingCategory.PoweredBy,
       destination: 'lifi-website',
-      url: lifiUrl,
+      url: '',
       pageload: true,
       disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
@@ -53,7 +53,7 @@ export const PoweredBy = ({ styles, fixedPosition }: PoweredByProps) => {
       label: 'click_lifi_in_powered_by',
       disableTrackingTool: [EventTrackingTool.ARCx, EventTrackingTool.Cookie3],
     });
-    openInNewTab(lifiUrl);
+    openInNewTab('');
   };
 
   return (
@@ -74,16 +74,16 @@ export const PoweredBy = ({ styles, fixedPosition }: PoweredByProps) => {
       >
         <Trans
           as="div"
-          i18nKey={'navbar.poweredByLifi' as string & never[]}
+          i18nKey={'navbar' as string & never[]}
           components={[
             // fix: allow component with "no content"
             // eslint-disable-next-line jsx-a11y/anchor-has-content
             <span style={{ userSelect: 'none' }}></span>,
             // eslint-disable-next-line jsx-a11y/anchor-has-content
             <a
-              className={'link-lifi'}
+              className={'link'}
               onClick={handleClick}
-              href={lifiUrl}
+              href={''}
               target={'_blank'}
               rel="noreferrer"
             />,

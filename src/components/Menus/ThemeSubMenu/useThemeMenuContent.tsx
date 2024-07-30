@@ -15,10 +15,8 @@ import { useTheme } from 'next-themes';
 export const useThemeMenuContent = () => {
   const { t } = useTranslation();
   const { trackEvent } = useUserTracking();
-  const segment = useSelectedLayoutSegment();
   const { resolvedTheme, setTheme } = useTheme();
 
-  const [cookie] = useCookies(['partnerThemeUid']);
   const { data: partnerThemes, isSuccess } = useStrapi<PartnerThemesData>({
     contentType: STRAPI_PARTNER_THEMES,
     queryKey: ['partner-themes'],

@@ -102,7 +102,7 @@ export const useMerklRewards = ({
   if (positionsData) {
     for (const chain of ACTIVE_CHAINS) {
       if (positionsData[chain]) {
-        for (const [key, data] of Object.entries(positionsData[chain])) {
+        for (const [key] of Object.entries(positionsData[chain])) {
           activeCampaigns.push(key);
         }
       }
@@ -153,7 +153,7 @@ export const useMerklRewards = ({
     for (const chain of ACTIVE_CHAINS) {
       const campaignData = rewardsData[chain]?.campaignData;
       if (campaignData) {
-        for (const [key, _] of Object.entries(campaignData)) {
+        for (const [key] of Object.entries(campaignData)) {
           pastCampaigns.push(key);
         }
       }

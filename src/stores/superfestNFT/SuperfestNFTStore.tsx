@@ -1,5 +1,5 @@
-import { NFTInfo } from 'src/hooks/useCheckNFTAvailability';
-import { SuperfestNFTState } from 'src/types/SuperfestNFTStore';
+import { type NFTInfo } from 'src/hooks/useCheckNFTAvailability';
+import { type SuperfestNFTState } from 'src/types/SuperfestNFTStore';
 import type { StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';

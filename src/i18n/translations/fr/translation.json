@@ -5,7 +5,6 @@
       "subtitle": "<0>4x audit</0> agrégateur de liquidité multi-chaînes alimenté par <1>LI.FI</1>",
       "cta": "Commencer"
     },
-    "poweredByLifi": "<0>Propulsé par </0><1>LI.FI</1>",
     "links": {
       "exchange": "Échanger",
       "dashboard": "Tableau de bord",
@@ -32,7 +31,7 @@
       "theme": "Thème",
       "developers": "Développeurs",
       "lifiExplorer": "Explorateur LI.FI",
-      "aboutLIFI": "À propos de LI.FI",
+      "about": "",
       "support": "Support",
       "profile": "Profil Jumper"
     },

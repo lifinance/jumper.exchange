@@ -5,7 +5,7 @@ import { getCookies } from '@/app/lib/getCookies';
 
 const Page = () => {
   const variant = 'buy';
-  const { activeThemeMode, welcomeScreenClosed } = getCookies();
+  const { welcomeScreenClosed } = getCookies();
   const isWelcomeScreenClosed = welcomeScreenClosed === 'true';
 
   return (

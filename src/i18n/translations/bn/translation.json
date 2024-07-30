@@ -5,7 +5,6 @@
       "subtitle": "",
       "cta": ""
     },
-    "poweredByLifi": "",
     "links": {
       "exchange": "",
       "dashboard": "ড্যাশবোর্ড",
@@ -32,7 +31,7 @@
       "theme": "থিম",
       "developers": "ডেভেলপারস",
       "lifiExplorer": "",
-      "aboutLIFI": "লি.ফাই সম্পর্কে",
+      "about": "",
       "support": "সাপোর্ট",
       "profile": ""
     },

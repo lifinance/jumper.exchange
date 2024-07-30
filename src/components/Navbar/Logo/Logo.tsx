@@ -5,7 +5,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import type { Theme } from '@mui/material';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Image from 'next/image';
-import { JumperLogoBlack } from 'src/components/illustrations/JumperLogoBlack';
 import { useSettingsStore } from '@/stores/settings';
 
 type LogoProps = {

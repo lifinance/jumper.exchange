@@ -1,5 +1,4 @@
 import initTranslations from '@/app/i18n';
-import { getCookies } from '@/app/lib/getCookies';
 import { Logo } from '@/components/Navbar/Logo/Logo';
 import { NavbarContainer } from '@/components/Navbar/Navbar.style';
 import { NavbarButtons } from '@/components/Navbar/NavbarButtons';

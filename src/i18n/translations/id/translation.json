@@ -5,7 +5,6 @@
       "subtitle": "<0>4x diaudit</0> agregator likuiditas multi-rantai yang didukung oleh <1>LI.FI</1>",
       "cta": "Memulai"
     },
-    "poweredByLifi": "<0>Dipersembahkan oleh </0><1>LI.FI</1>",
     "links": {
       "exchange": "Pertukaran",
       "dashboard": "Dasbor",
@@ -32,7 +31,7 @@
       "theme": "Tema",
       "developers": "Para Pengembang",
       "lifiExplorer": "LI.FI Scan",
-      "aboutLIFI": "Tentang LI.FI",
+      "about": "",
       "support": "Bantuan",
       "profile": "Profil Jumper"
     },

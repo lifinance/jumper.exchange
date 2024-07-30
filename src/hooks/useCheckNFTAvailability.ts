@@ -2,10 +2,8 @@
 import { useQuery } from '@tanstack/react-query';
 import request from 'graphql-request';
 import { availableNFT } from './querries/superfestNFT';
-import { useAccount } from 'wagmi';
 import { superfestNFTCheck } from './querries/superfestNFTCheck';
-import { useState, useMemo, useEffect } from 'react';
-import { useSuperfestNFTStore } from 'src/stores/superfestNFT';
+// import { useSuperfestNFTStore } from 'src/stores/superfestNFT';
 import { useAccounts } from './useAccounts';
 
 export interface NFTInfo {
@@ -58,8 +56,8 @@ interface GalxeGraphqlCheckRes {
 }
 
 const GALXE_ENDPOINT = 'https://graphigo.prd.galaxy.eco/query';
-const SECONDS_IN_A_DAY = 86400;
-const NFTInfo = {
+// const SECONDS_IN_A_DAY = 86400;
+const NFTInfoData = {
   mode: {
     cid: 'GCrKqtkcEs',
     numberId: 307092,
@@ -87,8 +85,8 @@ export const useCheckNFTAvailability = ({
     isClaimable: false,
     isClaimed: false,
     claimingAddress: `0x1`,
-    cid: NFTInfo[chain]?.cid ?? '',
-    numberId: NFTInfo[chain]?.numberId ?? 0,
+    cid: NFTInfoData[chain]?.cid ?? '',
+    numberId: NFTInfoData[chain]?.numberId ?? 0,
     signature: '',
     powahs: 0,
     cap: 0,
@@ -107,7 +105,7 @@ export const useCheckNFTAvailability = ({
         GALXE_ENDPOINT,
         superfestNFTCheck,
         {
-          id: NFTInfo[chain].cid,
+          id: NFTInfoData[chain].cid,
           address: account?.address,
         },
         {},
@@ -131,7 +129,7 @@ export const useCheckNFTAvailability = ({
         GALXE_ENDPOINT,
         availableNFT,
         {
-          campaignID: NFTInfo[chain].cid,
+          campaignID: NFTInfoData[chain].cid,
           address: account?.address,
         },
         {},

@@ -1,6 +1,5 @@
 import { useMenuStore } from '@/stores/menu';
 import { EventTrackingTool } from '@/types/userTracking';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import FolderZipOutlinedIcon from '@mui/icons-material/FolderZipOutlined';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { useTheme } from '@mui/material/styles';
@@ -10,7 +9,7 @@ import {
   TrackingEventParameter,
 } from '../../../const/trackingKeys';
 
-import { DOCS_URL, GITHUB_URL } from '@/const/urls';
+import { GITHUB_URL } from '@/const/urls';
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import { useTranslation } from 'react-i18next';
 export const useDevelopersContent = () => {

@@ -2,10 +2,9 @@
   "navbar": {
     "welcome": {
       "title": "หาเส้นทางที่ดีที่สุด",
-      "subtitle": "4x ในการตรวจสอบหลายเชนโดย LI.FI",
+      "subtitle": "4x ในการตรวจสอบหลายเชนโดย",
       "cta": "เริ่มต้นใช้งาน"
     },
-    "poweredByLifi": "<0>ขับเคลื่อนโดย</0><1>LI.FI</1>",
     "links": {
       "exchange": "แลกเปลี่ยน",
       "dashboard": "แผงหน้าจอ",
@@ -32,7 +31,7 @@
       "theme": "ธีม",
       "developers": "ผู้พัฒนา",
       "lifiExplorer": "LI.FI Scan",
-      "aboutLIFI": "เกี่ยวกับ LI.FI",
+      "about": "",
       "support": "สนับสนุน",
       "profile": "โปรไฟล์ Jumper"
     },

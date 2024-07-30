@@ -9,10 +9,9 @@ interface Resources {
     navbar: {
       welcome: {
         title: 'Find the best route';
-        subtitle: '<0>4x audited</0> multi-chain liquidity aggregator powered by <1>LI.FI</1>';
+        subtitle: '<0>4x audited</0> multi-chain liquidity aggregator';
         cta: 'Get started';
       };
-      poweredByLifi: '<0>Powered by </0><1>LI.FI</1>';
       links: {
         exchange: 'Exchange';
         dashboard: 'Dashboard';
@@ -39,7 +38,6 @@ interface Resources {
         theme: 'Theme';
         developers: 'Developers';
         lifiExplorer: 'LI.FI Scan';
-        aboutLIFI: 'About LI.FI';
         support: 'Support';
         profile: 'Jumper Profile';
         fest: 'Superfest Festival';

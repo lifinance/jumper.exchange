@@ -2,10 +2,9 @@
   "navbar": {
     "welcome": {
       "title": "Scopri la route migliore",
-      "subtitle": "<0>4x verificato</0> aggregatori di liquidità multi-chain powerade by <1>LI.FI</1>",
+      "subtitle": "<0>4x verificato</0> aggregatori di liquidità multi-chain",
       "cta": "Inizia adesso"
     },
-    "poweredByLifi": "",
     "links": {
       "exchange": "",
       "dashboard": "",
@@ -32,7 +31,7 @@
       "theme": "Tema",
       "developers": "Sviluppatori",
       "lifiExplorer": "",
-      "aboutLIFI": "Info su LI.FI",
+      "about": "",
       "support": "Assistenza",
       "profile": ""
     },

@@ -5,7 +5,6 @@
       "subtitle": "",
       "cta": ""
     },
-    "poweredByLifi": "",
     "links": {
       "exchange": "",
       "dashboard": "대시보드",
@@ -32,7 +31,7 @@
       "theme": "테마",
       "developers": "개발자",
       "lifiExplorer": "",
-      "aboutLIFI": "Li.Fi에 관하여",
+      "about": "",
       "support": "지원",
       "profile": ""
     },

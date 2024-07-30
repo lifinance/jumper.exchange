@@ -5,7 +5,6 @@
       "subtitle": "由<1>LI.FI</1>提供技术支持，<0>高达4次审计</0>的多链流动性聚合器",
       "cta": "开始使用"
     },
-    "poweredByLifi": "<0>由</0><1>LI.FI</1><0>提供技术支持</0>",
     "links": {
       "exchange": "兑换",
       "dashboard": "面板",
@@ -32,7 +31,7 @@
       "theme": "主题",
       "developers": "开发者",
       "lifiExplorer": "LI.FI 浏览器",
-      "aboutLIFI": "关于 LI.FI",
+      "about": "",
       "support": "技术支持",
       "profile": "Jumper 个人资料"
     },

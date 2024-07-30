@@ -2,10 +2,9 @@
   "navbar": {
     "welcome": {
       "title": "Tìm tuyến đường tốt nhất",
-      "subtitle": "<0>4x audited</0> Nguồn tổng hợp thanh khoản đa chuỗi được cung cấp bởi <1>LI.FI</1>",
+      "subtitle": "",
       "cta": "Bắt đầu"
     },
-    "poweredByLifi": "<0>Được cung cấp bởi </0><1>LI.FI</1>",
     "links": {
       "exchange": "Hoán đổi",
       "dashboard": "Tổng quan",
@@ -32,7 +31,7 @@
       "theme": "Giao diện",
       "developers": "Lập trình viên",
       "lifiExplorer": "Trình khám phá LI.FI",
-      "aboutLIFI": "Về LI.FI",
+      "about": "",
       "support": "Hỗ trợ",
       "profile": "Hồ sơ Jumper"
     },

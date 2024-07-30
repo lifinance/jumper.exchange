@@ -1,11 +1,9 @@
-import { AppProvider } from '@/providers/AppProvider';
 import i18nConfig from 'i18nconfig';
 import React from 'react';
 import { defaultNS, fallbackLng, namespaces } from 'src/i18n';
 import TranslationsProvider from '@/providers/TranslationProvider';
 import initTranslations from '@/app/i18n';
 import { TrackingProvider } from '@/providers/TrackingProvider';
-import { Layout } from 'src/Layout';
 
 export default async function RootLayout({
   children,

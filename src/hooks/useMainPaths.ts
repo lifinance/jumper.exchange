@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import { useSettingsStore } from 'src/stores/settings/SettingsStore';
 
 interface useMainPathsProps {
   isMainPaths: boolean;

@@ -5,10 +5,7 @@ import { TabsMap } from '@/const/tabsMap';
 import { useActiveTabStore } from '@/stores/activeTab';
 import type { StarterVariantType } from '@/types/internal';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import type { ThemeModesSupported } from 'src/types/settings';
 import { WidgetEvents } from './WidgetEvents';
-import { useMetaMask } from 'src/hooks/useMetaMask';
-import { WalletAlert } from '../Alerts/WalletAlert/WalletAlert';
 import { PartnerThemeFooterImage } from '../PartnerThemeFooterImage';
 
 interface WidgetsProps {
@@ -19,7 +16,6 @@ interface WidgetsProps {
 export function Widgets({ widgetVariant, closedWelcomeScreen }: WidgetsProps) {
   const { activeTab, setActiveTab } = useActiveTabStore();
   const [starterVariantUsed, setStarterVariantUsed] = useState(false);
-  const { isMetaMaskConnector } = useMetaMask();
 
   const starterVariant: StarterVariantType = useMemo(() => {
     if (widgetVariant) {

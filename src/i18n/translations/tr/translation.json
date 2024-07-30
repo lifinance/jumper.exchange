@@ -2,10 +2,9 @@
   "navbar": {
     "welcome": {
       "title": "En iyi rotayı bul",
-      "subtitle": "<0>4 kez denetlenmiş</0> <1>LI.FI</1> tarafından desteklenen çok zincirli likidite toplayıcı",
+      "subtitle": "",
       "cta": "Başlayın"
     },
-    "poweredByLifi": "<1>LI.FI</1><0> Tarafından Desteklenmektedir</0>",
     "links": {
       "exchange": "Al-Sat",
       "dashboard": "Kontrol Paneli",
@@ -32,7 +31,7 @@
       "theme": "Tema",
       "developers": "Geliştiriciler",
       "lifiExplorer": "LI.FI Scan",
-      "aboutLIFI": "LI.FI Hakkında",
+      "about": "",
       "support": "Destek",
       "profile": "Jumper Profili"
     },

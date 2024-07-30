@@ -2,11 +2,10 @@ import {
   InfoMessageCard,
   InfoMessageCardTitle,
 } from '@/components/MessageCard';
-import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
 import { Slide, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { InfoAlertButton, InfoAlertContainer } from '.';
+import { InfoAlertContainer } from '.';
 
 export interface InfoAlertProps {
   title: string;

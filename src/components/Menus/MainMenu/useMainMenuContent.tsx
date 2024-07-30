@@ -43,8 +43,7 @@ export const useMainMenuContent = () => {
   const router = useRouter();
   const theme = useTheme();
   const configTheme = useSettingsStore((state) => state.configTheme);
-  const { resolvedTheme, forcedTheme } = useNextTheme();
-  const { isSuperfest } = useSuperfest();
+  const { forcedTheme } = useNextTheme();
   const { isMainPaths } = useMainPaths();
   const { setSupportModalState, setSubMenuState, closeAllMenus } = useMenuStore(
     (state) => state,

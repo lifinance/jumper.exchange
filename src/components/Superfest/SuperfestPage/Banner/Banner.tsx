@@ -7,7 +7,6 @@ import {
   BannerTitleBox,
   RewardMainBox,
   BannerTitleTypography,
-  BannerLabelBox,
   RotatingBox,
   BadgeRelativeBox,
   BadgeMainBox,
@@ -15,9 +14,7 @@ import {
 import { RewardBox } from './Rewards/RewardBox';
 import { checkInclusion } from '../../ActiveSuperfestMissionsCarousel/ActiveSuperfestMissionsCarousel';
 import type { Theme } from '@mui/material';
-import { Box, useMediaQuery } from '@mui/material';
-import { SoraTypography } from '../../Superfest.style';
-import { OPBadge } from 'src/components/illustrations/OPBadge';
+import { useMediaQuery } from '@mui/material';
 import { SuperfestDailyRewards } from 'src/components/illustrations/SuperfestDailyRewards';
 import { SuperfestWeeklyRewards } from 'src/components/illustrations/SuperfestWeeklyRewards';
 

@@ -5,7 +5,6 @@
       "subtitle": "<0>4x audited</0><1>LI.FI</1> によるマルチチェーン流動性アグリゲータ",
       "cta": "はじめよう"
     },
-    "poweredByLifi": "<0>Powered by </0><1>LI.FI</1>",
     "links": {
       "exchange": "スワップ",
       "dashboard": "ダッシュボード",
@@ -32,7 +31,7 @@
       "theme": "テーマ",
       "developers": "開発者",
       "lifiExplorer": "LI.FIエクスプローラー",
-      "aboutLIFI": "LI.FIについて",
+      "about": "",
       "support": "サポート",
       "profile": "Jumperプロフィール"
     },
