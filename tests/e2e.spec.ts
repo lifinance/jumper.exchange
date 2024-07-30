@@ -3,7 +3,6 @@ import {
   findTheBestRoute,
   openMainMenu,
   itemInMenu,
-  closeWelcomeScreen,
 } from './testData/commonFunctions';
 
 test.describe('Jumper full e2e flow', () => {

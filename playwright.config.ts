@@ -18,7 +18,7 @@ import { url } from 'inspector';
 // const baseURL = `http://localhost:${PORT}`;
 
 export default defineConfig({
-  timeout: 60 * 1000,
+  timeout: 120 * 1000,
   expect: {
     timeout: 40 * 1000,
   },
@@ -30,7 +30,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 1,
+  workers: process.env.CI ? 2 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

@@ -1,6 +1,7 @@
 {
   "name": "jumper.exchange",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "repository": "https://github.com/jumperexchange/jumper-exchange",
   "packageManager": "yarn@4.3.1",
@@ -26,6 +27,7 @@
     "@solana/wallet-adapter-solflare": "^0.6.28",
     "@solana/web3.js": "^1.95.1",
     "@strapi/blocks-react-renderer": "^1.0.1",
+    "@synthetixio/synpress": "4.0.0-alpha.7",
     "@tanstack/react-query": "^5.51.11",
     "@widgetbot/react-embed": "^1.9.0",
     "accept-language": "^3.0.18",
@@ -55,6 +57,7 @@
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@eslint/eslintrc": "^3.1.0",
+    "@metamask/test-dapp": "8.2.0",
     "@next/eslint-plugin-next": "^14.2.5",
     "@playwright/test": "^1.45.2",
     "@types/gtag.js": "^0.0.20",
@@ -99,7 +102,10 @@
     "fix:all-files": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "pre-commit": "lint-staged",
     "pre-push": "yarn && yarn build",
-    "i18next-resources-for-ts": "i18next-resources-for-ts interface -i ./src/i18n/translations/en -o ./src/i18n/resources.d.ts"
+    "i18next-resources-for-ts": "i18next-resources-for-ts interface -i ./src/i18n/translations/en -o ./src/i18n/resources.d.ts",
+    "test:ci:e2e": "xvfb-run npx playwright test --debug",
+    "test:e2e-real": "npx playwright test --headed",
+    "build:cache": "synpress --headless"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js)": [
