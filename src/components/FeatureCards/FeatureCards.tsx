@@ -7,13 +7,13 @@ import { useAccounts } from '@/hooks/useAccounts';
 import { useStrapi } from '@/hooks/useStrapi';
 import { useSettingsStore } from '@/stores/settings/SettingsStore';
 import type { FeatureCardData, JumperUserData } from '@/types/strapi';
-import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLoyaltyPass } from 'src/hooks/useLoyaltyPass';
 import { usePersonalizedFeatureOnLevel } from 'src/hooks/usePersonalizedFeatureOnLevel';
+import { useWidgetExpanded } from 'src/hooks/useWidgetExpanded';
 import { shallow } from 'zustand/shallow';
 import { FeatureCard, FeatureCardsContainer } from '.';
 
@@ -24,8 +24,7 @@ export const FeatureCards = () => {
   );
   const { points } = useLoyaltyPass();
   const [cookie] = useCookies(['welcomeScreenClosed']);
-  const [widgetExpanded, setWidgetExpanded] = useState(false);
-  const widgetEvents = useWidgetEvents();
+  const widgetExpanded = useWidgetExpanded();
   const { account } = useAccounts();
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
@@ -47,16 +46,6 @@ export const FeatureCards = () => {
     points: points,
     enabled: !!points && (!jumperUser || jumperUser?.length === 0),
   });
-
-  useEffect(() => {
-    const handleWidgetExpanded = async (expanded: boolean) => {
-      setWidgetExpanded(expanded);
-    };
-    widgetEvents.on(WidgetEvent.WidgetExpanded, handleWidgetExpanded);
-
-    return () =>
-      widgetEvents.off(WidgetEvent.WidgetExpanded, handleWidgetExpanded);
-  }, [widgetEvents, widgetExpanded]);
 
   function excludedFeatureCardsFilter(el: FeatureCardData) {
     if (
