@@ -25,6 +25,11 @@ export const replaceLocaleInUrl = (currentPath: string, newLocale: string) => {
   updatedUrl = updatedUrl.replace(/\/+$/, ''); // Remove trailing slashes
   updatedUrl = updatedUrl.replace(/^\/+/, ''); // Remove leading slashes
 
+  // Ensure the URL ends with a single slash
+  if (!updatedUrl.endsWith('/')) {
+    updatedUrl += '/';
+  }
+
   // Update the URL using window.history.replaceState()
   const relativePath = `/${updatedUrl}`;
   window.history.replaceState(null, '', relativePath);
