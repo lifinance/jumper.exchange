@@ -4,12 +4,12 @@ import { ChainId } from '@lifi/sdk';
 import Link from 'next/link';
 import { useChainTokenSelectionStore } from 'src/stores/chainTokenSelection';
 
-import { useMainPaths } from 'src/hooks/useMainPaths';
+import { useSettingsStore } from '@/stores/settings';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
-import { BackgroundFooterImage } from './Widgets';
+import { useMainPaths } from 'src/hooks/useMainPaths';
 import { useSuperfest } from 'src/hooks/useSuperfest';
-import { useSettingsStore } from '@/stores/settings';
+import { BackgroundFooterImage } from './Widgets';
 
 export const PartnerThemeFooterImage = () => {
   const { sourceChainToken, destinationChainToken } =
