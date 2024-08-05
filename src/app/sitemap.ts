@@ -12,7 +12,7 @@ function withTrallingSlash(url: string) {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // paths
   const routes = pages.map((route: SitemapPage) => ({
-    url: withTrallingSlash(`${JUMPER_URL}${route.path}`),
+    url: withTrallingSlash(`${process.env.NEXT_PUBLIC_SITE_URL}${route.path}`),
     lastModified: new Date().toISOString().split('T')[0],
     changeFrequency: 'weekly' as ChangeFrequency,
     // todo: enable alternates once xml formatting is fixed
@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (article: StrapiResponse<BlogArticleData>) =>
       article.data.map((el) => ({
         url: withTrallingSlash(
-          `${JUMPER_URL}${JUMPER_LEARN_PATH}/${el.attributes.Slug}`,
+          `${process.env.NEXT_PUBLIC_SITE_URL}${JUMPER_LEARN_PATH}${el.attributes.Slug}`,
         ),
         lastModified: new Date(
           el.attributes.updatedAt || el.attributes.publishedAt || Date.now(),
@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             return {
               ...acc,
               [locale !== 'en' ? locale : 'x-default']: withTrallingSlash(
-                `${process.env.NEXT_PUBLIC_SITE_URL}/${locale !== 'en' ? locale : ''}/${el.attributes.Slug}`,
+                `${process.env.NEXT_PUBLIC_SITE_URL}${locale !== 'en' ? `/${locale}` : ''}${JUMPER_LEARN_PATH}${el.attributes.Slug}`,
               ),
             };
           }, {}),
