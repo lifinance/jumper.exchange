@@ -1,12 +1,11 @@
 'use client';
+import { useSettingsStore } from '@/stores/settings';
 import { styled } from '@mui/material/styles';
-import React from 'react';
 import {
   BackgroundGradientBottomLeft,
   BackgroundGradientBottomRight,
   BackgroundGradientTopCenter,
 } from './BackgroundGradient';
-import { useSettingsStore } from '@/stores/settings';
 
 export interface BackgroundContainerProps {
   variant?: 'outlined';

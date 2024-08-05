@@ -4,24 +4,37 @@ import { ChainId } from '@lifi/sdk';
 import Link from 'next/link';
 import { useChainTokenSelectionStore } from 'src/stores/chainTokenSelection';
 
-import { useMainPaths } from 'src/hooks/useMainPaths';
+import { useSettingsStore } from '@/stores/settings';
+import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
-import { BackgroundFooterImage } from './Widgets';
+import { useEffect, useState } from 'react';
+import { useMainPaths } from 'src/hooks/useMainPaths';
 import { useSuperfest } from 'src/hooks/useSuperfest';
-import { useSettingsStore } from '@/stores/settings';
+import { BackgroundFooterImage } from './Widgets';
 
 export const PartnerThemeFooterImage = () => {
   const { sourceChainToken, destinationChainToken } =
     useChainTokenSelectionStore();
   const { isSuperfest } = useSuperfest();
   const { isMainPaths } = useMainPaths();
+  const [widgetExpanded, setWidgetExpanded] = useState(false);
+  const widgetEvents = useWidgetEvents();
   const configTheme = useSettingsStore((state) => state.configTheme);
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('lg'),
   );
 
+  useEffect(() => {
+    const handleWidgetExpanded = async (expanded: boolean) => {
+      setWidgetExpanded(expanded);
+    };
+    widgetEvents.on(WidgetEvent.WidgetExpanded, handleWidgetExpanded);
+
+    return () =>
+      widgetEvents.off(WidgetEvent.WidgetExpanded, handleWidgetExpanded);
+  }, [widgetEvents, widgetExpanded]);
   if (!configTheme?.footerImageUrl) {
     return;
   }
@@ -38,6 +51,7 @@ export const PartnerThemeFooterImage = () => {
 
   return (
     showFooterLogo &&
+    !widgetExpanded &&
     configTheme?.footerImageUrl && (
       <Link
         href={'https://superfest.optimism.io/'}

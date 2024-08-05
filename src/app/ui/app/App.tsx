@@ -1,12 +1,11 @@
 'use client';
 
 import { WelcomeScreen } from '@/components/WelcomeScreen/WelcomeScreen';
-import type { StarterVariantType } from '@/types/internal';
-import { WidgetContainer } from '@/components/Widgets';
 import { TrackingAction, TrackingCategory } from '@/const/trackingKeys';
-import { EventTrackingTool } from '@/types/userTracking';
 import { useWelcomeScreen } from '@/hooks/useWelcomeScreen';
 import { useUserTracking } from '@/hooks/userTracking';
+import type { StarterVariantType } from '@/types/internal';
+import { EventTrackingTool } from '@/types/userTracking';
 import { Box } from '@mui/material';
 import { StyledSlide } from './App.style';
 
@@ -62,12 +61,7 @@ const App = ({ starterVariant, isWelcomeScreenClosed, children }: AppProps) => {
           <WelcomeScreen closed={welcomeScreen.welcomeScreenClosed!} />
         </Box>
       </StyledSlide>
-      <WidgetContainer
-        welcomeScreenClosed={welcomeScreen.welcomeScreenClosed!}
-        className="widget-container"
-      >
-        {children}
-      </WidgetContainer>
+      {children}
     </Box>
   );
 };

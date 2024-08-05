@@ -1,7 +1,7 @@
-import App from '../../ui/app/App';
+import { getCookies } from '@/app/lib/getCookies';
 import { WidgetContainer, Widgets } from '@/components/Widgets';
 import { Widget } from '@/components/Widgets/Widget';
-import { getCookies } from '@/app/lib/getCookies';
+import App from '../../ui/app/App';
 
 export default function Page() {
   const variant = 'default'; // exchange

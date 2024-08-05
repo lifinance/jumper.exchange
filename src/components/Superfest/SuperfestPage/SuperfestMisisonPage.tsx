@@ -1,16 +1,17 @@
-import { SuperfestContainer } from '../Superfest.style';
-import { SuperfestPageMainBox } from './SuperfestMissionPage.style';
+import { useAccounts } from '@/hooks/useAccounts';
 import generateKey from 'src/app/lib/generateKey';
-import { MissionCTA } from './CTA/MissionCTA';
+import { PartnerThemeFooterImage } from 'src/components/PartnerThemeFooterImage';
+import { useMerklRewards } from 'src/hooks/useMerklRewardsOnSpecificToken';
+import { useMissionsAPY } from 'src/hooks/useMissionsAPY';
 import { type Quest } from 'src/types/loyaltyPass';
+import { SuperfestContainer } from '../Superfest.style';
 import { BackButton } from './BackButton/BackButton';
 import { BannerBox } from './Banner/Banner';
+import { MissionCTA } from './CTA/MissionCTA';
 import { DescriptionBox } from './DescriptionBox/DescriptionBox';
-import { StepsBox } from './StepsBox/StepsBox';
 import { InformationAlertBox } from './InformationBox/InformationAlertBox';
-import { useMerklRewards } from 'src/hooks/useMerklRewardsOnSpecificToken';
-import { useAccounts } from '@/hooks/useAccounts';
-import { useMissionsAPY } from 'src/hooks/useMissionsAPY';
+import { StepsBox } from './StepsBox/StepsBox';
+import { SuperfestPageMainBox } from './SuperfestMissionPage.style';
 
 interface SuperfestMissionPageVar {
   quest: Quest;
@@ -70,6 +71,7 @@ export const SuperfestMissionPage = ({
           <InformationAlertBox information={attributes?.Information} />
         )}
       </SuperfestPageMainBox>
+      <PartnerThemeFooterImage />
     </SuperfestContainer>
   );
 };

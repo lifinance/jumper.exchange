@@ -12,7 +12,6 @@ import type { MenuState } from '@/types/menu';
 import { EVM } from '@lifi/sdk';
 import type { WidgetConfig } from '@lifi/widget';
 import { HiddenUI, LiFiWidget } from '@lifi/widget';
-import { useTheme } from '@mui/material/styles';
 import { getWalletClient, switchChain } from '@wagmi/core';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
@@ -23,12 +22,10 @@ import { ThemesMap } from 'src/const/themesMap';
 import { useMemelist } from 'src/hooks/useMemelist';
 import { useConfig } from 'wagmi';
 import { WidgetWrapper } from '.';
-import { useWidgetTheme } from './useWidgetTheme';
 import type { WidgetProps } from './Widget.types';
 import { refuelAllowChains, themeAllowChains } from './Widget.types';
 import { WidgetSkeleton } from './WidgetSkeleton';
-import { useMediaQuery } from '@mui/material';
-import type { Theme } from '@mui/material';
+import { useWidgetTheme } from './useWidgetTheme';
 
 export function Widget({
   starterVariant,
@@ -41,13 +38,10 @@ export function Widget({
   widgetIntegrator,
   activeTheme,
 }: WidgetProps) {
-  const theme = useTheme();
   const widgetTheme = useWidgetTheme();
-  const themeMode = useSettingsStore((state) => state.themeMode);
   const configTheme = useSettingsStore((state) => state.configTheme);
   const { i18n } = useTranslation();
   const wagmiConfig = useConfig();
-  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
   const { isMultisigSigner, getMultisigWidgetConfig } = useMultisig();
   const { multisigWidget, multisigSdkConfig } = getMultisigWidgetConfig();
   const { activeTab } = useActiveTabStore();
@@ -96,7 +90,7 @@ export function Widget({
     }
 
     return process.env.NEXT_PUBLIC_WIDGET_INTEGRATOR;
-  }, [widgetIntegrator, isGasVariant, isDesktop]) as string;
+  }, [widgetIntegrator, isGasVariant]) as string;
 
   // load environment config
   const config: WidgetConfig = useMemo((): WidgetConfig => {
@@ -165,7 +159,7 @@ export function Widget({
           ? [
               EVM({
                 getWalletClient: () => getWalletClient(wagmiConfig),
-                switchChain: async (chainId) => {
+                switchChain: async (chainId: any) => {
                   const chain = await switchChain(wagmiConfig, { chainId });
                   return getWalletClient(wagmiConfig, { chainId: chain.id });
                 },
@@ -180,34 +174,28 @@ export function Widget({
         partnerName === ThemesMap.Memecoins && tokens ? { allow: tokens } : {},
     };
   }, [
-    allowChains,
-    allowedChainsByVariant,
-    fromAmount,
+    starterVariant,
+    partnerName,
     fromChain,
     fromToken,
-    i18n.language,
-    i18n.languages,
-    integratorStringByType,
-    isMultisigSigner,
-    multisigSdkConfig,
-    multisigWidget,
-    setWalletSelectMenuState,
-    starterVariant,
-    theme.breakpoints,
-    theme.palette.accent1.main,
-    theme.palette.grey,
-    theme.palette.mode,
-    theme.palette.surface1.main,
-    theme.palette.surface2.main,
-    theme.typography.fontFamily,
-    themeMode,
     toChain,
     toToken,
-    tokens,
-    wagmiConfig,
-    widgetIntegrator,
+    fromAmount,
+    allowChains,
+    allowedChainsByVariant,
+    configTheme?.allowedBridges,
+    configTheme?.allowedExchanges,
+    i18n.language,
+    i18n.languages,
+    widgetTheme.config.appearance,
+    widgetTheme.config.theme,
+    multisigWidget,
+    isMultisigSigner,
+    multisigSdkConfig,
     integratorStringByType,
-    widgetTheme,
+    tokens,
+    setWalletSelectMenuState,
+    wagmiConfig,
   ]);
 
   return (

@@ -5,11 +5,9 @@ import { TabsMap } from '@/const/tabsMap';
 import { useActiveTabStore } from '@/stores/activeTab';
 import type { StarterVariantType } from '@/types/internal';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import type { ThemeModesSupported } from 'src/types/settings';
-import { WidgetEvents } from './WidgetEvents';
 import { useMetaMask } from 'src/hooks/useMetaMask';
-import { WalletAlert } from '../Alerts/WalletAlert/WalletAlert';
 import { PartnerThemeFooterImage } from '../PartnerThemeFooterImage';
+import { WidgetEvents } from './WidgetEvents';
 
 interface WidgetsProps {
   widgetVariant: StarterVariantType;
@@ -69,8 +67,8 @@ export function Widgets({ widgetVariant, closedWelcomeScreen }: WidgetsProps) {
   return (
     <>
       <ChainAlert />
-      <PartnerThemeFooterImage />
       <WidgetEvents />
+      <PartnerThemeFooterImage />
     </>
   );
 }

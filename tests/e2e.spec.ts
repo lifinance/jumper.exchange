@@ -91,9 +91,7 @@ test.describe('Jumper full e2e flow', () => {
     await expect(page.getByRole('menu')).toBeVisible();
     await itemInMenu(page, 'Jumper Scan');
     // const newPage = await page.waitForEvent('popup', { timeout: 15000 });
-    expect(page).toHaveURL(
-      'http://localhost:3000/scan/',
-    );
+    expect(page).toHaveURL('http://localhost:3000/scan/');
   });
   test('should be able to navigate to supefest', async ({ page }) => {
     const learnMoreButton = page.locator('#learn-more-button');
