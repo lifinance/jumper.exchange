@@ -48,6 +48,7 @@
     "react-error-boundary": "^4.0.13",
     "react-hotjar": "^6.3.1",
     "react-i18next": "^15.0.0",
+    "react-nl2br": "^1.0.4",
     "react-router-dom": "^6.25.1",
     "sharp": "^0.33.4",
     "siwe": "^2.3.2",

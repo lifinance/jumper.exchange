@@ -28,7 +28,6 @@ export const JoinDiscordBanner = () => {
     <DiscordBannerLink
       href={DISCORD_URL_INVITE}
       onClick={(e) => handleClick(e)}
-      isArticlePage={isArticle}
     >
       <DiscordBannerLabel variant="headerMedium">
         {t('discordBanner.ctaHeadline')}

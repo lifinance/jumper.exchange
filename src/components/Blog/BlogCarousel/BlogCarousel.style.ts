@@ -52,7 +52,10 @@ export const SeeAllButtonContainer = styled(Box, {
 }));
 
 export const SeeAllButton = styled(ButtonPrimary)(({ theme }) => ({
-  color: 'inherit',
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.white.main
+      : theme.palette.black.main,
   backgroundColor:
     theme.palette.mode === 'light'
       ? theme.palette.alphaDark100.main
