@@ -41,7 +41,6 @@ export const WalletCard = ({ account }: WalletCardProps) => {
   const { checkMultisigEnvironment } = useMultisig();
   const [isMultisigEnvironment, setIsMultisigEnvironment] = useState(false);
   const router = useRouter();
-
   const activeChain = useMemo(
     () => chains?.find((chainEl) => chainEl.id === account.chainId),
     [chains, account.chainId],

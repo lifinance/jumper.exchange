@@ -5,7 +5,6 @@ import { TabsMap } from '@/const/tabsMap';
 import { useActiveTabStore } from '@/stores/activeTab';
 import type { StarterVariantType } from '@/types/internal';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import type { ThemeModesSupported } from 'src/types/settings';
 import { PartnerThemeFooterImage } from '../PartnerThemeFooterImage';
 import { WidgetEvents } from './WidgetEvents';
 

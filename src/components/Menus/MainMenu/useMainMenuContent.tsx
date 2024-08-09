@@ -41,10 +41,10 @@ export const useMainMenuContent = () => {
   const configTheme = useSettingsStore((state) => state.configTheme);
   const { forcedTheme } = useNextTheme();
   const { isMainPaths } = useMainPaths();
+  const themeMode = useSettingsStore((state) => state.themeMode);
   const { setSupportModalState, setSubMenuState, closeAllMenus } = useMenuStore(
     (state) => state,
   );
-  const themeMode = useSettingsStore((state) => state.themeMode);
 
   const themeSwitchTabs = useThemeSwitchTabs();
 
@@ -244,16 +244,6 @@ export const useMainMenuContent = () => {
           action: TrackingAction.ClickJumperScanLink,
           data: { [TrackingEventParameter.Menu]: 'jumper_scan' },
         });
-        trackEvent({
-          category: TrackingCategory.Pageload,
-          action: TrackingAction.PageLoad,
-          label: 'pageload-explorer',
-          data: {
-            [TrackingEventParameter.PageloadSource]: TrackingCategory.Menu,
-            [TrackingEventParameter.PageloadDestination]: 'jumper_scan',
-            [TrackingEventParameter.PageloadExternal]: false,
-          },
-        });
       },
     },
     {
@@ -263,9 +253,9 @@ export const useMainMenuContent = () => {
       onClick: () => {
         trackEvent({
           category: TrackingCategory.Menu,
-          label: 'click-x-link',
+          label: 'click-jumper-x',
           action: TrackingAction.ClickXLink,
-          data: { [TrackingEventParameter.Menu]: 'x-jumper' },
+          data: { [TrackingEventParameter.Menu]: 'jumper-x' },
         });
         trackEvent({
           category: TrackingCategory.Pageload,
@@ -273,7 +263,7 @@ export const useMainMenuContent = () => {
           label: 'pageload-x_jumper',
           data: {
             [TrackingEventParameter.PageloadSource]: TrackingCategory.Menu,
-            [TrackingEventParameter.PageloadDestination]: 'x-jumper',
+            [TrackingEventParameter.PageloadDestination]: 'jumper-x',
             [TrackingEventParameter.PageloadURL]: X_URL,
             [TrackingEventParameter.PageloadExternal]: true,
           },
@@ -305,7 +295,7 @@ export const useMainMenuContent = () => {
           action: TrackingAction.PageLoad,
           label: 'pageload-discord',
           data: {
-            [TrackingEventParameter.PageloadSource]: TrackingCategory.Menu,
+            [TrackingEventParameter.PageloadSource]: TrackingCategory.MainMenu,
             [TrackingEventParameter.PageloadDestination]: 'jumper_discord',
             [TrackingEventParameter.PageloadURL]: DISCORD_URL,
             [TrackingEventParameter.PageloadExternal]: true,
@@ -423,6 +413,22 @@ export const useMainMenuContent = () => {
       },
     },
     {
+      label: t('navbar.navbarMenu.fest'),
+      prefixIcon: <OPLogo />,
+      showMoreIcon: false,
+      link: { url: '/superfest' },
+      onClick: () => {
+        trackEvent({
+          category: TrackingCategory.Menu,
+          label: 'click-jumper-fest-link',
+          action: TrackingAction.ClickJumperProfileLink,
+          data: { [TrackingEventParameter.Menu]: 'fest' },
+        });
+        closeAllMenus();
+        router.push(JUMPER_FEST_PATH);
+      },
+    },
+    {
       label: t('navbar.navbarMenu.profile'),
       prefixIcon: <AccountCircleIcon />,
       showMoreIcon: false,
@@ -496,7 +502,7 @@ export const useMainMenuContent = () => {
           label: 'pageload-x_jumper',
           data: {
             [TrackingEventParameter.PageloadSource]: TrackingCategory.Menu,
-            [TrackingEventParameter.PageloadDestination]: 'x-jumper',
+            [TrackingEventParameter.PageloadDestination]: 'jumper-x',
             [TrackingEventParameter.PageloadURL]: X_URL,
             [TrackingEventParameter.PageloadExternal]: true,
           },
