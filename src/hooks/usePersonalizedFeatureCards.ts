@@ -1,4 +1,5 @@
 import type { FeatureCardData } from '@/types/strapi';
+import { createJumperUserStrapiApi } from '@/utils/strapi/generateStrapiUrl';
 import { useQuery } from '@tanstack/react-query';
 import { useAccounts } from './useAccounts';
 
@@ -8,46 +9,17 @@ export interface UsePersonalizedFeatureCardsProps {
   isConnected: boolean;
 }
 
-const STRAPI_CONTENT_TYPE = 'jumper-users';
 export const usePersonalizedFeatureCards =
   (): UsePersonalizedFeatureCardsProps => {
     const { account } = useAccounts();
-
-    const apiBaseUrl =
-      process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
-        ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_URL
-        : process.env.NEXT_PUBLIC_STRAPI_URL;
-    const apiUrl = new URL(`${apiBaseUrl}/${STRAPI_CONTENT_TYPE}`);
-    apiUrl.searchParams.set('populate[0]', 'feature_cards');
-    apiUrl.searchParams.set(
-      'populate[feature_cards][populate][0]',
-      'BackgroundImageLight',
-    );
-    apiUrl.searchParams.set(
-      'populate[feature_cards][populate][1]',
-      'BackgroundImageDark',
-    );
-    apiUrl.searchParams.set(
-      'populate[feature_cards][populate][2]',
-      'featureCardsExclusions',
-    );
-    if (account?.address && account.chainType === 'EVM') {
-      apiUrl.searchParams.set(
-        'filters[EvmWalletAddress][$eqi]',
-        account?.address,
-      );
-    }
-    process.env.NEXT_PUBLIC_ENVIRONMENT !== 'production' &&
-      apiUrl.searchParams.set('publicationState', 'preview');
-    const apiAccesToken =
-      process.env.NEXT_PUBLIC_STRAPI_DEVELOP === 'true'
-        ? process.env.NEXT_PUBLIC_LOCAL_STRAPI_API_TOKEN
-        : process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+    const personalizedFeatureCard = createJumperUserStrapiApi(account);
+    const apiUrl = personalizedFeatureCard.getApiUrl();
+    const apiAccesToken = personalizedFeatureCard.getApiAccessToken();
     const { data, isSuccess } = useQuery({
       queryKey: ['jumperUser'],
 
       queryFn: async () => {
-        const response = await fetch(decodeURIComponent(apiUrl.href), {
+        const response = await fetch(decodeURIComponent(apiUrl), {
           headers: {
             Authorization: `Bearer ${apiAccesToken}`,
           },
@@ -61,7 +33,7 @@ export const usePersonalizedFeatureCards =
     const featureCards = data?.[0]?.attributes?.feature_cards.data;
 
     return {
-      featureCards: featureCards,
+      featureCards,
       isSuccess,
       isConnected: !!account?.address && account.chainType === 'EVM',
     };

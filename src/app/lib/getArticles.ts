@@ -1,5 +1,5 @@
 import type { BlogArticleData, StrapiResponse } from '@/types/strapi';
-import { ArticleStrapiApi } from '@/utils/strapi/StrapiApi';
+import { createArticleStrapiApi } from '@/utils/strapi/generateStrapiUrl';
 
 export interface GetArticlesResponse extends StrapiResponse<BlogArticleData> {
   url: string; // Define the shape of the URL
@@ -8,12 +8,16 @@ export interface GetArticlesResponse extends StrapiResponse<BlogArticleData> {
 export async function getArticles(
   excludeId?: number,
 ): Promise<GetArticlesResponse> {
-  const urlParams = new ArticleStrapiApi()
-    .sort('desc')
-    .addPaginationParams({ page: 1, pageSize: 20, withCount: false });
-  const apiBaseUrl = urlParams.getApiBaseUrl();
-  const apiUrl = urlParams.getApiUrl();
-  const accessToken = urlParams.getApiAccessToken();
+  const articleUrl = createArticleStrapiApi()
+    .addPaginationParams({
+      page: 1,
+      pageSize: 20,
+      withCount: false,
+    })
+    .sort('desc');
+  const apiBaseUrl = articleUrl.getApiBaseUrl();
+  const apiUrl = articleUrl.getApiUrl();
+  const accessToken = articleUrl.getApiAccessToken();
   const res = await fetch(decodeURIComponent(apiUrl), {
     cache: 'force-cache',
     headers: {

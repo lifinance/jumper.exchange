@@ -1,14 +1,14 @@
 import type { BlogArticleData } from '@/types/strapi';
-import { ArticleStrapiApi } from '@/utils/strapi/StrapiApi';
+import { createArticleStrapiApi } from '@/utils/strapi/generateStrapiUrl';
 
 export async function getArticlesByTag(
   excludeId: number,
   tag: number | number[],
 ) {
-  const urlParams = new ArticleStrapiApi().filterByTag(tag);
-  const apiBaseUrl = urlParams.getApiBaseUrl();
-  const apiUrl = urlParams.getApiUrl();
-  const accessToken = urlParams.getApiAccessToken();
+  const articleUrl = createArticleStrapiApi().filterByTag(tag);
+  const apiBaseUrl = articleUrl.getApiBaseUrl();
+  const apiUrl = articleUrl.getApiUrl();
+  const accessToken = articleUrl.getApiAccessToken();
   const res = await fetch(decodeURIComponent(apiUrl), {
     cache: 'force-cache',
     headers: {

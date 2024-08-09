@@ -1,25 +1,22 @@
-import Image from 'next/image';
-import { type Quest } from 'src/types/loyaltyPass';
-import {
-  BannerImageBox,
-  BannerBottomBox,
-  BannerMainBox,
-  BannerTitleBox,
-  RewardMainBox,
-  BannerTitleTypography,
-  BannerLabelBox,
-  RotatingBox,
-  BadgeRelativeBox,
-  BadgeMainBox,
-} from './Banner.style';
-import { RewardBox } from './Rewards/RewardBox';
-import { checkInclusion } from '../../ActiveSuperfestMissionsCarousel/ActiveSuperfestMissionsCarousel';
 import type { Theme } from '@mui/material';
-import { Box, useMediaQuery } from '@mui/material';
-import { SoraTypography } from '../../Superfest.style';
-import { OPBadge } from 'src/components/illustrations/OPBadge';
+import { useMediaQuery } from '@mui/material';
+import Image from 'next/image';
 import { SuperfestDailyRewards } from 'src/components/illustrations/SuperfestDailyRewards';
 import { SuperfestWeeklyRewards } from 'src/components/illustrations/SuperfestWeeklyRewards';
+import { type Quest } from 'src/types/loyaltyPass';
+import { checkInclusion } from '../../ActiveSuperfestMissionsCarousel/ActiveSuperfestMissionsCarousel';
+import {
+  BadgeMainBox,
+  BadgeRelativeBox,
+  BannerBottomBox,
+  BannerImageBox,
+  BannerMainBox,
+  BannerTitleBox,
+  BannerTitleTypography,
+  RewardMainBox,
+  RotatingBox,
+} from './Banner.style';
+import { RewardBox } from './Rewards/RewardBox';
 
 interface SuperfestMissionPageVar {
   quest: Quest;

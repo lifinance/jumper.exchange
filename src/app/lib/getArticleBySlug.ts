@@ -1,10 +1,10 @@
-import { ArticleStrapiApi } from '@/utils/strapi/StrapiApi';
+import { createArticleStrapiApi } from '@/utils/strapi/generateStrapiUrl';
 
 export async function getArticleBySlug(slug: string) {
-  const urlParams = new ArticleStrapiApi().filterBySlug(slug);
-  const apiBaseUrl = urlParams.getApiBaseUrl();
-  const apiUrl = urlParams.getApiUrl();
-  const accessToken = urlParams.getApiAccessToken();
+  const articleUrl = createArticleStrapiApi().filterBySlug(slug);
+  const apiBaseUrl = articleUrl.getApiBaseUrl();
+  const apiUrl = articleUrl.getApiUrl();
+  const accessToken = articleUrl.getApiAccessToken();
   const res = await fetch(decodeURIComponent(apiUrl), {
     cache: 'force-cache',
     headers: {

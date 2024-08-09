@@ -1,6 +1,7 @@
 import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
-import { useSelectedLayoutSegment } from 'next/navigation';
-import { useCookies } from 'react-cookie';
+import { createPartnerThemeStrapiApi } from '@/utils/strapi/generateStrapiUrl';
+import { useQuery } from '@tanstack/react-query';
+import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
 import { STRAPI_PARTNER_THEMES } from 'src/const/strapiContentKeys';
 import {
@@ -8,20 +9,29 @@ import {
   TrackingCategory,
   TrackingEventParameter,
 } from 'src/const/trackingKeys';
-import { useStrapi } from 'src/hooks/useStrapi';
 import type { PartnerThemesData } from 'src/types/strapi';
-import { useTheme } from 'next-themes';
 
 export const useThemeMenuContent = () => {
   const { t } = useTranslation();
   const { trackEvent } = useUserTracking();
-  const segment = useSelectedLayoutSegment();
   const { resolvedTheme, setTheme } = useTheme();
 
-  const [cookie] = useCookies(['partnerThemeUid']);
-  const { data: partnerThemes, isSuccess } = useStrapi<PartnerThemesData>({
-    contentType: STRAPI_PARTNER_THEMES,
-    queryKey: ['partner-themes'],
+  const partnerThemes = createPartnerThemeStrapiApi();
+  const { data: partnerThemesData } = useQuery({
+    queryKey: [STRAPI_PARTNER_THEMES],
+    queryFn: async () => {
+      const response = await fetch(
+        decodeURIComponent(partnerThemes.apiUrl.href),
+        {
+          headers: {
+            Authorization: `Bearer ${partnerThemes.getApiAccessToken()}`,
+          },
+        },
+      );
+      const result = await response.json();
+      return result;
+    },
+    refetchInterval: 1000 * 60 * 60,
   });
 
   const handleThemeSwitch = (theme: string) => {
@@ -49,7 +59,7 @@ export const useThemeMenuContent = () => {
     },
   ];
 
-  partnerThemes?.map(
+  (partnerThemesData?.data as PartnerThemesData[])?.map(
     (el) =>
       el.attributes.SelectableInMenu &&
       themes.push({
@@ -61,5 +71,5 @@ export const useThemeMenuContent = () => {
       }),
   );
 
-  return { themes: themes, isSuccess };
+  return { themes: themes };
 };

@@ -4,18 +4,23 @@ import {
   STRAPI_JUMPER_USERS,
 } from '@/const/strapiContentKeys';
 import { useAccounts } from '@/hooks/useAccounts';
-import { useStrapi } from '@/hooks/useStrapi';
 import { useSettingsStore } from '@/stores/settings/SettingsStore';
-import type { FeatureCardData, JumperUserData } from '@/types/strapi';
+import type { FeatureCardData } from '@/types/strapi';
+import {
+  createFeatureCardStrapiApi,
+  createJumperUserStrapiApi,
+  createPersonalizedFeatureOnLevel,
+} from '@/utils/strapi/generateStrapiUrl';
 import { WidgetEvent, useWidgetEvents } from '@lifi/widget';
 import type { Theme } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLoyaltyPass } from 'src/hooks/useLoyaltyPass';
-import { usePersonalizedFeatureOnLevel } from 'src/hooks/usePersonalizedFeatureOnLevel';
 import { shallow } from 'zustand/shallow';
 import { FeatureCard, FeatureCardsContainer } from '.';
+import { getLevelBasedOnPoints } from '../ProfilePage/LevelBox/TierBox';
 
 export const FeatureCards = () => {
   const [disabledFeatureCards] = useSettingsStore(
@@ -29,23 +34,72 @@ export const FeatureCards = () => {
   const { account } = useAccounts();
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
-  const { data: cards, isSuccess } = useStrapi<FeatureCardData>({
-    contentType: STRAPI_FEATURE_CARDS,
-    queryKey: ['feature-cards'],
-  });
-
-  const { data: jumperUser } = useStrapi<JumperUserData>({
-    contentType: STRAPI_JUMPER_USERS,
-    filterPersonalFeatureCards: {
-      enabled: true,
-      account: account,
+  // fetch feature-cards
+  const featureCardsUrl = createFeatureCardStrapiApi();
+  const { data: cards, isSuccess } = useQuery({
+    queryKey: [STRAPI_FEATURE_CARDS],
+    queryFn: async () => {
+      const response = await fetch(
+        decodeURIComponent(featureCardsUrl.apiUrl.href),
+        {
+          headers: {
+            Authorization: `Bearer ${featureCardsUrl.getApiAccessToken()}`,
+          },
+        },
+      );
+      const result = await response.json();
+      return result;
     },
-    queryKey: ['personalized-feature-cards'],
+    refetchInterval: 1000 * 60 * 60,
   });
 
-  const { featureCards: featureCardsLevel } = usePersonalizedFeatureOnLevel({
-    points: points,
-    enabled: !!points && (!jumperUser || jumperUser?.length === 0),
+  // fetch personalized feature-cards
+  const jumperUsersUrl =
+    createJumperUserStrapiApi().addJumperUsersPersonalizedFCParams(account);
+  const { data: jumperUser } = useQuery({
+    queryKey: [STRAPI_JUMPER_USERS],
+    queryFn: async () => {
+      const response = await fetch(
+        decodeURIComponent(jumperUsersUrl.apiUrl.href),
+        {
+          headers: {
+            Authorization: `Bearer ${featureCardsUrl.getApiAccessToken()}`,
+          },
+        },
+      );
+      const result = await response.json();
+      return result;
+    },
+    enabled: account?.isConnected,
+    refetchInterval: 1000 * 60 * 60,
+  });
+
+  // fetch personalized feature-cards based on points
+  const levelData = getLevelBasedOnPoints(points);
+  const personalizedFeatureOnLevel = createPersonalizedFeatureOnLevel(
+    levelData.level,
+  );
+  const { data: featureCardsLevel } = useQuery({
+    queryKey: ['personalizedFeatureCardsOnLevel'],
+
+    queryFn: async () => {
+      const response = await fetch(
+        decodeURIComponent(personalizedFeatureOnLevel.apiUrl.href),
+        {
+          headers: {
+            Authorization: `Bearer ${personalizedFeatureOnLevel.getApiAccessToken()}`,
+          },
+        },
+      );
+      const result = await response.json();
+      return result.data;
+    },
+    enabled:
+      !!account?.address &&
+      account.chainType === 'EVM' &&
+      !!points &&
+      (!jumperUser || jumperUser?.length === 0),
+    refetchInterval: 1000 * 60 * 60,
   });
 
   useEffect(() => {
@@ -74,8 +128,8 @@ export const FeatureCards = () => {
   }
 
   const slicedFeatureCards = useMemo(() => {
-    if (Array.isArray(cards) && !!cards.length) {
-      return cards
+    if (Array.isArray(cards?.data) && !!cards?.data.length) {
+      return (cards.data as FeatureCardData[])
         ?.filter(excludedFeatureCardsFilter)
         ?.filter(
           (el, index) =>

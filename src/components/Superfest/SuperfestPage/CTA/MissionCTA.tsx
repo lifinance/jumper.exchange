@@ -1,8 +1,13 @@
-import { useUserTracking } from '@/hooks/userTracking/useUserTracking';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Box, type Theme, useMediaQuery, useTheme } from '@mui/material';
+import { Box, type Theme, useMediaQuery } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { APYIcon } from 'src/components/illustrations/APYIcon';
+import { XPDisplayBox } from 'src/components/ProfilePage/QuestCard/QuestCard.style';
+import { XPIconBox } from '../../QuestCard/QuestCard.style';
+import { SoraTypography } from '../../Superfest.style';
+import { SignatureCTA } from '../SignatureCTA/SignatureCTA';
+import { FlexCenterRowBox } from '../SuperfestMissionPage.style';
 import {
   CTAExplanationBox,
   CTAMainBox,
@@ -12,13 +17,6 @@ import {
   StartedTitleBox,
   StartedTitleTypography,
 } from './MissionCTA.style';
-import Image from 'next/image';
-import { SoraTypography } from '../../Superfest.style';
-import { SignatureCTA } from '../SignatureCTA/SignatureCTA';
-import { FlexCenterRowBox } from '../SuperfestMissionPage.style';
-import { XPDisplayBox } from 'src/components/ProfilePage/QuestCard/QuestCard.style';
-import { XPIconBox } from '../../QuestCard/QuestCard.style';
-import { APYIcon } from 'src/components/illustrations/APYIcon';
 
 export interface CTALinkInt {
   logo: string;
@@ -48,9 +46,6 @@ export const MissionCTA = ({
   signature,
   rewardRange,
 }: MissionCtaProps) => {
-  const { t } = useTranslation();
-  const { trackEvent } = useUserTracking();
-  const theme = useTheme();
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );

@@ -1,8 +1,8 @@
-import App from '../../ui/app/App';
-import { WidgetContainer, Widgets } from '@/components/Widgets';
-import { Widget } from '@/components/Widgets/Widget';
 import { getCookies } from '@/app/lib/getCookies';
 import { getPartnerThemes } from '@/app/lib/getPartnerThemes';
+import { WidgetContainer, Widgets } from '@/components/Widgets';
+import { Widget } from '@/components/Widgets/Widget';
+import App from '../../ui/app/App';
 
 export const dynamicParams = false;
 

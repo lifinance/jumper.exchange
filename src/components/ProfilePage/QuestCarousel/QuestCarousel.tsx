@@ -33,7 +33,7 @@ export const QuestCarousel = ({ quests, loading }: QuestCarouselProps) => {
                         quest.attributes.Image?.data?.attributes?.url &&
                         new URL(
                           quest.attributes.Image?.data?.attributes?.url,
-                          url.origin,
+                          url,
                         ).toString()
                       }
                       points={quest?.attributes.Points}
@@ -46,7 +46,7 @@ export const QuestCarousel = ({ quests, loading }: QuestCarouselProps) => {
                       }
                       platformImage={new URL(
                         quest.attributes.quests_platform?.data?.attributes?.Logo?.data?.attributes?.url,
-                        url.origin,
+                        url,
                       ).toString()}
                     />
                   );

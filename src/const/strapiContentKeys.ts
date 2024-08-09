@@ -4,3 +4,4 @@ export const STRAPI_FAQ_ITEMS = 'faq-items';
 export const STRAPI_TAGS = 'tags';
 export const STRAPI_JUMPER_USERS = 'jumper-users';
 export const STRAPI_PARTNER_THEMES = 'partner-themes';
+export const STRAPI_QUESTS = 'quests';

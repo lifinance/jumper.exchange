@@ -1,10 +1,12 @@
-import { ArticleStrapiApi } from '@/utils/strapi/StrapiApi';
+import { createArticleStrapiApi } from '@/utils/strapi/generateStrapiUrl';
 
 export async function getFeaturedArticle() {
-  const urlParams = new ArticleStrapiApi().sort('desc').filterByFeatured();
-  const apiBaseUrl = urlParams.getApiBaseUrl();
-  const apiUrl = urlParams.getApiUrl();
-  const accessToken = urlParams.getApiAccessToken();
+  const featureCardUrl = createArticleStrapiApi()
+    .filterByFeatured()
+    .sort('desc');
+  const apiBaseUrl = featureCardUrl.getApiBaseUrl();
+  const apiUrl = featureCardUrl.getApiUrl();
+  const accessToken = featureCardUrl.getApiAccessToken();
   const res = await fetch(decodeURIComponent(apiUrl), {
     cache: 'force-cache',
     headers: {

@@ -43,6 +43,5 @@ import SuperfestPage from 'src/app/ui/superfest/SuperfestMissionPage';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { data, url } = await getQuestBySlug(params.slug);
-
   return <SuperfestPage quest={data?.data?.[0]} url={url} />;
 }

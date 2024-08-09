@@ -1,14 +1,17 @@
-import type { PartnerThemesAttributes } from '@/types/strapi';
-import { getStrapiUrl } from '@/hooks/useStrapi';
 import { STRAPI_PARTNER_THEMES } from '@/const/strapiContentKeys';
 import type { PartnerThemeConfig } from '@/types/PartnerThemeConfig';
+import type { PartnerThemesAttributes } from '@/types/strapi';
+import {
+  createStrapiBaseUrl,
+  createStrapiContentTypeUrl,
+} from './strapi/generateStrapiUrl';
 
 function getImageUrl(
   theme: PartnerThemesAttributes,
   imageType: 'BackgroundImage' | 'FooterImage' | 'Logo',
   defaultMode: 'light' | 'dark' = 'light',
 ): URL | null {
-  const baseStrapiUrl = getStrapiUrl(STRAPI_PARTNER_THEMES);
+  const baseStrapiUrl = createStrapiBaseUrl();
 
   const imageLight = theme[`${imageType}Light`];
   const imageDark = theme[`${imageType}Dark`];
@@ -41,7 +44,7 @@ export function getAvailableThemeModes(
 }
 
 function getLogoData(theme: PartnerThemesAttributes) {
-  const baseStrapiUrl = getStrapiUrl(STRAPI_PARTNER_THEMES);
+  const baseStrapiUrl = createStrapiContentTypeUrl(STRAPI_PARTNER_THEMES);
   const logo = theme.LogoDark || theme.LogoLight || null;
 
   if (!logo || !logo.data) {
