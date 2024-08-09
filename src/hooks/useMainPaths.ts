@@ -14,6 +14,7 @@ export const useMainPaths = (): useMainPathsProps => {
     !pathname?.includes('/profile') &&
     !pathname?.includes('/learn') &&
     !pathname?.includes('/scan') &&
+    !pathname?.includes('/discover') &&
     (pathname === '/' ||
       pathname?.split('/').length === 3 ||
       pathname?.split('/').length === 2);

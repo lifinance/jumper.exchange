@@ -32,9 +32,12 @@ export const PartnerThemeFooterImage = () => {
     sourceChainToken?.chainId === ChainId.SOL ||
     destinationChainToken?.chainId === ChainId.SOL;
 
-  const showBasedOnURL =
-    isSuperfest || isMainPaths || !!configTheme?.footerImageUrl;
-  const showFooterLogo = !activeChainAlert && !isSmallScreen && showBasedOnURL;
+  const showBasedOnURL = isSuperfest || isMainPaths;
+  const showFooterLogo =
+    !activeChainAlert &&
+    !isSmallScreen &&
+    showBasedOnURL &&
+    !!configTheme?.footerImageUrl;
 
   return (
     showFooterLogo &&
